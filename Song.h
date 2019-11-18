@@ -9,6 +9,7 @@ class Song: public LinkedNode {
         std::string title;
         float duration;
         int playCount;
+        LinkedNode *next;
 
     public:
         Song();
