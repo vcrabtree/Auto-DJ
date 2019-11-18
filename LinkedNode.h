@@ -1,24 +1,16 @@
-//
-// Created by Toby Dragon on 10/24/16.
-//
-
 #ifndef LINKEDNODE_H
 #define LINKEDNODE_H
 
 class LinkedNode {
+    public:
+        virtual LinkedNode{}
+        LinkedNode(const LinkedNode& nodeToCopy);
+        virtual ~LinkedNode(){}
 
-private:
-    int item;
-    LinkedNode* next;
-
-public:
-    LinkedNode(int item);
-    LinkedNode(const LinkedNode& nodeToCopy); //only copies item, next is set to nullptr
-    int getItem();
-    LinkedNode* getNext();
-    void setItem(int newItem);
-    void setNext(LinkedNode* newNext);
-};
-
-
-#endif //LINKEDNODE_H
+        virtual void setItem()=0;
+        virtual *LinkedNode getItem()=0;
+        virtual void setNext(LinkedNode* newNext)=0;
+        virtual *LinkedNode getNext()=0;
+        virtual std::string toString()=0;
+    };
+#endif
