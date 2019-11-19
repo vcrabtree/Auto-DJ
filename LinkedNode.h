@@ -1,15 +1,18 @@
 #ifndef LINKEDNODE_H
 #define LINKEDNODE_H
 
-#include <iostream>
-#include <string>
+template <class T> class LinkedNode {
+    private:
+        T *item;
+        LinkedNode<T> *next;
 
-class LinkedNode {
     public:
-        virtual void setItem()=0;
-        virtual *LinkedNode getItem()=0;
-        virtual void setNext(LinkedNode* newNext)=0;
-        virtual *LinkedNode getNext()=0;
-        virtual std::string toString()=0;
+        LinkedNode(const T& item);
+        LinkedNode(const LinkedNode& nodeToCopy);
+
+        void setItem();
+        T* getItem();
+        void setNext(LinkedNode* newNext);
+        LinkedNode<T*> getNext();
 };
 #endif
