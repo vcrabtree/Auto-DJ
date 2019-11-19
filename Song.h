@@ -1,35 +1,29 @@
 #ifndef SONG_H
 #define SONG_H
 
-#include "LinkedNode.h"
+#include <iostream>
 
-class Song: public LinkedNode {
+class Song {
     private:
         std::string artist;
         std::string title;
         float duration;
         int playCount;
-        LinkedNode *next;
 
     public:
-        Song();
+        Song(std::string newTitle, std::string newArtist, float newDuration);
         Song(const Song& songToCopy);
         ~Song();
-        void setItem();
-        *LinkedNode getItem();
-        void setNext(LinkedNode* newNext);
-        *LinkedNode getNext();
-        std::string toString();
 
+        void setArtist(std::string newArtist);
         std::string getArtist();
-        void setArtist(std::string artist);
-        std::string getArtist();
-        std::string setTitle(std::string title);
+        std::string setTitle(std::string newTitle);
         std::string getTitle();
-        void setDuration(float duration);
+        void setDuration(float newDuration);
         float getDuration();
-        void setPlayCount(int playCount);
+        void setPlayCount(int newPlayCount);
         int getPlayCount();
-}
+        std::string toString();
+};
 
 #endif
