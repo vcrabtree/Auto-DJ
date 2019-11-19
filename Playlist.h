@@ -12,10 +12,10 @@ class Playlist: public List {
 
     public:
         void add(Song* song, int index);
-        Song* remove(Song* song);
+        Song* remove(std::string title);
         bool isEmpty();
         void clear();
         int getLength();
-        int find(std::string);
+        int find(std::string searchKey);
 }
 #endif
