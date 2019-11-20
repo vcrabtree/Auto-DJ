@@ -12,8 +12,6 @@ class Song {
 
     public:
         Song(std::string newTitle, std::string newArtist, float newDuration);
-        Song(const Song& songToCopy);
-        ~Song();
 
         void setArtist(std::string newArtist);
         std::string getArtist();
