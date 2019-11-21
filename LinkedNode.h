@@ -13,7 +13,7 @@ template <class T> class LinkedNode {
         void setItem(T& item);
         T* getItem();
         void setNext(LinkedNode* newNext);
-        LinkedNode<T*> getNext();
+        LinkedNode<T>* getNext();
 };
 
 #include "LinkedNode.inl"
