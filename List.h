@@ -17,11 +17,11 @@ public:
 
     List(const List& listToCopy);
 
-    virtual List& operator=(const List& listToCopy);
+    virtual List& operator=(const List& listToCopy) {}
 
-    virtual void add(Song* song) = 0;
+    virtual void add(Song* song, int index) = 0;
 
-    virtual Song* remove(std::string) = 0;
+    virtual Song* remove(std::string title) = 0;
 
     virtual bool isEmpty() = 0;
 
@@ -29,7 +29,7 @@ public:
 
     virtual int getLength() = 0;
 
-    virtual int find(std::string) = 0;
+    virtual int find(std::string searchKey) = 0;
 };
 
 #endif //AUTO_DJ_LIST_H
