@@ -16,6 +16,7 @@ class Playlist: public List {
     public:
         Playlist(std::string title);
         ~Playlist();
+        Playlist& operator=(const List& listToCopy);
 
         void add(Song* song, int index);
         Song* remove(std::string title);
@@ -24,5 +25,5 @@ class Playlist: public List {
         int getLength();
         float getDuration();
         int find(std::string searchKey);
-}
+};
 #endif
