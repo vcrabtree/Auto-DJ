@@ -1,8 +1,8 @@
 #include "Song.h"
 
 Song::Song(std::string newTitle, std::string newArtist, float newDuration) {
-    artist = newTitle;
-    title = newArtist;
+    artist = newArtist;
+    title = newTitle;
     duration = newDuration;
     playCount = 0;
 }
