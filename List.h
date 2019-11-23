@@ -15,13 +15,13 @@ public:
 
     virtual ~List() {}
 
-    virtual List(const List& listToCopy);
+    List(const List& listToCopy);
 
     virtual List& operator=(const List& listToCopy);
 
     virtual void add(Song* song) = 0;
 
-    virtual Song remove(std::string) = 0;
+    virtual Song* remove(std::string) = 0;
 
     virtual bool isEmpty() = 0;
 
