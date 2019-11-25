@@ -3,8 +3,10 @@
 //
 
 #include <iostream>
+#include "Library.h"
 
 int main(){
-    std::cout << "Test" << std::endl;
+    std::cout << "\n\n======================= Library Tests ===========================\n\n" << std::endl;
+    //run tests
     return 0;
 }
