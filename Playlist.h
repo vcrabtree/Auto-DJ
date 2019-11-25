@@ -13,17 +13,24 @@ class Playlist: public List {
         float duration;
         int length;
 
+        Song* removeFromFront();
+        Song* removeFromEnd();
+        void decrease(float duration);
+        void copy(const Playlist& playlistToCopy);
+
     public:
         Playlist(std::string title);
         ~Playlist();
-        Playlist& operator=(const List& listToCopy);
+        Playlist(const Playlist& playlistToCopy);
+        Playlist& operator=(const Playlist& playlistToCopy);
 
-        void add(Song* song, int index);
+        void add(Song* song, int index=-1);
         Song* remove(std::string title);
         bool isEmpty();
         void clear();
         int getLength();
         float getDuration();
-        int find(std::string searchKey);
+        std::string getTitle();
+        int find(std::string songTitle);
 };
 #endif

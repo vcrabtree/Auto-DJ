@@ -7,6 +7,12 @@ LinkedNode<T>::LinkedNode(T& newItem) {
 }
 
 template <class T>
+LinkedNode<T>::LinkedNode(const LinkedNode& nodeToCopy) {
+    item = nodeToCopy.getItem();
+    next = nullptr;
+}
+
+template <class T>
 void LinkedNode<T>::setItem(T& newItem) { item = &newItem; }
 
 template <class T>
