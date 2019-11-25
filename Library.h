@@ -11,8 +11,8 @@
 
 class Library : public List {
 private:
-    LinkedNode* front;
-    LinkedNode* end;
+    LinkedNode<Song> *front;
+    LinkedNode<Song> *end;
 
 public:
     Library();
@@ -25,7 +25,7 @@ public:
 
     void add(Song* song, int index);
 
-    Song remove(std::string, int index);
+    Song remove(int index);
 
     bool isEmpty();
 
