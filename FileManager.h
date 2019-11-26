@@ -12,6 +12,11 @@ private:
      */
     std::string fileName;
 
+    /**
+     * checks the string if its the same as the one to read
+     */
+    std::string stringToCheck;
+
 public:
     /**
      * displays the string to read
