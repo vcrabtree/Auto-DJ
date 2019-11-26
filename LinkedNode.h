@@ -7,12 +7,15 @@ template <class T> class LinkedNode {
         LinkedNode<T> *next;
 
     public:
-        LinkedNode(const T& item);
+        LinkedNode(T& item);
         LinkedNode(const LinkedNode& nodeToCopy);
 
-        void setItem();
+        void setItem(T& item);
         T* getItem();
         void setNext(LinkedNode* newNext);
-        LinkedNode<T*> getNext();
+        LinkedNode<T>* getNext();
 };
+
+#include "LinkedNode.inl"
+
 #endif
