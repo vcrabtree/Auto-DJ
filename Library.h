@@ -33,6 +33,6 @@ public:
 
     int getLength();
 
-    int find();
+    int find(Song song);
 };
 #endif //AUTO_DJ_LIBRARY_H

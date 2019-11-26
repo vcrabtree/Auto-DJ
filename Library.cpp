@@ -222,14 +222,14 @@ int Library::getLength() {
     return count;
 }
 
-int Library::find(std::string songTitle) {
+int Library::find(Song song) {
     if (front == nullptr) {
         return -1;
     }
     int count = 0;
     LinkedNode<Song> *currPtr = front;
     while (currPtr != nullptr) {
-        if (currPtr->getItem() == songTitle) {
+        if (currPtr->getItem() == song) {
             currPtr = nullptr;
             return count;
         }
