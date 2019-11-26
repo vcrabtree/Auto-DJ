@@ -27,6 +27,8 @@ public:
 
     Song remove(int index);
 
+    Song getSongAt(int index);
+
     bool isEmpty();
 
     void clear();

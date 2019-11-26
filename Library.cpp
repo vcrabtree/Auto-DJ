@@ -191,6 +191,26 @@ Song Library::remove(int index) {
     return songToRemove;
 }
 
+Song Library::getSongAt(int index) {
+    if (index < 0 || front == nullptr) {
+        throw std::out_of_range("Invalid Index");
+    }
+    int count = 0;
+    LinkedNode<Song> *currPtr = front;
+    while (count != index) {
+        if (currPtr->getNext() != nullptr) {
+            currPtr = currPtr->getNext();
+            count += 1;
+        }
+        else {
+            throw std::out_of_range("Invalid Index");
+        }
+    }
+    Song songToGet = currPtr->getItem();
+    currPtr = nullptr;
+    return songToGet;
+}
+
 bool Library::isEmpty() {
     if (front == nullptr && end == nullptr) {
         return true;
