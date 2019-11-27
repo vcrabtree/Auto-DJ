@@ -21,7 +21,7 @@ public:
 
     virtual void add(Song* song, int index=-1) = 0;
 
-    virtual Song* remove(std::string title) = 0;
+    virtual Song* remove(std::string title, std::string artist) = 0;
 
     virtual bool isEmpty() = 0;
 
@@ -29,7 +29,7 @@ public:
 
     virtual int getLength() = 0;
 
-    virtual int find(std::string searchKey) = 0;
+    virtual int find(std::string title, std::string artist) = 0;
 };
 
 #endif //AUTO_DJ_LIST_H
