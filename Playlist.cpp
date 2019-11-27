@@ -27,10 +27,9 @@ void Playlist::add(Song *song, int index){
     length++;
 }
 
-Song* Playlist::remove(std::string title) {
+Song* Playlist::remove(std::string title, std::string artist) {
     if (isEmpty()) throw std::out_of_range("playlist is empty");
 
-    Song *song;
     std::string  firstTitle = head->getItem()->getTitle(),
                  lastTitle = tail->getItem()->getTitle();
 
@@ -38,7 +37,8 @@ Song* Playlist::remove(std::string title) {
     else if (lastTitle == title) song = removeFromEnd();
     else {
         LinkedNode<Song> *currNode = head, *nextNode = head->getNext();
-        while (nextNode && nextNode->getItem()->getTitle() != title) {
+        Song *song = nextNode->getItem();
+        while (nextNode && song->getTitle() != title && song->getArtist() != artist) {
             currNode = nextNode;
             nextNode = nextNode->getNext();
         }
@@ -82,12 +82,17 @@ Song* Playlist::removeFromEnd() {
     return song;
 }
 
-int Playlist::find(std::string songTitle) {
+int Playlist::find(std::string title, std::artist) {
     LinkedNode<Song> *currNode = head;
+    Song* song;
     int index = 0, indexFound = -1;
 
     while (index < length && indexFound == -1) {
-        if (currNode->getItem()->getTitle() == songTitle) indexFound = index;
+        song = currNode->getItem();
+
+        if (song->getTitle() == title && song->getArtist() == artist) 
+            indexFound = index;
+
         currNode = currNode->getNext();
         index++;
     }

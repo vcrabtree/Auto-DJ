@@ -25,12 +25,12 @@ class Playlist: public List {
         Playlist& operator=(const Playlist& playlistToCopy);
 
         void add(Song* song, int index=-1);
-        Song* remove(std::string title);
+        Song* remove(std::string title, std::string artist);
         bool isEmpty();
         void clear();
         int getLength();
         float getDuration();
         std::string getTitle();
-        int find(std::string songTitle);
+        int find(std::string title, std::string artist);
 };
 #endif
