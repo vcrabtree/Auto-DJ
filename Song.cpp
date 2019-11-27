@@ -7,6 +7,12 @@ Song::Song(std::string newTitle, std::string newArtist, float newDuration) {
     playCount = 0;
 }
 
+Song Song::operator++(int) {
+    Song temp = *this;
+    ++playCount;
+    return temp;
+}
+
 void Song::setArtist(std::string newArtist) { artist = newArtist; }
 
 std::string Song::getArtist() { return artist; }

@@ -12,6 +12,7 @@ class Song {
 
     public:
         Song(std::string newTitle, std::string newArtist, float newDuration);
+        Song operator++(int);
 
         void setArtist(std::string newArtist);
         std::string getArtist();
