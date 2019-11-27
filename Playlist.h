@@ -32,5 +32,6 @@ class Playlist: public List {
         float getDuration();
         std::string getTitle();
         int find(std::string title, std::string artist);
+        Song* playNext();
 };
 #endif
