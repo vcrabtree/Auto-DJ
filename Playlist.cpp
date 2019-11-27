@@ -102,7 +102,7 @@ int Playlist::find(std::string title, std::string artist) {
 
 Song* Playlist::playNext() {
    Song *song = removeFromFront();
-   song++;
+   (*song)++;
    return song;
 }
 
