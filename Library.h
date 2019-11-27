@@ -25,7 +25,7 @@ public:
 
     void add(Song* song, int index);
 
-    Song remove(std::string title, std::string artist);
+    Song* remove(std::string title, std::string artist);
 
     Song* getSongAt(int index)
 

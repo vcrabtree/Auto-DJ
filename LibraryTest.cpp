@@ -22,36 +22,36 @@ void addAndGetSongAtTest(Library* testLibrary) {
     Song song3 = new Song ("Sleigh Ride", "The Ronettes", 3.03);
     Song song4 = new Song ("Last Christmas", "Wham!", 4.6);
     Song song5 = new Song ("Someday at Christmas", "Jackson 5", 2.64);
-    testLibrary.add(song1, 0);
-    testLibrary.add(song2, 0);
-    testLibrary.add(song3, 1);
-    testLibrary.add(song4, 2);
-    testLibrary.add(song5, 0);
-    if (testLibrary.getValueAt(0) == song5) {
+    testLibrary->add(song1, 0);
+    testLibrary->add(song2, 0);
+    testLibrary->add(song3, 1);
+    testLibrary->add(song4, 2);
+    testLibrary->add(song5, 0);
+    if (testLibrary->getValueAt(0) == song5) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not return proper value";
     }
-    if (testLibrary.getValueAt(1) == song1) {
+    if (testLibrary->getValueAt(1) == song1) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not return proper value";
     }
-    if (testLibrary.getValueAt(2) == song3) {
+    if (testLibrary->getValueAt(2) == song3) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not return proper value";
     }
-    if (testLibrary.getValueAt(3) == song4) {
+    if (testLibrary->getValueAt(3) == song4) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not return proper value";
     }
-    if (testLibrary.getValueAt(4) == song2) {
+    if (testLibrary->getValueAt(4) == song2) {
         std::cout << "\nPassed";
     }
     else {
@@ -59,7 +59,7 @@ void addAndGetSongAtTest(Library* testLibrary) {
     }
 }
 
-void removeTest(Library testLibrary) {
+void removeTest(Library testLibrary) { //TODO
     std::cout << "\nremove Test: ";
     testLibrary->clear();
     Song song1 = new Song ("All I Want For Christmas Is You", "Mariah Carey", 2.9);
@@ -67,40 +67,40 @@ void removeTest(Library testLibrary) {
     Song song3 = new Song ("Sleigh Ride", "The Ronettes", 3.03);
     Song song4 = new Song ("Last Christmas", "Wham!", 4.6);
     Song song5 = new Song ("Someday at Christmas", "Jackson 5", 2.64);
-    testLibrary.add(song1, 0);
-    testLibrary.add(song2, 0);
-    testLibrary.add(song3, 1);
-    testLibrary.add(song4, 2);
-    testLibrary.add(song5, 0);
-    Song removedSong1 = testLibrary.remove(4);
+    testLibrary->add(song1, 0);
+    testLibrary->add(song2, 0);
+    testLibrary->add(song3, 1);
+    testLibrary->add(song4, 2);
+    testLibrary->add(song5, 0);
+    Song* removedSong1 = testLibrary.remove(song2.getTitle(), song2.getArtist());
     if (removedSong1 == song2) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed";
     }
-    Song removedSong2 = testLibrary.remove(3);
+    Song* removedSong2 = testLibrary.remove(song4.getTitle(), song4.getArtist());
     if (removedSong1 == song4) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed";
     }
-    Song removedSong3 = testLibrary.remove(2);
+    Song* removedSong3 = testLibrary.remove(song3.getTitle(), song3.getArtist());
     if (removedSong1 == song3) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed";
     }
-    Song removedSong4 = testLibrary.remove(1);
+    Song* removedSong4 = testLibrary.remove(song1.getTitle(), song1.getArtist());
     if (removedSong1 == song1) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed";
     }
-    Song removedSong5 = testLibrary.remove(0);
+    Song* removedSong5 = testLibrary.remove(song5.getTitle(), song5.getArtist());
     if (removedSong1 == song5) {
         std::cout << "\nPassed";
     }
@@ -161,19 +161,19 @@ void findTest(Library testLibrary) {
     testLibrary.add(song1);
     testLibrary.add(song2);
     testLibrary.add(song3);
-    if (testLibrary.find(song1) == 1) {
+    if (testLibrary.find(song1.getTitle(), song1.getArtist()) == 1) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed";
     }
-    if (testLibrary.find(song2) == 2) {
+    if (testLibrary.find(song2.getTitle(), song2.getArtist()) == 2) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed";
     }
-    if (testLibrary.find(song3) == 3) {
+    if (testLibrary.find(song3.getTitle(), song3.getArtist()) == 3) {
         std::cout << "\nPassed";
     }
     else {
@@ -185,9 +185,9 @@ void runAllLibraryTests() {
     Library* testLibrary = new Library();
     copyConstructorTest(Library& testLibrary);
     assignmentOperatorTest(Library& testLibrary);
-    addAndGetSongAtTest(Library* testLibrary);
+    addAndGetSongAtTest(Library testLibrary);
     testLibrary->clear();
-    removeTest(Library testLibrary);
+    removeTest(Library* testLibrary);
     testLibrary->clear();
     isEmptyAndClearTest(Library* testLibrary);
     testLibrary->clear();

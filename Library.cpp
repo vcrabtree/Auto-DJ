@@ -131,44 +131,13 @@ void Library::add(Song* song, int index) {
     currPtr = nullptr;
 }
 
-Song Library::remove(int index) {
-    if (index < 0) {
-        throw std::out_of_range("std::out_of_range: " + std::to_string(index));
-    }
+Song* Library::remove(std::string title, std::string artist) {
     LinkedNode<Song> *currPtr = front;
     int count = 0;
-    int songToRemove;
+    Song* songToRemove;
     while (currPtr != nullptr && count <= index) {
         count += 1;
-        if (index == 0) {
-            songToRemove = front->getItem();
-            LinkedNode<Song> *currPtr = front;
-            currPtr = currPtr->getNext();
-            front = currPtr;
-            currPtr = nullptr;
-            return songToRemove;
-        }
-        else if (currPtr->getNext() == nullptr and index == count + 1) {
-            songToRemove = end->getItem();
-            int newCount = 0;
-            LinkedNode<Song> *currPtr = front;
-            LinkedNode<Song> *currPtrBefore = front;
-            while (currPtr->getNext() != nullptr) {
-                currPtrBefore = currPtr;
-                currPtr = currPtr->getNext();
-                newCount += 1;
-            }
-            if (newCount != 0) {
-                currPtrBefore->setNext(nullptr);
-            }
-            else {
-                front = nullptr;
-            }
-            currPtrBefore = nullptr;
-            currPtr = nullptr;
-            return songToRemove;
-        }
-        else if (count == index) {
+        if (currPtr->getItem()->getTitle() == title && currPtr->getItem()->getArtist() == artist) {
             LinkedNode<Song> *beforeNodeToRemove = currPtr;
             LinkedNode<Song> *nodeToRemove = beforeNodeToRemove->getNext();
             LinkedNode<Song> *afterNodeToRemove  = nodeToRemove->getNext();
@@ -184,14 +153,11 @@ Song Library::remove(int index) {
             currPtr = currPtr->getNext();
         }
     }
-    if (index > count && currPtr == nullptr) {
-        throw std::out_of_range("Bad index given to insertAt: " + std::to_string(index));
-    }
     currPtr = nullptr;
-    return songToRemove;
+    throw std::out_of_range("Song Not in List");
 }
 
-Song Library::getSongAt(int index) {
+Song* Library::getSongAt(int index) {
     if (index < 0 || front == nullptr) {
         throw std::out_of_range("Invalid Index");
     }
@@ -206,7 +172,7 @@ Song Library::getSongAt(int index) {
             throw std::out_of_range("Invalid Index");
         }
     }
-    Song songToGet = currPtr->getItem();
+    Song* songToGet = currPtr->getItem();
     currPtr = nullptr;
     return songToGet;
 }
@@ -242,14 +208,14 @@ int Library::getLength() {
     return count;
 }
 
-int Library::find(Song song) {
+int Library::find(std::string title, std::string artist) {
     if (front == nullptr) {
         return -1;
     }
     int count = 0;
     LinkedNode<Song> *currPtr = front;
     while (currPtr != nullptr) {
-        if (currPtr->getItem() == song) {
+        if (currPtr->getItem()->getTitle() == title && currPtr->getItem()->getArtist() == artist) {
             currPtr = nullptr;
             return count;
         }
