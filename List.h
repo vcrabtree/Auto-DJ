@@ -30,6 +30,8 @@ public:
     virtual int getLength() = 0;
 
     virtual int find(std::string title, std::string artist) = 0;
+
+    virtual Song* getSongAt(int index) = 0;
 };
 
 #endif //AUTO_DJ_LIST_H

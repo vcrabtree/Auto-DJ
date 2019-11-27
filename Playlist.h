@@ -20,8 +20,9 @@ class Playlist: public List {
 
     public:
         Playlist(std::string title);
-        ~Playlist();
+        Playlist(std::string title, float duration, List& songs);
         Playlist(const Playlist& playlistToCopy);
+        ~Playlist();
         Playlist& operator=(const Playlist& playlistToCopy);
 
         void add(Song* song, int index=-1);
@@ -32,6 +33,7 @@ class Playlist: public List {
         float getDuration();
         std::string getTitle();
         int find(std::string title, std::string artist);
+        Song* getSongAt(int index);
         Song* playNext();
 };
 #endif

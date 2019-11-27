@@ -7,6 +7,9 @@ Playlist::Playlist(std::string newTitle) {
     length = 0;
 }
 
+Playlist::Playlist(std::string newTitle, float newDuration, List& songs) {
+}
+
 Playlist::~Playlist() { clear(); }
 
 Playlist::Playlist(const Playlist& playlistToCopy) { copy(playlistToCopy); }
@@ -98,6 +101,22 @@ int Playlist::find(std::string title, std::string artist) {
         index++;
     }
     return indexFound;
+}
+
+Song* Playlist::getSongAt(int index) {
+    if (index == 0) return head->getItem();
+    else if (index == length-1) return tail->getItem();
+    else {
+        LinkedNode<Song> *currNode = head;
+        int i = 0;
+
+        while (i < index) {
+            currNode = currNode->getNext();
+            i++;
+        }
+        if (currNode) return currNode->getItem();
+        else return nullptr;
+    }
 }
 
 Song* Playlist::playNext() {
