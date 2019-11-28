@@ -37,5 +37,6 @@ class Playlist: public List {
         int find(std::string title, std::string artist);
         Song* getSongAt(int index);
         Song* playNext();
+        std::string toString();
 };
 #endif

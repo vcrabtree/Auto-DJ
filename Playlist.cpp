@@ -124,6 +124,17 @@ Song* Playlist::playNext() {
    return song;
 }
 
+std::string Playlist::toString() {
+    LinkedNode<Song> *currNode = head;
+    std::string playlistString = "";
+
+    while (currNode) {
+        playlistString += currNode->getItem()->toString()+"\n\n";
+        currNode = currNode->getNext();
+    }
+    return playlistString;
+}
+
 void Playlist::copy(const Playlist& playlistToCopy) {
     LinkedNode<Song> *currNode = playlistToCopy.head;
     while (length != playlistToCopy.length) {
