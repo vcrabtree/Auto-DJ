@@ -8,6 +8,9 @@ class Playlists: public PlaylistList {
         LinkedNode<Playlist> *head, *tail;
         int length;
 
+        Playlist* removeFromFront();
+        Playlist* removeFromEnd();
+
     public:
         Playlists();
         ~Playlists();
@@ -17,6 +20,7 @@ class Playlists: public PlaylistList {
         bool isEmpty();
         void clear();
         int getLength();
+        Playlist* getPlaylistAt(int index);
         int find(std::string searchKey);
         std::string toString();
         std::string displayPlaylist(std::string title);
