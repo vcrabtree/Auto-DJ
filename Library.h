@@ -25,9 +25,9 @@ public:
 
     void add(Song* song, int index);
 
-    Song remove(int index);
+    Song* remove(std::string title, std::string artist);
 
-    Song getSongAt(int index);
+    Song* getSongAt(int index)
 
     bool isEmpty();
 
@@ -35,6 +35,6 @@ public:
 
     int getLength();
 
-    int find(Song song);
+    int find(std::string title, std::string artist);
 };
 #endif //AUTO_DJ_LIBRARY_H
