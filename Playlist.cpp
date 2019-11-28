@@ -1,13 +1,12 @@
 #include "Playlist.h"
  
 Playlist::Playlist(std::string newTitle) {
-    head = tail = nullptr;
-    title = newTitle;
-    duration = 0.0;
-    length = 0;
+    initializeProperties(newTitle);
 }
 
 Playlist::Playlist(std::string newTitle, float newDuration, List& songs) {
+    initializeProperties(newTitle);
+    newRandom(newDuration, songs);
 }
 
 Playlist::~Playlist() { clear(); }
@@ -140,6 +139,42 @@ void Playlist::clear() {
 void Playlist::decrease(float songDuration) {
     length--;
     duration -= songDuration;
+}
+
+void Playlist::initializeProperties(std::string newTitle) {
+    head = tail = nullptr;
+    title = newTitle;
+    duration = 0.0;
+    length = 0;
+}
+
+void Playlist::newRandom(float newDuration, List& songs) {
+    int listLength = songs.getLength(), 
+        index = 0, 
+        randIdx,
+        *selected = new int[listLength]{0};
+    float currDuration = 0.0, 
+          sum = 0.0;
+    Song *song;
+
+    while (index < listLength && sum < newDuration) {
+        randIdx = rand() % listLength;
+        while (selected[randIdx]) randIdx = rand() % listLength;
+        selected[randIdx] = 1;
+
+        song = songs.getSongAt(randIdx);
+        currDuration = song->getDuration();
+
+        if ((currDuration + sum) <= newDuration) {
+            add(song);
+            sum += currDuration;
+            std::cout << "sum: " << sum << std::endl;
+        }
+        index++;
+    } 
+
+    delete[] selected;
+    selected = nullptr;
 }
 
 bool Playlist::isEmpty() { return !length; }

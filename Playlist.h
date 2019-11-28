@@ -17,6 +17,8 @@ class Playlist: public List {
         Song* removeFromEnd();
         void decrease(float duration);
         void copy(const Playlist& playlistToCopy);
+        void initializeProperties(std::string newTitle);
+        void newRandom(float duration, List& songs);
 
     public:
         Playlist(std::string title);
