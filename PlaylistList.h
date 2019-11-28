@@ -19,7 +19,7 @@ class PlaylistList {
 
         virtual void clear() = 0;
 
-        virtual void getLength() = 0;
+        virtual int getLength() = 0;
 
         virtual int find(std::string title) = 0;
 
