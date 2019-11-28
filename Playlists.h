@@ -1,21 +1,23 @@
-#ifndef PLAYLIST_H
-#define PLAYLIST_H
+#ifndef PLAYLISTS_H
+#define PLAYLISTS_H
 
-#include "Playlist.h"
+#include "PlaylistList.h"
 
-class Playlists: public list {
+class Playlists: public PlaylistList {
     private:
         LinkedNode<Playlist> *head, *tail;
         int length;
 
     public:
+        Playlists();
+        ~Playlists();
+
         void add(Playlist* song, int index);
         Playlist* remove(std::string title);
         bool isEmpty();
         void clear();
         int getLength();
         int find(std::string searchKey);
-
-}
+};
 
 #endif
