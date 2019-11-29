@@ -27,7 +27,7 @@ public:
 
     Song* remove(std::string title, std::string artist);
 
-    Song* getSongAt(int index)
+    Song* getSongAt(int index);
 
     bool isEmpty();
 
