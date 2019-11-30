@@ -28,19 +28,19 @@ Library::Library(const Library& libraryToCopy) {
     }
     while (currPtr->getNext() != nullptr) {
         if (currPtr == libraryToCopy.front) {
-            LinkedNode<Song> *newNode = new LinkedNode<Song>(currPtr->getItem());
+            LinkedNode<Song> *newNode = new LinkedNode<Song>(*currPtr->getItem());
             this->front = newNode;
             currPtr = currPtr->getNext();
             newCurrPtr = newNode;
         }
         else {
-            LinkedNode<Song> *newNode = new LinkedNode<Song>(currPtr->getItem());
+            LinkedNode<Song> *newNode = new LinkedNode<Song>(*currPtr->getItem());
             newCurrPtr->setNext(newNode);
             currPtr = currPtr->getNext();
             newCurrPtr = newNode;
         }
     }
-    LinkedNode<Song> *newNode = new LinkedNode<Song>(currPtr->getItem());
+    LinkedNode<Song> *newNode = new LinkedNode<Song>(*currPtr->getItem());
     newCurrPtr->setNext(newNode);
     newCurrPtr = newNode;
     this->end = newCurrPtr;
@@ -65,18 +65,18 @@ Library& Library::operator=(const Library& libraryToCopy) {
         }
         while (currPtr->getNext() != nullptr) {
             if (currPtr == libraryToCopy.front) {
-                LinkedNode<Song> *newNode = new LinkedNode<Song>(currPtr->getItem());
+                LinkedNode<Song> *newNode = new LinkedNode<Song>(*currPtr->getItem());
                 this->front = newNode;
                 currPtr = currPtr->getNext();
                 newCurrPtr = newNode;
             } else {
-                LinkedNode<Song> *newNode = new LinkedNode<Song>(currPtr->getItem());
+                LinkedNode<Song> *newNode = new LinkedNode<Song>(*currPtr->getItem());
                 newCurrPtr->setNext(newNode);
                 currPtr = currPtr->getNext();
                 newCurrPtr = newNode;
             }
         }
-        LinkedNode<Song> *newNode = new LinkedNode<Song>(currPtr->getItem());
+        LinkedNode<Song> *newNode = new LinkedNode<Song>(*currPtr->getItem());
         newCurrPtr->setNext(newNode);
         newCurrPtr = newNode;
         this->end = newCurrPtr;
@@ -91,8 +91,8 @@ void Library::add(Song* song, int index) {
         throw std::out_of_range("Bad index given to insertAt: " + std::to_string(index));
     }
     if (front == nullptr) {
-        LinkedNode<Song> *newNode = new LinkedNode(song);
-        start = newNode;
+        LinkedNode<Song> *newNode = new LinkedNode<Song>(*song);
+        front = newNode;
         end = newNode;
         newNode = nullptr;
     }
@@ -101,19 +101,19 @@ void Library::add(Song* song, int index) {
     while (currPtr != nullptr && count <= index) {
         count += 1;
         if (index == 0) {
-            LinkedNode<Song> *newNode = new LinkedNode(song);
+            LinkedNode<Song> *newNode = new LinkedNode<Song>(*song);
             newNode->setNext(front);
             front = newNode;
             newNode = nullptr;
         }
         else if (currPtr->getNext() == nullptr && index == count + 1) {
-            LinkedNode<Song> *newNode = new LinkedNode(song);
+            LinkedNode<Song> *newNode = new LinkedNode<Song>(*song);
             end->setNext(newNode);
             end = newNode;
             newNode = nullptr;
         }
         else if (count == index) {
-            LinkedNode<Song> *newNode = new LinkedNode(song);
+            LinkedNode<Song> *newNode = new LinkedNode<Song>(*song);
             LinkedNode<Song> *tempNode = currPtr->getNext();
             currPtr->setNext(newNode);
             currPtr = newNode;
@@ -135,7 +135,7 @@ Song* Library::remove(std::string title, std::string artist) {
     LinkedNode<Song> *currPtr = front;
     int count = 0;
     Song* songToRemove;
-    while (currPtr != nullptr && count <= index) {
+    while (currPtr != nullptr) {
         count += 1;
         if (currPtr->getItem()->getTitle() == title && currPtr->getItem()->getArtist() == artist) {
             LinkedNode<Song> *beforeNodeToRemove = currPtr;
@@ -199,7 +199,7 @@ int Library::getLength() {
         return 0;
     }
     int count = 0;
-    LinkedNode* currPtr = front;
+    LinkedNode<Song> *currPtr = front;
     while (currPtr != nullptr) {
         count += 1;
         currPtr = currPtr->getNext();
