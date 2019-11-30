@@ -17,7 +17,7 @@ void Song::setArtist(std::string newArtist) { artist = newArtist; }
 
 std::string Song::getArtist() { return artist; }
 
-std::string Song::setTitle(std::string newTitle) { title = newTitle; }
+void Song::setTitle(std::string newTitle) { title = newTitle; }
 
 std::string Song::getTitle() { return title; }
 

@@ -16,7 +16,7 @@ class Song {
 
         void setArtist(std::string newArtist);
         std::string getArtist();
-        std::string setTitle(std::string newTitle);
+        void setTitle(std::string newTitle);
         std::string getTitle();
         void setDuration(float newDuration);
         float getDuration();
