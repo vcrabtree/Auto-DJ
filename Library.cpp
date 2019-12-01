@@ -202,9 +202,9 @@ int Library::getLength() {
     }
     int count = 0;
     LinkedNode<Song> *currPtr = front;
-    while (currPtr != nullptr) {
-        count += 1;
+    while (currPtr->getNext() != nullptr) {
         currPtr = currPtr->getNext();
+        count += 1;
     }
     currPtr = nullptr;
     return count;
