@@ -24,8 +24,8 @@ void addAndGetSongAtTest(Library* testLibrary) {
     Song* song5 = new Song ("Someday at Christmas", "Jackson 5", 2.64);
     testLibrary->add(song1, 0);
     testLibrary->add(song2, 0);
-    testLibrary->add(song3, 1);
-    testLibrary->add(song4, 2);
+    testLibrary->add(song3, 0);
+    testLibrary->add(song4, 0);
     testLibrary->add(song5, 0);
     if (testLibrary->getSongAt(0) == song5) {
         std::cout << "\nPassed";
@@ -33,7 +33,7 @@ void addAndGetSongAtTest(Library* testLibrary) {
     else {
         std::cout << "\nFailed, did not return proper value";
     }
-    if (testLibrary->getSongAt(1) == song1) {
+    if (testLibrary->getSongAt(1) == song4) {
         std::cout << "\nPassed";
     }
     else {
@@ -45,13 +45,13 @@ void addAndGetSongAtTest(Library* testLibrary) {
     else {
         std::cout << "\nFailed, did not return proper value";
     }
-    if (testLibrary->getSongAt(3) == song4) {
+    if (testLibrary->getSongAt(3) == song2) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not return proper value";
     }
-    if (testLibrary->getSongAt(4) == song2) {
+    if (testLibrary->getSongAt(4) == song1) {
         std::cout << "\nPassed";
     }
     else {
@@ -69,43 +69,43 @@ void removeTest(Library* testLibrary) {
     Song* song5 = new Song ("Someday at Christmas", "Jackson 5", 2.64);
     testLibrary->add(song1, 0);
     testLibrary->add(song2, 0);
-    testLibrary->add(song3, 1);
-    testLibrary->add(song4, 2);
+    testLibrary->add(song3, 0);
+    testLibrary->add(song4, 0);
     testLibrary->add(song5, 0);
-    Song* removedSong1 = testLibrary->remove(song2->getTitle(), song2->getArtist());
-    if (removedSong1 == song2) {
-        std::cout << "\nPassed";
-    }
-    else {
-        std::cout << "\nFailed";
-    }
-    Song* removedSong2 = testLibrary->remove(song4->getTitle(), song4->getArtist());
-    if (removedSong1 == song4) {
-        std::cout << "\nPassed";
-    }
-    else {
-        std::cout << "\nFailed";
-    }
-    Song* removedSong3 = testLibrary->remove(song3->getTitle(), song3->getArtist());
-    if (removedSong1 == song3) {
-        std::cout << "\nPassed";
-    }
-    else {
-        std::cout << "\nFailed";
-    }
-    Song* removedSong4 = testLibrary->remove(song1->getTitle(), song1->getArtist());
+    Song* removedSong1 = testLibrary->remove(song1->getTitle(), song1->getArtist());
     if (removedSong1 == song1) {
         std::cout << "\nPassed";
     }
     else {
-        std::cout << "\nFailed";
+        std::cout << "\nFailed, did not remove song 1";
     }
-    Song* removedSong5 = testLibrary->remove(song5->getTitle(), song5->getArtist());
-    if (removedSong1 == song5) {
+    Song* removedSong2 = testLibrary->remove(song2->getTitle(), song2->getArtist());
+    if (removedSong2 == song2) {
         std::cout << "\nPassed";
     }
     else {
-        std::cout << "\nFailed";
+        std::cout << "\nFailed, did not remove song 2";
+    }
+    Song* removedSong3 = testLibrary->remove(song3->getTitle(), song3->getArtist());
+    if (removedSong3 == song3) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not remove song 3";
+    }
+    Song* removedSong4 = testLibrary->remove(song4->getTitle(), song4->getArtist());
+    if (removedSong4 == song4) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not remove song 4";
+    }
+    Song* removedSong5 = testLibrary->remove(song5->getTitle(), song5->getArtist());
+    if (removedSong5 == song5) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not remove song 5";
     }
 }
 
