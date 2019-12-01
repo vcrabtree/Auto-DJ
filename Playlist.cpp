@@ -19,6 +19,9 @@ Playlist& Playlist::operator=(const Playlist& playlistToCopy) {
 }
 
 void Playlist::add(Song *song, int index){
+    if (find(song->getTitle(), song->getArtist()) != -1) 
+        throw std::invalid_argument("duplicate songs are not allowed");
+
     if (isEmpty()) head = tail = new LinkedNode<Song>(*song);
     else {
         LinkedNode<Song> *newNode = new LinkedNode<Song>(*song);
@@ -103,6 +106,9 @@ int Playlist::find(std::string title, std::string artist) {
 }
 
 Song* Playlist::getSongAt(int index) {
+    if (isEmpty()) throw std::out_of_range("playlist is empty");
+    if (index >= length || index < 0) throw std::out_of_range("invalid index");
+
     if (index == 0) return head->getItem();
     else if (index == length-1) return tail->getItem();
     else {
@@ -119,9 +125,10 @@ Song* Playlist::getSongAt(int index) {
 }
 
 Song* Playlist::playNext() {
-   Song *song = removeFromFront();
-   (*song)++;
-   return song;
+    if (isEmpty()) throw std::out_of_range("playlist is empty");
+    Song *song = removeFromFront();
+    (*song)++;
+    return song;
 }
 
 std::string Playlist::toString() {
@@ -145,6 +152,8 @@ void Playlist::copy(const Playlist& playlistToCopy) {
 
 void Playlist::clear() {
     while (!isEmpty()) removeFromFront();
+    duration = 0.0f;
+    length = 0;
 }
 
 void Playlist::decrease(float songDuration) {
@@ -160,6 +169,7 @@ void Playlist::initializeProperties(std::string newTitle) {
 }
 
 void Playlist::newRandom(float newDuration, List& songs) {
+    if (newDuration <= 0) throw std::invalid_argument("invalid duration");
     int listLength = songs.getLength(), 
         index = 0, 
         randIdx,
@@ -179,7 +189,6 @@ void Playlist::newRandom(float newDuration, List& songs) {
         if ((currDuration + sum) <= newDuration) {
             add(song);
             sum += currDuration;
-            std::cout << "sum: " << sum << std::endl;
         }
         index++;
     } 
