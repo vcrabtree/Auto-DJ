@@ -19,6 +19,9 @@ Playlist& Playlist::operator=(const Playlist& playlistToCopy) {
 }
 
 void Playlist::add(Song *song, int index){
+    if (find(song->getTitle(), song->getArtist()) != -1) 
+        throw std::invalid_argument("duplicate songs are not allowed");
+
     if (isEmpty()) head = tail = new LinkedNode<Song>(*song);
     else {
         LinkedNode<Song> *newNode = new LinkedNode<Song>(*song);
@@ -166,6 +169,7 @@ void Playlist::initializeProperties(std::string newTitle) {
 }
 
 void Playlist::newRandom(float newDuration, List& songs) {
+    if (newDuration <= 0) throw std::invalid_argument("invalid duration");
     int listLength = songs.getLength(), 
         index = 0, 
         randIdx,
