@@ -14,16 +14,11 @@ private:
     LinkedNode<Song> *front;
     LinkedNode<Song> *end;
     float duration;
-    int length;
 
 public:
     Library();
 
     ~Library();
-
-    Library(const Library& libraryToCopy);
-
-    Library& operator=(const Library& libraryToCopy);
 
     void add(Song* song, int index);
 
