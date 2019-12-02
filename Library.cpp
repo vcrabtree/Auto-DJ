@@ -88,7 +88,7 @@ Library& Library::operator=(const Library& libraryToCopy) {
 
 void Library::add(Song* song, int index) {
     if (index < 0) {
-        throw std::out_of_range("Bad index given to insertAt: " + std::to_string(index));
+        throw std::out_of_range("You cannot add a song at this index: " + std::to_string(index));
     }
     if (find(song->getTitle(), song->getArtist()) == -1) {
         if (front == nullptr) {
@@ -126,10 +126,14 @@ void Library::add(Song* song, int index) {
                 currPtr = currPtr->getNext();
             }
         }
-        if (index > count && currPtr == nullptr) {
-            throw std::out_of_range("Bad index given to insertAt: " + std::to_string(index));
+        if (index > count && currPtr == nullptr) { //TODO NOT WORKING
+            throw std::out_of_range("You cannot add a song at this index: " + std::to_string(index));
         }
         currPtr = nullptr;
+        duration = duration + song->getDuration();
+    }
+    else {
+        throw std::invalid_argument("This song already exists in this library");
     }
 }
 
@@ -149,6 +153,7 @@ Song* Library::remove(std::string title, std::string artist) {
             beforeNodeToRemove = nullptr;
             afterNodeToRemove = nullptr;
             currPtr = nullptr;
+            duration = duration - songToRemove->getDuration();
             return songToRemove;
         }
         else {
@@ -156,7 +161,7 @@ Song* Library::remove(std::string title, std::string artist) {
         }
     }
     currPtr = nullptr;
-    throw std::out_of_range("Song Not in List");
+    throw std::invalid_argument("Song Not in List");
 }
 
 Song* Library::getSongAt(int index) {
@@ -208,6 +213,10 @@ int Library::getLength() {
     }
     currPtr = nullptr;
     return count;
+}
+
+float Library::getDuration() {
+    return duration;
 }
 
 int Library::find(std::string title, std::string artist) {

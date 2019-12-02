@@ -13,6 +13,8 @@ class Library : public List {
 private:
     LinkedNode<Song> *front;
     LinkedNode<Song> *end;
+    float duration;
+    int length;
 
 public:
     Library();
@@ -34,6 +36,8 @@ public:
     void clear();
 
     int getLength();
+
+    float getDuration();
 
     int find(std::string title, std::string artist);
 };

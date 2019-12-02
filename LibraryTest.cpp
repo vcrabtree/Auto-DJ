@@ -17,11 +17,11 @@ void assignmentOperatorTest(Library* testLibrary) {
 void addAndGetSongAtTest(Library* testLibrary) {
     std::cout << "\nadd Test: ";
     testLibrary->clear();
-    Song* song1 = new Song ("All I Want For Christmas Is You", "Mariah Carey", 2.9);
-    Song* song2 = new Song ("A Holly Jolly Christmas", "Burl Ives", 2.27);
-    Song* song3 = new Song ("Sleigh Ride", "The Ronettes", 3.03);
-    Song* song4 = new Song ("Last Christmas", "Wham!", 4.6);
-    Song* song5 = new Song ("Someday at Christmas", "Jackson 5", 2.64);
+    Song *song1 = new Song("All I Want For Christmas Is You", "Mariah Carey", 2.9);
+    Song *song2 = new Song("A Holly Jolly Christmas", "Burl Ives", 2.27);
+    Song *song3 = new Song("Sleigh Ride", "The Ronettes", 3.03);
+    Song *song4 = new Song("Last Christmas", "Wham!", 4.6);
+    Song *song5 = new Song("Someday at Christmas", "Jackson 5", 2.64);
     testLibrary->add(song1, 0);
     testLibrary->add(song2, 0);
     testLibrary->add(song3, 0);
@@ -57,11 +57,47 @@ void addAndGetSongAtTest(Library* testLibrary) {
     else {
         std::cout << "\nFailed, did not return proper value";
     }
+    try {
+        testLibrary->add(new Song("Here Comes Santa Claus", "Bing Crosby", 3.02), -1);
+        std::cout << "\nFAIL: add did not throw exception";
+    }
+    catch (std::out_of_range &e) {
+        std::cout << "\nPassed";
+    }
+    try {
+        testLibrary->add(new Song("Here Comes Santa Claus", "Bing Crosby", 3.02), 1000);
+        std::cout << "\nFAIL: add did not throw exception";
+    }
+    catch (std::out_of_range &e) {
+        std::cout << "\nPassed";
+    }
+    try {
+        testLibrary->getSongAt(-1);
+        std::cout << "\nFAIL: getSongAt did not throw exception";
+    }
+    catch (std::out_of_range &e) {
+        std::cout << "\nPassed";
+    }
+    try {
+        testLibrary->getSongAt(1000);
+        std::cout << "\nFAIL: getSongAt did not throw exception";
+    }
+    catch (std::out_of_range &e) {
+        std::cout << "\nPassed";
+    }
+    try {
+        testLibrary->add(song1, 0);
+        std::cout << "\nFAIL: add did not throw exception";
+    }
+    catch (std::invalid_argument &e) {
+        std::cout << "\nPassed";
+    }
 }
 
-void removeTest(Library* testLibrary) {
+void removeTest(Library* testLibrary) { //TODO SEGMENTATION FAULT
     std::cout << "\nremove Test: ";
     testLibrary->clear();
+    std::cout << "\nCurrent length (After clearing list) " << testLibrary->getLength();
     Song* song1 = new Song ("All I Want For Christmas Is You", "Mariah Carey", 2.9);
     Song* song2 = new Song ("A Holly Jolly Christmas", "Burl Ives", 2.27);
     Song* song3 = new Song ("Sleigh Ride", "The Ronettes", 3.03);
@@ -72,40 +108,58 @@ void removeTest(Library* testLibrary) {
     testLibrary->add(song3, 0);
     testLibrary->add(song4, 0);
     testLibrary->add(song5, 0);
+    std::cout << "\nCurrent length (after adding 5 songs) " << testLibrary->getLength();
     Song* removedSong1 = testLibrary->remove(song1->getTitle(), song1->getArtist());
     if (removedSong1 == song1) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not remove song 1";
+        std::cout << "\nInstead removed " << removedSong1->getTitle() << " by " << removedSong1->getArtist();
     }
+    std::cout << "\nCurrent length (after removing song2) " << testLibrary->getLength();
     Song* removedSong2 = testLibrary->remove(song2->getTitle(), song2->getArtist());
     if (removedSong2 == song2) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not remove song 2";
+        std::cout << "\nInstead removed " << removedSong2->getTitle() << " by " << removedSong2->getArtist();
     }
+    std::cout << "\nCurrent length (after removing song2) " << testLibrary->getLength();
     Song* removedSong3 = testLibrary->remove(song3->getTitle(), song3->getArtist());
     if (removedSong3 == song3) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not remove song 3";
+        std::cout << "\nInstead removed " << removedSong3->getTitle() << " by " << removedSong3->getArtist();
     }
+    std::cout << "\nCurrent length (after removing song 3) " << testLibrary->getLength();
     Song* removedSong4 = testLibrary->remove(song4->getTitle(), song4->getArtist());
     if (removedSong4 == song4) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not remove song 4";
+        std::cout << "\nInstead removed " << removedSong4->getTitle() << " by " << removedSong4->getArtist();
     }
+    std::cout << "\nCurrent length (after removing song4) " << testLibrary->getLength();
     Song* removedSong5 = testLibrary->remove(song5->getTitle(), song5->getArtist());
     if (removedSong5 == song5) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, did not remove song 5";
+        std::cout << "\nInstead removed " << removedSong5->getTitle() << " by " << removedSong5->getArtist();
+    }
+    std::cout << "\nCurrent length (after removing song 5) " << testLibrary->getLength();
+    try {
+        testLibrary->remove("Last Christmas", "Glee");
+        std::cout << "\nFAIL: add did not throw exception";
+    }
+    catch (std::invalid_argument &e) {
+        std::cout << "\nPassed";
     }
 }
 
@@ -128,7 +182,7 @@ void isEmptyAndClearTest(Library* testLibrary) {
     }
 }
 
-void getLengthTest(Library* testLibrary) {
+void getLengthAndDurationTest(Library* testLibrary) {
     std::cout << "\ngetLength Test: ";
     testLibrary->clear();
     if (testLibrary->getLength() == 0) {
@@ -137,6 +191,12 @@ void getLengthTest(Library* testLibrary) {
     else {
         std::cout << "\nFailed, returned " << testLibrary->getLength() << ", length should have been 0";
     }
+    if (testLibrary->getDuration() == 0) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, returned " << testLibrary->getDuration() << ", length should have been 0";
+    }
     testLibrary->add(new Song("Jingle Bell Rock", "Bobby Helms", 2.15), 0);
     if (testLibrary->getLength() == 1) {
         std::cout << "\nPassed";
@@ -144,12 +204,24 @@ void getLengthTest(Library* testLibrary) {
     else {
         std::cout << "\nFailed, returned " << testLibrary->getLength() << ", length should have been 1";
     }
+    if (testLibrary->getDuration() == 2.15) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, returned " << testLibrary->getDuration() << ", length should have been 2.15";
+    }
     testLibrary->add(new Song("Christmas Wrapping", "The Waitresses", 5.33), 0);
     if (testLibrary->getLength() == 2) {
         std::cout << "\nPassed";
     }
     else {
         std::cout << "\nFailed, returned " << testLibrary->getLength() << ", length should have been 2";
+    }
+    if (testLibrary->getDuration() == 7.48) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, returned " << testLibrary->getDuration() << ", length should have been 7.48";
     }
 }
 
@@ -166,7 +238,7 @@ void findTest(Library* testLibrary) {
     }
     else {
         std::cout << "\nFailed, returned " << testLibrary->find(song1->getTitle(), song1->getArtist()) <<
-            " instead of 1";
+            " instead of 0";
     }
     if (testLibrary->find(song2->getTitle(), song2->getArtist()) == 1) {
         std::cout << "\nPassed";
@@ -180,7 +252,7 @@ void findTest(Library* testLibrary) {
     }
     else {
         std::cout << "\nFailed, returned " << testLibrary->find(song3->getTitle(), song3->getArtist()) <<
-            " instead of 1";
+            " instead of 2";
     }
 }
 
@@ -192,11 +264,11 @@ void runAllLibraryTests() {
     testLibrary->clear();
     addAndGetSongAtTest(testLibrary);
     testLibrary->clear();
-    //removeTest(testLibrary);
-    //testLibrary->clear();
+    removeTest(testLibrary);
+    testLibrary->clear();
     isEmptyAndClearTest(testLibrary);
     testLibrary->clear();
-    getLengthTest(testLibrary);
+    getLengthAndDurationTest(testLibrary);
     testLibrary->clear();
     findTest(testLibrary);
     delete testLibrary;
