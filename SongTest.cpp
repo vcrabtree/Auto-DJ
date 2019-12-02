@@ -21,7 +21,8 @@ void testGetters(Song* testSong) {
         std::cout << "Failed, printed " << testSong->getArtist() << " instead of Hannah Montana";
     }
     std::cout << "\ngetDuration Test: ";
-    if (testSong->getDuration() == 2.9) {
+    testSong->setDuration(2.9);
+    if (testSong->getDuration() == 2.9f) {
         std::cout << "Passed";
     }
     else {
@@ -56,7 +57,7 @@ void settersTest(Song* testSong) {
     }
     std::cout << "\nsetDuration Test: ";
     testSong->setDuration(3.92);
-    if (testSong->getDuration() == 3.92) {
+    if (testSong->getDuration() == 3.92f) {
         std::cout << "Passed";
     }
     else {
@@ -76,12 +77,12 @@ void settersTest(Song* testSong) {
 void toStringTest(Song* testSong) {
     std::cout << "\ntoString Test: ";
     if (testSong->toString() ==
-    "artist:\t\tMiley Cyrus\ntitle:\t\tThe Climb\nduration:\t3.92\nplay count:\t7") {
+    "artist:\t\tMiley Cyrus\ntitle:\t\tThe Climb\nduration:\t3.920000\nplay count:\t7") {
         std::cout << "Passed";
     }
     else {
         std::cout << "Failed, printed " << testSong->toString() <<
-        " instead of artist:\t\tMiley Cyrus\ntitle:\t\tThe Climb\nduration:\t3.92\nplay count:\t7";
+        " instead of artist:\t\tMiley Cyrus\ntitle:\t\tThe Climb\nduration:\t3.920000\nplay count:\t7";
     }
     std::cout << "\n-----done-----";
 }
