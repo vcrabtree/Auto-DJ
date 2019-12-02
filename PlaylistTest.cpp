@@ -1,11 +1,12 @@
 #include <iostream>
 #include "Song.h"
+#include "Library.h"
 #include "Playlist.h"
 #include "TestLib.h"
 
 Playlist* generateRandomPlaylist(std::string title, float duration, int libSize ) {
     // change to Library when Library Tests are complete
-    List *library = new Playlist("pseudo-library");
+    Library *library = new Library();
     Playlist *randomPlaylist;
 
     float currDuration;
@@ -16,7 +17,7 @@ Playlist* generateRandomPlaylist(std::string title, float duration, int libSize 
          new Song("title "+std::to_string(i), 
                  "artist "+std::to_string(i), 
                  currDuration
-         ));
+         ), i);
     }
     randomPlaylist = new Playlist(title, duration, *library);
     delete library;
@@ -194,6 +195,7 @@ void randomPlaylistTest() {
         desiredDuration = i+1;
         randPlaylist = generateRandomPlaylist("rand-pl"+std::to_string(i), i+1, i*i);
         printAssert(randPlaylist->getDuration() <= desiredDuration, true);
+        delete randPlaylist;
     }
 
     printTestCase("random playlist doesn't generate for invalid durations");
@@ -201,11 +203,13 @@ void randomPlaylistTest() {
         desiredDuration = i+1;
         try {
             randPlaylist = generateRandomPlaylist("rand-pl"+std::to_string(i), i, 5);
+            delete randPlaylist;
             printExceptionFail("random playlist generated with duration <= 0");
         } catch(std::invalid_argument e) {
             printAssert(*("invalid duration"), *e.what());
         }
     }
+    randPlaylist = nullptr;
 
     printTestFooter();
 }
@@ -232,7 +236,7 @@ void findTest(Playlist* playlist) {
 }
 
 void playNextTest(Playlist* playlist) {
-    printTestHeader("playNext");
+    printTestHeader("playNextTest");
 
     int length = playlist->getLength();
     float durations[length] = {};
