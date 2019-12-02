@@ -6,14 +6,6 @@
 #include "Library.h"
 #include "Song.h"
 
-void copyConstructorTest(Library* testLibrary) {
-    //TODO
-}
-
-void assignmentOperatorTest(Library* testLibrary) {
-    //TODO
-}
-
 void addAndGetSongAtTest(Library* testLibrary) {
     std::cout << "\nadd Test: ";
     testLibrary->clear();
@@ -258,10 +250,6 @@ void findTest(Library* testLibrary) {
 
 void runAllLibraryTests() {
     Library* testLibrary = new Library();
-    copyConstructorTest(testLibrary);
-    testLibrary->clear();
-    assignmentOperatorTest(testLibrary);
-    testLibrary->clear();
     addAndGetSongAtTest(testLibrary);
     testLibrary->clear();
     removeTest(testLibrary);
