@@ -10,7 +10,7 @@ Library::Library() {
 }
 
 Library::~Library() {
-    while (front != end) {
+    while (front && front != end) {
         LinkedNode<Song> *tempNode = front;
         front = front->getNext();
         delete tempNode;
@@ -125,7 +125,7 @@ bool Library::isEmpty() {
 }
 
 void Library::clear() {
-    while (front != end) {
+    while (front && front != end) {
         LinkedNode<Song> *tempNode = front;
         front = front->getNext();
         delete tempNode;
