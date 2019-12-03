@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="FileManagerTest"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/cygdrive/c/Users/dxuma/auto-dj"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/cygdrive/c/Users/dxuma/auto-dj"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="FileManagerTest">
+				<Option output="/cygdrive/c/Users/dxuma/auto-dj/FileManagerTest.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/dxuma/auto-dj"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 FileManagerTest"/>
+					<CompileFile command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="FileManagerTest/fast">
+				<Option output="/cygdrive/c/Users/dxuma/auto-dj/FileManagerTest.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/dxuma/auto-dj"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 FileManagerTest/fast"/>
+					<CompileFile command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/c/Users/dxuma/auto-dj"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -f &quot;/cygdrive/c/Users/dxuma/auto-dj/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/FileManager.cpp">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/FileManager.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/FileManagerTest.cpp">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Library.cpp">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Library.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/LinkedNode.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/LinkedNode.inl">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/List.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Playlist.cpp">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Playlist.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/PlaylistList.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Playlists.cpp">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Playlists.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Song.cpp">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/Song.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/TestLib.h">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/TestLib.inl">
+			<Option target="FileManagerTest"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/dxuma/auto-dj/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

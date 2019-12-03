@@ -1,22 +1,30 @@
 //
 // Created by dxuma on 11/24/2019.
 //
+#include <fstream>
+#include <iostream>
+#include "FileManager.h"
 
-void FileManager::read(std::string fileName, std::string stringToRead){
+void FileManager::readToFile(std::string fileName, std::string stringToRead){
     std::ifstream infile(fileName);
-    while(infile){
-        getline(infile, stringToCheck);
-        if (stringToCheck == stringToRead){
-            std::cout << stringToCheck << cout::endl
+    if (infile) {
+        while (infile) {
+            std::string stringToCheck;
+            getline(infile, stringToCheck);
+            if (stringToCheck == stringToRead){
+                std::cout << stringToCheck << std::endl;
+            }
         }
     }
-
+    else {
+        std::cout << "File not found" << std::endl;
+    }
 }
 
-void FileManager::write(std::string fileName, std::string stringToWrite){
-    std::ofstream outf(filename);
+void FileManager::writeToFile(std::string fileName, std::string stringToWrite){
+    std::ofstream outf(fileName);
     if (outf){
-        outf << stringToWrite << std::endl;
+        outf << stringToWrite;
         outf.close();
     }
     else{

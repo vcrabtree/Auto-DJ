@@ -17,7 +17,7 @@ public:
      * constructor
      * @param there are only 14 given commands
      */
-    UserInterface(14);
+    UserInterface();
 
     /**
      * destructor
