@@ -5,7 +5,6 @@
 #include "TestLib.h"
 
 Playlist* generateRandomPlaylist(std::string title, float duration, int libSize ) {
-    // change to Library when Library Tests are complete
     Library *library = new Library();
     Playlist *randomPlaylist;
 
