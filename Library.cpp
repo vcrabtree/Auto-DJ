@@ -7,6 +7,7 @@
 Library::Library() {
     front = nullptr;
     end = nullptr;
+    int duration = 0;
 }
 
 Library::~Library() {
@@ -59,7 +60,7 @@ void Library::add(Song* song, int index) {
                 currPtr = currPtr->getNext();
             }
         }
-        if (index > count && currPtr == nullptr) { //TODO NOT WORKING
+        if (index > count && currPtr == nullptr) {
             throw std::out_of_range("You cannot add a song at this index: " + std::to_string(index));
         }
         currPtr = nullptr;
@@ -71,12 +72,48 @@ void Library::add(Song* song, int index) {
 }
 
 Song* Library::remove(std::string title, std::string artist) {
+    if (front == nullptr) {
+        throw std::out_of_range("Library is empty");
+    }
     LinkedNode<Song> *currPtr = front;
+//    LinkedNode<Song> *currPtrBefore = front;
     int count = 0;
     Song* songToRemove;
+    if (front->getItem()->getTitle() == title) {
+        songToRemove = front->getItem();
+        LinkedNode<Song> *currPtr = front;
+        currPtr = currPtr->getNext();
+        front = currPtr;
+        currPtr = nullptr;
+        return songToRemove;
+    }
+    if (end->getItem()->getTitle() == title) {
+        int count = 0;
+        LinkedNode<Song> *currPtr = front;
+        LinkedNode<Song> *currPtrBefore = front;
+        while (currPtr->getNext() != nullptr) {
+            currPtrBefore = currPtr;
+            currPtr = currPtr->getNext();
+            count += 1;
+        }
+        if (count != 0) {
+            songToRemove = currPtr->getItem();
+            currPtrBefore->setNext(nullptr);
+        }
+        else {
+            songToRemove = currPtr->getItem();
+            front = nullptr;
+        }
+        currPtrBefore = nullptr;
+        currPtr = nullptr;
+        return songToRemove;
+    }
     while (currPtr != nullptr) {
         count += 1;
         if (currPtr->getItem()->getTitle() == title && currPtr->getItem()->getArtist() == artist) {
+//            LinkedNode<Song> *beforeNodeToRemove = currPtrBefore;
+//            LinkedNode<Song> *nodeToRemove = currPtr;
+//            LinkedNode<Song> *afterNodeToRemove  = currPtr->getNext();
             LinkedNode<Song> *beforeNodeToRemove = currPtr;
             LinkedNode<Song> *nodeToRemove = beforeNodeToRemove->getNext();
             LinkedNode<Song> *afterNodeToRemove  = nodeToRemove->getNext();
@@ -86,11 +123,19 @@ Song* Library::remove(std::string title, std::string artist) {
             beforeNodeToRemove = nullptr;
             afterNodeToRemove = nullptr;
             currPtr = nullptr;
+            //currPtrBefore = nullptr;
             duration = duration - songToRemove->getDuration();
             return songToRemove;
         }
         else {
             currPtr = currPtr->getNext();
+//            if (currPtr == front) {
+//                currPtr = currPtr->getNext();
+//            }
+//            else {
+//                currPtr = currPtr->getNext();
+//                currPtrBefore = currPtr->getNext();
+//            }
         }
     }
     currPtr = nullptr;
@@ -130,6 +175,7 @@ void Library::clear() {
         front = front->getNext();
         delete tempNode;
     }
+    duration = 0;
     front = nullptr;
     end = nullptr;
 }
