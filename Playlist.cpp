@@ -57,9 +57,10 @@ Song* Playlist::remove(std::string title, std::string artist) {
             currNode->setNext(nextNode->getNext());
             delete nextNode;
             decrease(song->getDuration());
+
+            song->remove(this);
         }
     }
-    song->remove(this);
 
     return song;
 }
