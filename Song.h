@@ -2,6 +2,9 @@
 #define SONG_H
 
 #include <iostream>
+#include "LinkedNode.h"
+
+class Playlist;
 
 class Song {
     private:
@@ -9,6 +12,10 @@ class Song {
         std::string title;
         float duration;
         int playCount;
+        Playlist *lastSibling;
+        LinkedNode<Playlist> *playlistsHead, *playlistsTail;
+        void removeFromFront();
+        void removeFromEnd();
 
     public:
         Song(std::string newTitle, std::string newArtist, float newDuration);
@@ -23,6 +30,9 @@ class Song {
         void setPlayCount(int newPlayCount);
         int getPlayCount();
         std::string toString();
+        void add(Playlist *playlist);
+        void remove(Playlist *playlist);
+        LinkedNode<Playlist>* getExistingPlaylists();
 };
 
 #endif

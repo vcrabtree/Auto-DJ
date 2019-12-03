@@ -28,6 +28,8 @@ void Playlist::add(Song *song, int index){
         tail->setNext(newNode);
         tail = newNode;
     }
+    song->add(this);
+
     duration += song->getDuration();
     length++;
 }
@@ -55,6 +57,8 @@ Song* Playlist::remove(std::string title, std::string artist) {
             currNode->setNext(nextNode->getNext());
             delete nextNode;
             decrease(song->getDuration());
+
+            song->remove(this);
         }
     }
 
