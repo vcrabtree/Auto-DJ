@@ -10,9 +10,10 @@
 
 class Library : public ArrayList {
 private:
-    int* arrayList;
+    Song* arrayList;
     int currItemCount;
     int currCapacity;
+    int duration;
 
     void doubleCapacity();
 

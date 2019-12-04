@@ -10,7 +10,7 @@
 
 class ArrayList : public List {
 private:
-    int* arrayList;
+    Song* arrayList;
     int currItemCount;
     int currCapacity;
 
