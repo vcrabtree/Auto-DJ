@@ -5,22 +5,24 @@
 #ifndef AUTO_DJ_LIBRARY_H
 #define AUTO_DJ_LIBRARY_H
 
-#include "List.h"
+#include "ArrayList.h"
 #include "Song.h"
-#include "LinkedNode.h"
 
-class Library : public List {
+class Library : public ArrayList {
 private:
-    LinkedNode<Song> *front;
-    LinkedNode<Song> *end;
-    float duration;
+    Song* arrayList;
+    int currItemCount;
+    int currCapacity;
+    int duration;
+
+    void doubleCapacity();
 
 public:
-    Library();
+    Library(int initialCapacity);
 
     ~Library();
 
-    void add(Song* song, int index);
+    void add(Song* song);
 
     Song* remove(std::string title, std::string artist);
 
@@ -35,5 +37,7 @@ public:
     float getDuration();
 
     int find(std::string title, std::string artist);
+
+    std::string toString();
 };
 #endif //AUTO_DJ_LIBRARY_H
