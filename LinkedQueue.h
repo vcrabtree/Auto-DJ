@@ -26,6 +26,9 @@ template <class T> class LinkedQueue: public Queue<T> {
         bool isEmpty();
 
         std::string toString();
+
+        int find(std::string title, std::string artist);
+
 };
 
 #include "LinkedQueue.inl"

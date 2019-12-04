@@ -80,6 +80,16 @@ bool LinkedQueue<T>::matches(T *item, std::string title, std::string artist) {
 }
 
 template <class T>
+void LinkedQueue<T>::empty() {
+    while(!isEmpty()) dequeue(); 
+}
+
+
+template <class T>
+bool LinkedQueue<T>::isEmpty() { return !head; }
+
+
+template <class T>
 std::string LinkedQueue<T>::toString()  {
     LinkedNode<T> *currNode = head;
     std::string itemsString = "";
@@ -92,11 +102,18 @@ std::string LinkedQueue<T>::toString()  {
 }
 
 template <class T>
-void LinkedQueue<T>::empty() {
-    while(!isEmpty()) dequeue(); 
+int LinkedQueue<T>::find(std::string title, std::string artist) {
+    LinkedNode<T> *currNode = head;
+    T* item;
+    int index = 0, indexFound = -1;
+
+    while (currNode && indexFound == -1) {
+        item = currNode->getItem();
+
+        if (matches(item, title, artist)) indexFound = index;
+
+        currNode = currNode->getNext();
+        index++;
+    }
+    return indexFound;
 }
-
-
-template <class T>
-bool LinkedQueue<T>::isEmpty() { return !head; }
-
