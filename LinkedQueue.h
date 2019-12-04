@@ -24,6 +24,8 @@ template <class T> class LinkedQueue: public Queue<T> {
         void empty();
 
         bool isEmpty();
+
+        std::string toString();
 };
 
 #include "LinkedQueue.inl"

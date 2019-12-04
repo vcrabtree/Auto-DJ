@@ -80,6 +80,18 @@ bool LinkedQueue<T>::matches(T *item, std::string title, std::string artist) {
 }
 
 template <class T>
+std::string LinkedQueue<T>::toString()  {
+    LinkedNode<T> *currNode = head;
+    std::string itemsString = "";
+
+    while (currNode) {
+        itemsString += currNode->getItem()->toString()+"\n\n";
+        currNode = currNode->getNext();
+    }
+    return itemsString;
+}
+
+template <class T>
 void LinkedQueue<T>::empty() {
     while(!isEmpty()) dequeue(); 
 }
