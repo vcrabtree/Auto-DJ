@@ -4,158 +4,38 @@ Playlist::Playlist(std::string newTitle) {
     initializeProperties(newTitle);
 }
 
-Playlist::Playlist(std::string newTitle, float newDuration, List& songs) {
+Playlist::Playlist(std::string newTitle, float newDuration, Library& songs) {
     initializeProperties(newTitle);
     newRandom(newDuration, songs);
 }
 
 Playlist::~Playlist() { clear(); }
 
-Playlist::Playlist(const Playlist& playlistToCopy) { copy(playlistToCopy); }
-
-Playlist& Playlist::operator=(const Playlist& playlistToCopy) {
-    copy(playlistToCopy);
-    return *this;
-}
-
 void Playlist::add(Song *song, int index){
-    if (find(song->getTitle(), song->getArtist()) != -1) 
-        throw std::invalid_argument("duplicate songs are not allowed");
-
-    if (isEmpty()) head = tail = new LinkedNode<Song>(*song);
-    else {
-        LinkedNode<Song> *newNode = new LinkedNode<Song>(*song);
-        tail->setNext(newNode);
-        tail = newNode;
-    }
-    song->add(this);
-
+    songs->enqueue(song);
     duration += song->getDuration();
     length++;
 }
 
-Song* Playlist::remove(std::string title, std::string artist) {
-    if (isEmpty()) throw std::out_of_range("playlist is empty");
-
-    Song* song;
-    std::string  firstTitle = head->getItem()->getTitle(),
-                 lastTitle = tail->getItem()->getTitle();
-
-    if (firstTitle == title) song = removeFromFront();
-    else if (lastTitle == title) song = removeFromEnd();
-    else {
-        LinkedNode<Song> *currNode = head, *nextNode = head->getNext();
-        song = nextNode->getItem();
-        while (nextNode && song->getTitle() != title && song->getArtist() != artist) {
-            currNode = nextNode;
-            nextNode = nextNode->getNext();
-        }
-
-        if (!nextNode) song = nullptr;
-        else {
-            song = nextNode->getItem();
-            currNode->setNext(nextNode->getNext());
-            delete nextNode;
-            decrease(song->getDuration());
-
-            song->remove(this);
-        }
-    }
-
-    return song;
-}
-
-Song* Playlist::removeFromFront() {
-    Song *song = head->getItem();
-    LinkedNode<Song> *prevHead = head;
-
-    delete prevHead;
-    head = head->getNext();
+Song* Playlist::remove(std::string title, std::string artist) { 
+    Song *song = songs->remove(title, artist); 
     decrease(song->getDuration());
-
     return song;
 }
 
-Song* Playlist::removeFromEnd() {
-    LinkedNode<Song> *currNode = head, *nextNode = head->getNext();
-    Song *song = tail->getItem();
+int Playlist::find(std::string title, std::string artist) { return songs->find(title, artist); }
 
-    while (currNode->getNext() && nextNode->getNext()) {
-        currNode = currNode->getNext();
-        nextNode = nextNode->getNext();
-    }
-    delete nextNode;
-    currNode->setNext(nullptr);
-    tail = currNode;
-    decrease(song->getDuration());
-
-    return song;
-}
-
-int Playlist::find(std::string title, std::string artist) {
-    LinkedNode<Song> *currNode = head;
-    Song* song;
-    int index = 0, indexFound = -1;
-
-    while (index < length && indexFound == -1) {
-        song = currNode->getItem();
-
-        if (song->getTitle() == title && song->getArtist() == artist) 
-            indexFound = index;
-
-        currNode = currNode->getNext();
-        index++;
-    }
-    return indexFound;
-}
-
-Song* Playlist::getSongAt(int index) {
-    if (isEmpty()) throw std::out_of_range("playlist is empty");
-    if (index >= length || index < 0) throw std::out_of_range("invalid index");
-
-    if (index == 0) return head->getItem();
-    else if (index == length-1) return tail->getItem();
-    else {
-        LinkedNode<Song> *currNode = head;
-        int i = 0;
-
-        while (i < index) {
-            currNode = currNode->getNext();
-            i++;
-        }
-        if (currNode) return currNode->getItem();
-        else return nullptr;
-    }
-}
+std::string Playlist::toString() { return songs->toString(); }
 
 Song* Playlist::playNext() {
     if (isEmpty()) throw std::out_of_range("playlist is empty");
-    Song *song = removeFromFront();
+    Song *song = songs->dequeue();
     (*song)++;
     return song;
 }
 
-std::string Playlist::toString() {
-    LinkedNode<Song> *currNode = head;
-    std::string playlistString = "";
-
-    while (currNode) {
-        playlistString += currNode->getItem()->toString()+"\n\n";
-        currNode = currNode->getNext();
-    }
-    return playlistString;
-}
-
-void Playlist::copy(const Playlist& playlistToCopy) {
-    LinkedNode<Song> *currNode = playlistToCopy.head;
-    while (length != playlistToCopy.length) {
-        add(currNode->getItem());
-        currNode = currNode->getNext();
-    }
-}
-
 void Playlist::clear() {
-    while (!isEmpty()) removeFromFront();
+    while (!isEmpty()) songs->dequeue();
     duration = 0.0f;
     length = 0;
 }
@@ -166,15 +46,15 @@ void Playlist::decrease(float songDuration) {
 }
 
 void Playlist::initializeProperties(std::string newTitle) {
-    head = tail = nullptr;
+    songs = new LinkedQueue();
     title = newTitle;
     duration = 0.0;
     length = 0;
 }
 
-void Playlist::newRandom(float newDuration, List& songs) {
+void Playlist::newRandom(float newDuration, Library& library) {
     if (newDuration <= 0) throw std::invalid_argument("invalid duration");
-    int listLength = songs.getLength(), 
+    int listLength = library.getLength(), 
         index = 0, 
         randIdx,
         *selected = new int[listLength]{0};
@@ -187,7 +67,7 @@ void Playlist::newRandom(float newDuration, List& songs) {
         while (selected[randIdx]) randIdx = rand() % listLength;
         selected[randIdx] = 1;
 
-        song = songs.getSongAt(randIdx);
+        song = library.getSongAt(randIdx);
         currDuration = song->getDuration();
 
         if ((currDuration + sum) <= newDuration) {
