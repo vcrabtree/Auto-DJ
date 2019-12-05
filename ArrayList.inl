@@ -59,16 +59,8 @@ T* ArrayList<T>::remove(std::string title, std::string artist) {
             arrayList[i] = arrayList[i + 1];
         }
         currItemCount--;
-<<<<<<< HEAD:ArrayList.cpp
-        return songToRemove;
-    } else throw std::out_of_range ("There is no song with this title and artist");
-||||||| merged common ancestors
-        return songToRemove;
-    } else throw std::out_of_range ("There is no song at this index");
-=======
         return itemToRemove;
     } else throw std::out_of_range ("There is no item at this index");
->>>>>>> list-fixes:ArrayList.inl
 }
 
 template <class T>
