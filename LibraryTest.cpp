@@ -111,7 +111,7 @@ void removeTest(Library* testLibrary) { //TODO
         testLibrary->remove("Last Christmas", "Glee");
         std::cout << "\nFailed, remove did not throw exception";
     }
-    catch (std::invalid_argument &e) {
+    catch (std::out_of_range &e) {
         std::cout << "\nPassed";
     }
 }
@@ -211,15 +211,15 @@ void findTest(Library* testLibrary) {
 
 void runAllLibraryTests() {
     Library* testLibrary = new Library(10);
-    addAndGetSongAtTest(testLibrary); //ERROR
-    testLibrary->clear(); //ERROR
+    addAndGetSongAtTest(testLibrary); 
+    testLibrary->clear(); 
     removeTest(testLibrary);
     testLibrary->clear();
-    isEmptyAndClearTest(testLibrary); //ERROR
+    isEmptyAndClearTest(testLibrary); 
     testLibrary->clear();
-    getLengthAndDurationTest(testLibrary); //ERROR
+    getLengthAndDurationTest(testLibrary); 
     testLibrary->clear();
-    findTest(testLibrary); //ERROR
+    findTest(testLibrary); 
     delete testLibrary;
 }
 
