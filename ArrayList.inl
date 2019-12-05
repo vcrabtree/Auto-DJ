@@ -26,7 +26,7 @@ ArrayList<T>::~ArrayList() {
 template <class T>
 void ArrayList<T>::doubleCapacity() {
     int newCapacity = currCapacity * 2;
-    Song **newArray = new T*[newCapacity];
+    T **newArray = new T*[newCapacity];
     for (int i = 0; i < currCapacity; i ++) {
         newArray[i] = arrayList[i];
     }

@@ -29,6 +29,7 @@ class Playlist {
         int getLength();
         float getDuration();
         std::string getTitle();
+        std::string getArtist();
         int find(std::string title, std::string artist);
         Song* playNext();
         std::string toString();

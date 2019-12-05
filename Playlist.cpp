@@ -88,3 +88,7 @@ int Playlist::getLength() { return length; }
 float Playlist::getDuration() { return duration; }
 
 std::string Playlist::getTitle() { return title; }
+
+std::string Playlist::getArtist() { return ""; }
+
+

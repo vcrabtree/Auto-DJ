@@ -15,7 +15,7 @@ private:
     int currCapacity;
     int duration;
 
-    bool matches(T *item, std::string title, std::string artist="");
+    bool matches(T *item, std::string title, std::string artist);
 
     void doubleCapacity();
 
