@@ -8,9 +8,10 @@
 #include "ArrayList.h"
 #include "Song.h"
 
-class Library : public ArrayList {
+class Library {
 private:
-    ArrayList libraryList;
+    ArrayList *libraryList;
+    float duration;
 
 public:
     Library(int initialCapacity);

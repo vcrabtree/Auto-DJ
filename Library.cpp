@@ -5,50 +5,52 @@
 #include "Library.h"
 
 Library::Library(int initialCapacity) {
-    ArrayList libraryList = new ArrayList(initialCapacity);
+    libraryList = new ArrayList(initialCapacity);
+    duration = 0.0f;
 }
 
 Library::~Library() {
     delete[] libraryList;
 }
 
-void Library::doubleCapacity() {
-    libraryList.doubleCapacity();
-}
-
 void Library::add(Song* song) { //Currently inserts at the end
-    libraryList.add(song);
+    libraryList->add(song);
+    duration += song->getDuration();
 }
 
 Song* Library::remove(std::string title, std::string artist) {
-    return libraryList.remove(title, artist);
+    return libraryList->remove(title, artist);
 }
 
 Song* Library::getSongAt(int index) {
-    return libraryList.getSongAt(index);
+    return libraryList->getSongAt(index);
 }
 
 bool Library::isEmpty() {
-    return libraryList.isEmpty();
+    return libraryList->isEmpty();
 }
 
 void Library::clear() {
-    libraryList.clear();
+    libraryList->clear();
 }
 
 int Library::getLength() {
-    return libraryList.getLength();
+    return libraryList->getLength();
 }
 
 float Library::getDuration() {
-    return libraryList.getDuration();
+    return duration;
 }
 
 int Library::find(std::string title, std::string artist) {
-    return libraryList.find(title, artist);
+    return libraryList->find(title, artist);
 }
 
 std::string Library::toString() {
-    return libraryList.toString();
+    std::string libraryString = "";
+    for (int i = 0; i < libraryList->getLength(); i++) {
+        libraryString += libraryList->getSongAt(i)->toString() + "\n\n";
+    }
+    return libraryString;
 }
 

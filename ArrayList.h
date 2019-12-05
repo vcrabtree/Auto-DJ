@@ -10,7 +10,7 @@
 
 class ArrayList : public List {
 private:
-    Song* arrayList;
+    Song **arrayList;
     int currItemCount;
     int currCapacity;
     int duration;
@@ -32,13 +32,9 @@ public:
 
     int getLength();
 
-    float getDuration();
-
     int find(std::string title, std::string artist);
 
     Song* getSongAt(int index);
-
-    std::string toString();
 };
 
 #endif //AUTO_DJ_ARRAYLIST_H
