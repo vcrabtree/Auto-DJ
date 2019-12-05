@@ -10,7 +10,7 @@ Library::Library(int initialCapacity) {
 }
 
 Library::~Library() {
-    delete[] libraryList;
+    delete libraryList;
 }
 
 void Library::sortLibrary() {
