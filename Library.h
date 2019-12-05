@@ -13,6 +13,8 @@ private:
     ArrayList *libraryList;
     float duration;
 
+    void sortLibrary();
+
 public:
     Library(int initialCapacity);
 

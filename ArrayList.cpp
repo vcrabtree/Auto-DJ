@@ -55,7 +55,7 @@ Song* ArrayList::remove(std::string title, std::string artist) {
         }
         currItemCount--;
         return songToRemove;
-    } else throw std::out_of_range ("There is no song at this index");
+    } else throw std::out_of_range ("There is no song with this title and artist");
 }
 
 Song* ArrayList::getSongAt(int index) {

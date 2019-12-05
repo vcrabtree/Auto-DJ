@@ -13,6 +13,10 @@ Library::~Library() {
     delete[] libraryList;
 }
 
+void Library::sortLibrary() {
+    //TODO
+}
+
 void Library::add(Song* song) { //Currently inserts at the end
     libraryList->add(song);
     duration += song->getDuration();
@@ -31,6 +35,7 @@ bool Library::isEmpty() {
 }
 
 void Library::clear() {
+    duration = 0;
     libraryList->clear();
 }
 
