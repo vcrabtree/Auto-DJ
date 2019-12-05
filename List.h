@@ -9,7 +9,7 @@
 #include <string>
 #include "Song.h"
 
-class List {
+template <typename T> class List {
 public:
     List() {}
 
@@ -19,9 +19,9 @@ public:
 
     virtual List& operator=(const List& listToCopy) {}
 
-    virtual void add(Song* song) = 0;
+    virtual void add(T* item) = 0;
 
-    virtual Song* remove(std::string title, std::string artist) = 0;
+    virtual T* remove(std::string title, std::string artist="") = 0;
 
     virtual bool isEmpty() = 0;
 
@@ -29,9 +29,9 @@ public:
 
     virtual int getLength() = 0;
 
-    virtual int find(std::string title, std::string artist) = 0;
+    virtual int find(std::string title, std::string artist="") = 0;
 
-    virtual Song* getSongAt(int index) = 0;
+    virtual T* getItemAt(int index) = 0;
 };
 
 #endif //AUTO_DJ_LIST_H
