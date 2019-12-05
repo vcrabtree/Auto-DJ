@@ -4,111 +4,51 @@
 
 #include "Library.h"
 
-Library::Library() {
-    if (initialCapacity >= 1) {
-        this->arrayList = new Song[initialCapacity];
-        this->currItemCount = 0;
-        this->currCapacity = initialCapacity;
-        int duration = 0;
-    }
-    else {
-        throw std::invalid_argument("Library Capacity cannot be less than 1");
-    }
+Library::Library(int initialCapacity) {
+    ArrayList libraryList = new ArrayList(initialCapacity);
 }
 
 Library::~Library() {
-    delete[] arrayList;
+    delete[] libraryList;
 }
 
-void ArrayList::doubleCapacity() {
-    int newCapacity = currCapacity * 2;
-    Song* newArray = new Song[newCapacity];
-    for (int i = 0; i < currCapacity; i ++) {
-        newArray[i] = arrayList[i];
-    }
-    delete[] arrayList;
-    arrayList = newArray;
-    currCapacity = newCapacity;
+void Library::doubleCapacity() {
+    libraryList.doubleCapacity();
 }
 
 void Library::add(Song* song) { //Currently inserts at the end
-    if (currItemCount < currCapacity) {
-        arrayList[currItemCount] = *song;
-        currItemCount++;
-        duration = duration + song->getDuration();
-    }
-    else {
-        doubleCapacity();
-        arrayList[currItemCount] = *song;
-        currItemCount++;
-        duration = duration + song->getDuration();
-    }
+    libraryList.add(song);
 }
 
 Song* Library::remove(std::string title, std::string artist) {
-    if (currItemCount <= 0) {
-        throw std::out_of_range ("There are no items in this library");
-    }
-    else {
-        int songToRemoveIndex = find(title, artist);
-        Song* songToRemove = arrayList[songToRemoveIndex];
-        for (int i = songToRemoveIndex; i <= currItemCount; i++) {
-            arrayList[i] = arrayList[i + 1];
-        }
-        currItemCount--;
-        duration = duration - songToRemove->getDuration();
-        return songToRemove;
-    }
+    return libraryList.remove(title, artist);
 }
 
 Song* Library::getSongAt(int index) {
-    if (index < 0) {
-        throw std::out_of_range ("There is no song at this index");
-    }
-    else if (index < currItemCount) {
-        return *arrayList[index];
-    }
-    else {
-        throw std::out_of_range ("There is no song at this index");
-    }
+    return libraryList.getSongAt(index);
 }
 
 bool Library::isEmpty() {
-    if (currItemCount == 0) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return libraryList.isEmpty();
 }
 
 void Library::clear() {
-    currItemCount = 0;
+    libraryList.clear();
 }
 
 int Library::getLength() {
-    return currItemCount;
+    return libraryList.getLength();
 }
 
 float Library::getDuration() {
-    return duration;
+    return libraryList.getDuration();
 }
 
 int Library::find(std::string title, std::string artist) {
-    for (int i = 0; i < currItemCount; i++) {
-        if (arrayList[i].getTitle() == title && arrayList[i].getArtist() == artist) {
-            return i;
-        }
-    }
-    return -1;
+    return libraryList.find(title, artist);
 }
 
 std::string Library::toString() {
-    std::string libraryString;
-    for (int i = 0; i < currItemCount; i++) {
-        libraryString = libraryString + (arrayList[i].getTitle()) + " by "
-                + (arrayList[i].getArtist()) + "\n";
-    }
-    return libraryString;
+    return libraryList.toString();
 }
 
