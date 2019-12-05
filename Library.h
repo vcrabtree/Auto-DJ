@@ -10,7 +10,7 @@
 
 class Library {
 private:
-    ArrayList *libraryList;
+    ArrayList<Song> *libraryList;
     float duration;
 
 public:
