@@ -19,7 +19,7 @@ public:
 
     virtual List& operator=(const List& listToCopy) {}
 
-    virtual void add(Song* song, int index=-1) = 0;
+    virtual void add(Song* song) = 0;
 
     virtual Song* remove(std::string title, std::string artist) = 0;
 

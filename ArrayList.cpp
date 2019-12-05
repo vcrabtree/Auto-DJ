@@ -6,7 +6,7 @@
 
 ArrayList::ArrayList(int initialCapacity) {
     if (initialCapacity >= 1) {
-        this->arrayList = new int[initialCapacity];
+        this->arrayList = new Song[initialCapacity];
         this->currItemCount = 0;
         this->currCapacity = initialCapacity;
         int duration = 0;
@@ -22,7 +22,7 @@ ArrayList::~ArrayList() {
 
 void ArrayList::doubleCapacity() {
     int newCapacity = currCapacity * 2;
-    Song* newArray = new int[newCapacity];
+    Song* newArray = new Song[newCapacity];
     for (int i = 0; i < currCapacity; i ++) {
         newArray[i] = arrayList[i];
     }
@@ -48,17 +48,16 @@ void ArrayList::add(Song* song) { //Currently inserts at the end
 Song* ArrayList::remove(std::string title, std::string artist) {
     if (currItemCount <= 0) {
         throw std::out_of_range ("There are no items in this array list");
-    }
-    else {
+    } else if (find(title, artist)) {
         int songToRemoveIndex = find(title, artist);
-        Song* songToRemove = arrayList[songToRemoveIndex];
+        Song* songToRemove = &(arrayList[songToRemoveIndex]);
         for (int i = songToRemoveIndex; i <= currItemCount; i++) {
             arrayList[i] = arrayList[i + 1];
         }
         currItemCount--;
         duration = duration - songToRemove->getDuration();
         return songToRemove;
-    }
+    } else throw std::out_of_range ("There is no song at this index");
 }
 
 Song* ArrayList::getSongAt(int index) {
@@ -66,7 +65,7 @@ Song* ArrayList::getSongAt(int index) {
         throw std::out_of_range ("There is no song at this index");
     }
     else if (index < currItemCount) {
-        return *arrayList[index];
+        return &arrayList[index];
     }
     else {
         throw std::out_of_range ("There is no song at this index");
