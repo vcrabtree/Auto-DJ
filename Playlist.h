@@ -7,9 +7,9 @@
 #include "Song.h"
 #include <iostream>
 
-class Playlist: public LinkedQueue<Song> {
+class Playlist {
     private:
-        LinkedQueue *songs;
+        LinkedQueue<Song> *songs;
         std::string title;
         float duration;
         int length;

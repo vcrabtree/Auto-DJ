@@ -46,7 +46,7 @@ void Playlist::decrease(float songDuration) {
 }
 
 void Playlist::initializeProperties(std::string newTitle) {
-    songs = new LinkedQueue();
+    songs = new LinkedQueue<Song>();
     title = newTitle;
     duration = 0.0;
     length = 0;
