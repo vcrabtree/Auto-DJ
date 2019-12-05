@@ -8,9 +8,9 @@
 #include <string>
 #include "List.h"
 
-class ArrayList : public List {
+template <class T> class ArrayList : public List<T> {
 private:
-    Song **arrayList;
+    T **arrayList;
     int currItemCount;
     int currCapacity;
     int duration;
@@ -22,9 +22,9 @@ public:
 
     ~ArrayList();
 
-    void add(Song* song);
+    void add(T* item);
 
-    Song* remove(std::string title, std::string artist);
+    T* remove(std::string title, std::string artist="");
 
     bool isEmpty();
 
@@ -32,9 +32,11 @@ public:
 
     int getLength();
 
-    int find(std::string title, std::string artist);
+    int find(std::string title, std::string artist="");
 
-    Song* getSongAt(int index);
+    T* getItemAt(int index);
 };
+
+#include "ArrayList.inl"
 
 #endif //AUTO_DJ_ARRAYLIST_H
