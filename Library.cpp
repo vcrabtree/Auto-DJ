@@ -5,7 +5,7 @@
 #include "Library.h"
 
 Library::Library(int initialCapacity) {
-    libraryList = new ArrayList(initialCapacity);
+    libraryList = new ArrayList<Song>(initialCapacity);
     duration = 0.0f;
 }
 
@@ -27,7 +27,7 @@ Song* Library::remove(std::string title, std::string artist) {
 }
 
 Song* Library::getSongAt(int index) {
-    return libraryList->getSongAt(index);
+    return libraryList->getItemAt(index);
 }
 
 bool Library::isEmpty() {
@@ -54,7 +54,7 @@ int Library::find(std::string title, std::string artist) {
 std::string Library::toString() {
     std::string libraryString = "";
     for (int i = 0; i < libraryList->getLength(); i++) {
-        libraryString += libraryList->getSongAt(i)->toString() + "\n\n";
+        libraryString += libraryList->getItemAt(i)->toString() + "\n\n";
     }
     return libraryString;
 }
