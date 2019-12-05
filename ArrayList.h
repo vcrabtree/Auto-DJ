@@ -13,6 +13,7 @@ private:
     Song* arrayList;
     int currItemCount;
     int currCapacity;
+    int duration;
 
     void doubleCapacity();
 
@@ -21,21 +22,23 @@ public:
 
     ~ArrayList();
 
-    virtual void add(Song* song, int index=-1) = 0;
+    void add(Song* song);
 
-    virtual Song* remove(std::string title, std::string artist) = 0;
+    Song* remove(std::string title, std::string artist);
 
-    virtual bool isEmpty() = 0;
+    bool isEmpty();
 
-    virtual void clear() = 0;
+    void clear();
 
-    virtual int getLength() = 0;
+    int getLength();
 
-    virtual int find(std::string title, std::string artist) = 0;
+    float getDuration();
 
-    virtual Song* getSongAt(int index) = 0;
+    int find(std::string title, std::string artist);
 
-    virtual std::string toString() = 0;
+    Song* getSongAt(int index);
+
+    std::string toString();
 };
 
 #endif //AUTO_DJ_ARRAYLIST_H
