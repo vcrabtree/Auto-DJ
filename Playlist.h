@@ -12,7 +12,6 @@ class Playlist {
         LinkedQueue<Song> *songs;
         std::string title;
         float duration;
-        int length;
         void decrease(float duration);
         void initializeProperties(std::string newTitle);
         void newRandom(float duration, Library& library);

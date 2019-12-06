@@ -14,12 +14,11 @@ Playlist::~Playlist() { clear(); }
 void Playlist::add(Song *song, int index){
     songs->enqueue(song);
     duration += song->getDuration();
-    length++;
 }
 
 Song* Playlist::remove(std::string title, std::string artist) { 
     Song *song = songs->remove(title, artist); 
-    decrease(song->getDuration());
+    duration -= song->getDuration();
     return song;
 }
 
@@ -37,19 +36,12 @@ Song* Playlist::playNext() {
 void Playlist::clear() {
     while (!isEmpty()) songs->dequeue();
     duration = 0.0f;
-    length = 0;
-}
-
-void Playlist::decrease(float songDuration) {
-    length--;
-    duration -= songDuration;
 }
 
 void Playlist::initializeProperties(std::string newTitle) {
     songs = new LinkedQueue<Song>();
     title = newTitle;
     duration = 0.0;
-    length = 0;
 }
 
 void Playlist::newRandom(float newDuration, Library& library) {
@@ -81,9 +73,9 @@ void Playlist::newRandom(float newDuration, Library& library) {
     selected = nullptr;
 }
 
-bool Playlist::isEmpty() { return !length; }
+bool Playlist::isEmpty() { return songs->isEmpty(); }
 
-int Playlist::getLength() { return length; }
+int Playlist::getLength() { return songs->getLength(); }
 
 float Playlist::getDuration() { return duration; }
 
