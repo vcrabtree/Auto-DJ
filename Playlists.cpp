@@ -12,12 +12,12 @@ Playlist* Playlists::remove(std::string title) { return playlistList->remove(tit
 
 int Playlists::find(std::string title) { return playlistList->find(title); }
 
-std::string Playlists::displayPlaylist(std::string title) { 
+std::string Playlists::playlistString(std::string title) { 
     int index = playlistList->find(title);
     return playlistList->getItemAt(index)->toString(); 
 }
 
-std::string Playlists::displayAllPlaylists() {
+std::string Playlists::allPlaylistsString() {
     std::string playlistsString = "";
     Playlist* playlist;
     for (int i = 0; i < playlistList->getLength(); i++) {

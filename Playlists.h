@@ -18,8 +18,8 @@ class Playlists {
         void clear();
         int getLength();
         int find(std::string title);
-        std::string displayPlaylist(std::string title);
-        std::string displayAllPlaylists();
+        std::string playlistString(std::string title);
+        std::string allPlaylistsString();
 };
 
 #endif
