@@ -36,6 +36,8 @@ public:
 
     int find(std::string title, std::string artist);
 
+    std::string findByArtist(std::string artist);
+
     std::string toString();
 };
 #endif //AUTO_DJ_LIBRARY_H

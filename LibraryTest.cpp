@@ -209,22 +209,60 @@ void findTest(Library* testLibrary) {
     }
 }
 
+void findByArtistTest(Library* testLibrary) {
+    std::cout << "\nfindByArtist Test: ";
+    Song *song1 = new Song("Our Song", "Taylor Swift", 3.35);
+    Song *song2 = new Song("Hey Stephen", "Taylor Swift", 4.23);
+    Song *song3 = new Song("Burnin' Up", "Jonas Brothers", 2.92);
+    Song *song4 = new Song("Mean", "Taylor Swift", 3.96);
+    Song *song5 = new Song("Girlfriend", "Avril Lavigne", 3.6);
+    testLibrary->add(song1);
+    testLibrary->add(song2);
+    testLibrary->add(song3);
+    testLibrary->add(song4);
+    testLibrary->add(song5);
+    if (testLibrary->findByArtist(song1->getArtist()) == "Our Song\nHey Stephen\nMean\n") {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, returned\n" << testLibrary->findByArtist(song1->getArtist()) <<
+                  "instead of \nOur Song\nHey Stephen\nMean";
+    }
+    if (testLibrary->findByArtist(song3->getArtist()) == "Burnin' Up\n") {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, returned\n" << testLibrary->findByArtist(song3->getArtist()) <<
+                  "instead of Burnin' Up";
+    }
+    if (testLibrary->findByArtist(song5->getArtist()) == "Girlfriend\n") {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, returned\n" << testLibrary->findByArtist(song5->getArtist()) <<
+                  "instead of Girlfriend";
+    }
+}
+
 void runAllLibraryTests() {
     Library* testLibrary = new Library(10);
-    addAndGetSongAtTest(testLibrary); 
-    testLibrary->clear(); 
+    addAndGetSongAtTest(testLibrary);
+    testLibrary->clear();
     removeTest(testLibrary);
     testLibrary->clear();
     isEmptyAndClearTest(testLibrary); 
     testLibrary->clear();
     getLengthAndDurationTest(testLibrary); 
     testLibrary->clear();
-    findTest(testLibrary); 
+    findTest(testLibrary);
+    testLibrary->clear();
+    findByArtistTest(testLibrary);
     delete testLibrary;
 }
 
 int main(){
     std::cout << "\n\n======================= Library Tests ===========================\n\n" << std::endl;
     runAllLibraryTests();
+    std::cout << "\n\n======================= Done ===========================\n\n" << std::endl;
     return 0;
 }
