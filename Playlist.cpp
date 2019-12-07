@@ -41,7 +41,7 @@ void Playlist::clear() {
 void Playlist::initializeProperties(std::string newTitle) {
     songs = new LinkedQueue<Song>();
     title = newTitle;
-    duration = 0.0;
+    duration = 0.0f;
 }
 
 void Playlist::newRandom(float newDuration, Library& library) {
