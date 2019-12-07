@@ -1,29 +1,25 @@
 #ifndef PLAYLISTS_H
 #define PLAYLISTS_H
 
-#include "PlaylistList.h"
+#include "ArrayList.h"
+#include "Playlist.h"
 
-class Playlists: public PlaylistList {
+class Playlists {
     private:
-        LinkedNode<Playlist> *head, *tail;
-        int length;
-
-        Playlist* removeFromFront();
-        Playlist* removeFromEnd();
+        ArrayList<Playlist> *playlistList;
 
     public:
-        Playlists();
+        Playlists(int initialCapacity);
         ~Playlists();
 
-        void add(Playlist* song, int index);
+        void add(Playlist* playlist);
         Playlist* remove(std::string title);
         bool isEmpty();
         void clear();
         int getLength();
-        Playlist* getPlaylistAt(int index);
-        int find(std::string searchKey);
-        std::string toString();
-        std::string displayPlaylist(std::string title);
+        int find(std::string title);
+        std::string playlistString(std::string title);
+        std::string allPlaylistsString();
 };
 
 #endif

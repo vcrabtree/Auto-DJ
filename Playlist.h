@@ -1,31 +1,26 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include "List.h"
+#include "LinkedQueue.h"
 #include "LinkedNode.h"
+#include "Library.h"
 #include "Song.h"
 #include <iostream>
 
-class Playlist: public List {
+class Playlist {
     private:
-        LinkedNode<Song> *head, *tail;
+        LinkedQueue<Song> *songs;
         std::string title;
         float duration;
         int length;
-
-        Song* removeFromFront();
-        Song* removeFromEnd();
         void decrease(float duration);
-        void copy(const Playlist& playlistToCopy);
         void initializeProperties(std::string newTitle);
-        void newRandom(float duration, List& songs);
+        void newRandom(float duration, Library& library);
 
     public:
         Playlist(std::string title);
-        Playlist(std::string title, float duration, List& songs);
-        Playlist(const Playlist& playlistToCopy);
+        Playlist(std::string title, float duration, Library& library);
         ~Playlist();
-        Playlist& operator=(const Playlist& playlistToCopy);
 
         void add(Song* song, int index=-1);
         Song* remove(std::string title, std::string artist);
@@ -34,8 +29,8 @@ class Playlist: public List {
         int getLength();
         float getDuration();
         std::string getTitle();
+        std::string getArtist();
         int find(std::string title, std::string artist);
-        Song* getSongAt(int index);
         Song* playNext();
         std::string toString();
 };

@@ -14,6 +14,7 @@ class Song {
         int playCount;
 
     public:
+        Song();
         Song(std::string newTitle, std::string newArtist, float newDuration);
         Song operator++(int);
 

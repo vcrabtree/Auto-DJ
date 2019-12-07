@@ -8,11 +8,14 @@
 #include <string>
 #include "List.h"
 
-class ArrayList : public List {
+template <class T> class ArrayList : public List<T> {
 private:
-    Song* arrayList;
+    T **arrayList;
     int currItemCount;
     int currCapacity;
+    int duration;
+
+    bool matches(T *item, std::string title, std::string artist);
 
     void doubleCapacity();
 
@@ -21,21 +24,21 @@ public:
 
     ~ArrayList();
 
-    virtual void add(Song* song, int index=-1) = 0;
+    void add(T* item);
 
-    virtual Song* remove(std::string title, std::string artist) = 0;
+    T* remove(std::string title, std::string artist="");
 
-    virtual bool isEmpty() = 0;
+    bool isEmpty();
 
-    virtual void clear() = 0;
+    void clear();
 
-    virtual int getLength() = 0;
+    int getLength();
 
-    virtual int find(std::string title, std::string artist) = 0;
+    int find(std::string title, std::string artist="");
 
-    virtual Song* getSongAt(int index) = 0;
-
-    virtual std::string toString() = 0;
+    T* getItemAt(int index);
 };
+
+#include "ArrayList.inl"
 
 #endif //AUTO_DJ_ARRAYLIST_H

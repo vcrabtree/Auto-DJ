@@ -8,14 +8,12 @@
 #include "ArrayList.h"
 #include "Song.h"
 
-class Library : public ArrayList {
+class Library {
 private:
-    Song* arrayList;
-    int currItemCount;
-    int currCapacity;
-    int duration;
+    ArrayList<Song> *libraryList;
+    float duration;
 
-    void doubleCapacity();
+    void sortLibrary();
 
 public:
     Library(int initialCapacity);
@@ -37,6 +35,8 @@ public:
     float getDuration();
 
     int find(std::string title, std::string artist);
+
+    std::string findByArtist(std::string artist);
 
     std::string toString();
 };

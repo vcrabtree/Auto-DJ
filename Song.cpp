@@ -1,5 +1,7 @@
 #include "Song.h"
 
+Song::Song() {}
+
 Song::Song(std::string newTitle, std::string newArtist, float newDuration) {
     artist = newArtist;
     title = newTitle;
