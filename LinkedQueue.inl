@@ -3,6 +3,7 @@
 template <class T>
 LinkedQueue<T>::LinkedQueue() {
     head = tail = nullptr;
+    length = 0;
 }
 
 template <class T>
@@ -17,6 +18,7 @@ void LinkedQueue<T>::enqueue(T *item) {
         tail->setNext(newNode);
         tail = newNode;
     }
+    length++;
 }
 
 template <class T>
@@ -27,13 +29,14 @@ T* LinkedQueue<T>::dequeue() {
 
     if (head == tail) head = tail = nullptr;
     else head = head->getNext();
+    length--;
 
     return item;
 }
 
 template <class T>
 T* LinkedQueue<T>::remove(std::string title, std::string artist) {
-    if (isEmpty()) throw std::out_of_range("playlist is empty");
+    if (isEmpty()) throw std::out_of_range("queue is empty");
 
     T *headItem = head->getItem(), *tailItem = tail->getItem();
     T *item;
@@ -53,6 +56,7 @@ T* LinkedQueue<T>::remove(std::string title, std::string artist) {
         if (nextNode) {
             currNode->setNext(nextNode->getNext());
             delete nextNode;
+            length--;
         } else item = nullptr;
     }
     return item;
@@ -70,6 +74,7 @@ T* LinkedQueue<T>::removeFromEnd() {
     delete nextNode;
     currNode->setNext(nullptr);
     tail = currNode;
+    length--;
     return t;
 }
 
@@ -117,3 +122,6 @@ int LinkedQueue<T>::find(std::string title, std::string artist) {
     }
     return indexFound;
 }
+
+template <class T>
+int LinkedQueue<T>::getLength() { return length; }

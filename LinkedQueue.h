@@ -7,7 +7,11 @@
 template <class T> class LinkedQueue: public Queue<T> {
     private:
         LinkedNode<T> *head, *tail;
+
+        int length;
+
         T* removeFromEnd();
+
         bool matches(T *item, std::string title, std::string artist="");
 
     public:
@@ -24,6 +28,8 @@ template <class T> class LinkedQueue: public Queue<T> {
         void empty();
 
         bool isEmpty();
+
+        int getLength();
 
         std::string toString();
 

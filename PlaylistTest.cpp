@@ -1,301 +1,250 @@
 #include <iostream>
-#include "Song.h"
 #include "Library.h"
 #include "Playlist.h"
 #include "TestLib.h"
 
-Playlist* generateRandomPlaylist(std::string title, float duration, int libSize ) {
-    Library *library = new Library();
-    Playlist *randomPlaylist;
+Library* generateLibrary(int size, int minSongMinute, int maxSongMinute) {
+    Library *library = new Library(size);
+    std::string title, artist;
 
-    float currDuration;
-    for (int i = 0; i < libSize; i++) {
-        currDuration = 2.0f+(float)i/10;
-        if (currDuration > 2.59) currDuration = 3.0f;
-        library->add(
-         new Song("title "+std::to_string(i), 
-                 "artist "+std::to_string(i), 
-                 currDuration
-         ), i);
+    float minute = (float)minSongMinute, seconds = 0.0f, currDuration = 0.0f;
+    for (int i = 0, s = 1, m = minSongMinute; i < size; i++, m++, s++) {
+        if (currDuration >= maxSongMinute) {
+            minute = minSongMinute;
+            m = s = 0;
+        } 
+        seconds = (float)(s*s)/10;
+        currDuration = minute+seconds;
+
+        title = "title "+std::to_string(i);
+        artist = "artist "+std::to_string(i);
+        library->add(new Song(title, artist, currDuration));
     }
-    randomPlaylist = new Playlist(title, duration, *library);
-    delete library;
-    library = nullptr;
-
-    return randomPlaylist;
+    return library;
 }
 
-Playlist* generateEmptyPlaylist() { 
-    return new Playlist("empty playlist"); 
+Playlist* generateEmptyPlaylist(std::string title="") {
+    title = title.length() ? title : "playlist";
+    return new Playlist(title);
 }
 
-void emptyPlaylistTest(Playlist* emptyPlaylist) {
-    printTestHeader("emptyPlaylistTest");
+void fillPlaylist(Library *library, Playlist *emptyPlaylist) {
+    for (int i = 0; i < library->getLength(); i++)
+        emptyPlaylist->add( library->getSongAt(i) );
+}
 
-    printTestCase("check properties");
-    printAssert(emptyPlaylist->getLength(), 0);
-    printAssert(emptyPlaylist->getDuration(), 0.0f);
+void getLengthAndDurationTest(Library *library, Playlist *filledPlaylist) {
+    printTestHeader("getLengthAndDurationTest");
+
+    printTestCase("filled playlist length == library length");
+    printAssert(filledPlaylist->getLength(), library->getLength());
+
+    printTestCase("filled playlist duration == library duration");
+    printAssert(filledPlaylist->getDuration(), library->getDuration());
+
+    for (int i = 0; i < library->getLength()/2; i++) filledPlaylist->playNext();
+
+    printTestCase("half-emptied playlist length == library length/2");
+    printAssert(filledPlaylist->getLength(), library->getLength()/2);
+
+    printTestCase("half-emptied playlist duration == library duration/2");
+    printAssert(filledPlaylist->getDuration(), library->getDuration()/2);
+
+    printTestCase("emtpy playlist length=0");
+    filledPlaylist->clear();
+    printAssert(filledPlaylist->getLength(), 0);
+    
+    printTestFooter();
+}
+
+void addAndRemoveTest(Library *library, Playlist *emptyPlaylist) {
+    printTestHeader("addAndRemoveTest");
+
+    printTestCase("all songs from library added to playlist");
+    fillPlaylist(library, emptyPlaylist);
+    printAssert(emptyPlaylist->getLength(), library->getLength());
+    printAssert(emptyPlaylist->getDuration(), library->getDuration());
+
+    printTestCase("all songs removed match songs added from library");
+    Song *song;
+    std::string title, artist;
+    for (int i = 0; i < library->getLength(); i++) {
+        song = library->getSongAt(i);
+        title = song->getTitle();
+        artist = song->getArtist();
+        printAssert(emptyPlaylist->remove(title, artist), song);
+    }
+
+    printTestCase("playlist length=0");
     printAssert(emptyPlaylist->isEmpty(), true);
-    printAssert(emptyPlaylist->find("title", "artist"), -1);
-
-    printTestCase("get non-existent songs");
-    for (int i = 0; i < 5; i++) {
-        try {
-            emptyPlaylist->getSongAt(i);
-            printExceptionFail("getSongAt");
-        } catch(std::out_of_range& e){
-            printAssert(*("playlist is empty"), *e.what());
-        }
-    }
-
-    printTestCase("remove non-existent songs after cleared");
-    for (int i = 0; i < 5; i++) {
-        try {
-            emptyPlaylist->remove(i+"", i+"");
-            printExceptionFail("remove");
-        } catch(std::out_of_range& e){
-            printAssert(*("playlist is empty"), *e.what());
-        }
-    }
-
-
-    printTestCase("add songs and check updated properties");
-    float duration = 0.0f, totalDuration = 0.0f;
-    int length = 0;
-    for (int i = 0; i < 5; i++) {
-        duration = 1.0f+(float)i/10;
-
-        emptyPlaylist->add(
-         new Song("title "+std::to_string(i), 
-                 "artist "+std::to_string(i), 
-                 duration
-         ));
-
-        totalDuration += duration;
-        length++;
-    }
-    printAssert(emptyPlaylist->getLength(), length);
-    printAssert(emptyPlaylist->getDuration(), totalDuration);
-
-    printTestCase("clear and check updated properties");
-    emptyPlaylist->clear();
-    printAssert(emptyPlaylist->getLength(), 0);
+    printTestCase("playlist duration=0");
     printAssert(emptyPlaylist->getDuration(), 0.0f);
-    emptyPlaylist->toString().length();
-    printAssert((int)emptyPlaylist->toString().length(), 0);
 
+    printTestCase("can't remove from empty playlist");
+    try {
+        emptyPlaylist->remove(title, artist);
+        printExceptionFail("remove");
+    } catch(std::out_of_range &e) {
+        printAssert(*("queue is empty"), *e.what());
+    }
+}
+
+void playNextTest(Library *library, Playlist *emptyPlaylist) {
+    printTestHeader("playNextTest");
+    fillPlaylist(library, emptyPlaylist);
+    printTestCase("each next played song in library");
+    Song *playedSong, *libSong;
+    for (int i = 0; i < library->getLength(); i++) {
+        playedSong = emptyPlaylist->playNext();
+        libSong = library->getSongAt(i);
+        printAssert(playedSong, libSong);
+    }
+
+    printTestCase("song playcounts=1");
+    for (int i = 0; i < library->getLength(); i++)
+        printAssert(library->getSongAt(i)->getPlayCount(), 1);
+
+    printTestCase("songs played again, playcounts=2");
+    fillPlaylist(library, emptyPlaylist);
+    for (int i = 0; i < library->getLength(); i++) playedSong = emptyPlaylist->playNext();
+    for (int i = 0; i < library->getLength(); i++)
+        printAssert(library->getSongAt(i)->getPlayCount(), 2);
+
+    printTestCase("playlist length=0");
+    printAssert(emptyPlaylist->isEmpty(), true);
+
+    printTestCase("playlist duration=0");
+    printAssert(emptyPlaylist->getDuration(), 0.0f);
+
+    printTestCase("can't play 'next song' on empty playlist");
+    try {
+        emptyPlaylist->playNext();
+        printExceptionFail("playNext");
+    } catch(std::out_of_range &e) {
+        printAssert(*"playlist is empty", *(e.what()));
+    }
+    printTestFooter();
+}
+
+void clearTest(Playlist *filledPlaylist) {
+    printTestHeader("clearTest");
+
+    filledPlaylist->clear();
+
+    printTestCase("playlist is empty");
+    printAssert(filledPlaylist->isEmpty(), true);
+
+    printTestCase("playlist length=0");
+    printAssert(filledPlaylist->getLength(), 0);
+
+    printTestCase("playlist duration=0");
+    printAssert(filledPlaylist->getDuration(), 0.0f);
 
     printTestFooter();
 }
 
-void addAndGetSongAtTest(Playlist* playlist) {
-    printTestHeader("addTest");
-
-    printTestCase("add songs and get valid songs");
-    int songsToAdd = 10;
-    for (int i = 0; i < songsToAdd; i++) {
-        playlist->add(
-            new Song("title "+std::to_string(i+1), 
-                     "artist "+std::to_string(i+1),
-                     i+1
-        ));
-    }
-    for (int i = 0; i < playlist->getLength(); i++) {
-        printAssert(
-            playlist->getSongAt(i)->getTitle(), 
-            "title "+std::to_string(i+1)
-        );
-    }
-    printTestCase("protect against duplicate songs");
-    for (int i = 0; i < songsToAdd; i++) {
-        try {
-            playlist->add(
-                new Song("title "+std::to_string(i+1), 
-                         "artist "+std::to_string(i+1),
-                         i+1
-            ));
-            printExceptionFail("able to add duplicate song");
-        } catch(std::invalid_argument e) {
-            printAssert(*("duplicate songs are not allowed"), *e.what());
-        }
-    }
-
-
-    printTestCase("get songs at invalid index (greater than length)");
-    for (int i = playlist->getLength(); i < playlist->getLength()+5; i++) {
-        try {
-            playlist->getSongAt(i);
-            printExceptionFail("getSongAt("+std::to_string(i)+")");
-        } catch(std::out_of_range& e){
-            printAssert(*("invalid index"), *e.what());
-        }
-    }
-    printTestCase("get songs at invalid index (negative indices)");
-    for (int i = -1; i != playlist->getLength()*-1; i--) {
-        try {
-            playlist->getSongAt(i);
-            printExceptionFail("getSongAt("+std::to_string(i)+")");
-        } catch(std::out_of_range& e){
-            printAssert(*("invalid index"), *e.what());
-        }
-    }
-
-    printTestFooter();
-}
-
-void removeTest(Playlist* playlist) {
-    printTestHeader("removeTest");
-
-    int length = playlist->getLength();
-    Song *songs[length] = {};
-    for (int i = 0; i < length; i++) songs[i] = playlist->getSongAt(i);
-
-    printTestCase("remove non-existent songs");
-    Song *remSong;
-    for (int i = 0; i < length; i++) {
-        remSong = playlist->remove("", "");
-        printAssert((bool)remSong, false);
-    }
-
-    printTestCase("return expected removed song");
-    std::string currTitle, currArtist;
-    for (int i = 0; i < length; i++) {
-        currTitle = songs[i]->getTitle();
-        currArtist = songs[i]->getArtist();
-        remSong = playlist->remove(currTitle, currArtist);
-        
-        printAssert(remSong->getTitle(), currTitle);
-        printAssert(remSong->getArtist(), currArtist);
-    }
-
-    printTestCase("remove after songs cleared");
-    for (int i = 0; i < length; i++) {
-        try {
-            currTitle = songs[i]->getTitle();
-            currArtist = songs[i]->getArtist();
-            playlist->remove(currTitle, currArtist);
-            printExceptionFail("remove(title="+currTitle+",artist="+currArtist);
-        } catch(std::out_of_range& e) {
-            printAssert(*("playlist is empty"), *e.what());
-        }
-    }
-
-    printTestFooter();
-}
-
-void randomPlaylistTest() {
-    printTestHeader("randomPlaylistTest");
- 
-    printTestCase("random generated playlist doesn't exceed desired duration");
-    Playlist *randPlaylist;
-    float desiredDuration;
-    int desiredLibSongCount;
-    for (int i = 1; i < 5; i++){
-        desiredDuration = i+1;
-        randPlaylist = generateRandomPlaylist("rand-pl"+std::to_string(i), i+1, i*i);
-        printAssert(randPlaylist->getDuration() <= desiredDuration, true);
-        delete randPlaylist;
-    }
-
-    printTestCase("random playlist doesn't generate for invalid durations");
-    for (int i = 0; i > -4; i--){
-        desiredDuration = i+1;
-        try {
-            randPlaylist = generateRandomPlaylist("rand-pl"+std::to_string(i), i, 5);
-            delete randPlaylist;
-            printExceptionFail("random playlist generated with duration <= 0");
-        } catch(std::invalid_argument e) {
-            printAssert(*("invalid duration"), *e.what());
-        }
-    }
-    randPlaylist = nullptr;
-
-    printTestFooter();
-}
-
-void findTest(Playlist* playlist) {
+void findTest(Library *library, Playlist *filledPlaylist) {
     printTestHeader("findTest");
 
-    int length = playlist->getLength();
-    Song *songs[length] = {};
-    for (int i = 0; i < length; i++) songs[i] = playlist->getSongAt(i);
-
+    int length = filledPlaylist->getLength();
     printTestCase("find non-existent songs");
-    for (int i = 0; i < length; i++) printAssert(playlist->find(""+i, ""+i+1), -1);
+    for (int i = 0; i < filledPlaylist->getLength(); i++) 
+        printAssert(filledPlaylist->find(""+i, ""+i+1), -1);
 
     printTestCase("find existing songs");
     std::string currTitle, currArtist;
+    Song *libSong;
     for (int i = 0; i < length; i++) {
-        currTitle = songs[i]->getTitle();
-        currArtist = songs[i]->getArtist();
-        printAssert(playlist->find(currTitle, currArtist), i);
+        libSong = library->getSongAt(i);
+        currTitle = libSong->getTitle();
+        currArtist = libSong->getArtist();
+        printAssert(filledPlaylist->find(currTitle, currArtist), i);
     } 
 
     printTestFooter();
 }
 
-void playNextTest(Playlist* playlist) {
-    printTestHeader("playNextTest");
+void randomPlaylistTest(Library *library) {
+    printTestHeader("randomPlaylistTest");
 
-    int length = playlist->getLength();
-    float durations[length] = {};
-    Song *songs[length] = {}, *currSong;
-    for (int i = 0; i < length; i++) {
-        currSong = playlist->getSongAt(i);
-        songs[i] = currSong;
-        durations[i] = currSong->getDuration();
-    } 
+    Playlist *randPlaylistA, *randPlaylistB;
+    float duration = 0.0f;
 
-    printTestCase("next song was current first song in playlist");
-    Song* nextSong;
-    for (int i = 0; i < length; i++) {
-        nextSong = playlist->playNext(); 
-        printAssert(nextSong, songs[i]);
+    printTestCase("desired duration <= new playlist");
+    for (int i = 1; i < 10; i++) {
+        duration = (float)(i*i);
+        randPlaylistA = new Playlist("playlist a", duration, *library);
+        printAssert(randPlaylistA->getDuration() <= duration, true);
+        delete randPlaylistA;
     }
 
-    printTestCase("each next songs play count is now 1");
-    for (int i = 0; i < length; i++) printAssert(songs[i]->getPlayCount(), 1);
+    printTestCase("songs uniquely ordered between two playlists");
+    int repeatCount = 0;
+    int totalLength;
+    Song *songA, *songB;
+    for (int i = 5; i < 15; i++) {
+        duration = (float)(i*i);
+        randPlaylistA = new Playlist("playlist a", duration, *library);
+        randPlaylistB = new Playlist("playlist b", duration, *library);
+        totalLength = randPlaylistA->getLength() + randPlaylistB->getLength();
 
-    printTestCase("playlist is now empty");
-    printAssert(playlist->getLength(), 0);
-
-    printTestCase("playlist duration is now 0");
-    printAssert(playlist->getDuration(), 0.0f);
-
-    printTestCase("re-add songs, replay, songs play counts are now 2 ");
-    for (int i = 0; i < length; i++) playlist->add(songs[i]);
-    for (int i = 0; i < length; i++) playlist->playNext();
-    for (int i = 0; i < length; i++) printAssert(songs[i]->getPlayCount(), 2);
+        while (!randPlaylistA->isEmpty() && !randPlaylistB->isEmpty()) {
+            songA = randPlaylistA->playNext();
+            songB = randPlaylistB->playNext();
+            if (songA == songB) repeatCount++;
+        }
+        repeatCount = 0;
+        printAssert(repeatCount < totalLength/3, true);
+        delete randPlaylistA;
+        delete randPlaylistB;
+    }
 
     printTestFooter();
 }
 
 void runAllPlaylistTests() {
-    Playlist *emptyPlaylist = generateEmptyPlaylist(),
-             *randomPlaylist = generateRandomPlaylist("random playlist", 15.5, 10);
-    
-    emptyPlaylistTest(emptyPlaylist);
-    delete emptyPlaylist;
+    Library *library = generateLibrary(5, 1, 5);
+    Playlist *emptyPlaylist = generateEmptyPlaylist(), 
+             *filledPlaylist = generateEmptyPlaylist();
 
+    fillPlaylist(library, filledPlaylist);
+    getLengthAndDurationTest(library, filledPlaylist);
+    delete library;
+    delete filledPlaylist;
+
+
+    library = generateLibrary(15, 2, 5);
     emptyPlaylist = generateEmptyPlaylist();
-    addAndGetSongAtTest(emptyPlaylist);
+    addAndRemoveTest(library, emptyPlaylist);
+    delete library;
     delete emptyPlaylist;
 
-    removeTest(randomPlaylist);
-    delete randomPlaylist;
+    library = generateLibrary(15, 2, 5);
+    emptyPlaylist = generateEmptyPlaylist();
+    playNextTest(library, emptyPlaylist);
+    delete library;
+    delete emptyPlaylist;
 
-    randomPlaylistTest();
+    library = generateLibrary(20, 3, 8);
+    filledPlaylist = generateEmptyPlaylist();
+    fillPlaylist(library, filledPlaylist);
+    clearTest(filledPlaylist);
+    delete library;
+    delete filledPlaylist;
+    
+    library = generateLibrary(10, 3, 8);
+    filledPlaylist = generateEmptyPlaylist();
+    fillPlaylist(library, filledPlaylist);
+    findTest(library, filledPlaylist);
+    delete library;
+    delete filledPlaylist;
 
-    randomPlaylist = generateRandomPlaylist("random playlist", 12.5, 10);
-    findTest(randomPlaylist);
-    delete randomPlaylist;
+    library  = generateLibrary(50, 1, 10);
+    randomPlaylistTest(library);
+    delete library;
+    library = nullptr;
+    emptyPlaylist = filledPlaylist = nullptr;
 
-    randomPlaylist = generateRandomPlaylist("random playlist", 11.5, 10);
-    playNextTest(randomPlaylist);
-    delete randomPlaylist;
-
-    emptyPlaylist = nullptr;
-    randomPlaylist = nullptr;
 }
 
 int main() {
