@@ -180,13 +180,13 @@ void randomPlaylistTest(Library *library) {
 
     printTestCase("songs uniquely ordered between two playlists");
     int repeatCount = 0;
-    int totalLength;
+    int lengthB;
     Song *songA, *songB;
     for (int i = 5; i < 15; i++) {
         duration = (float)(i*i);
         randPlaylistA = new Playlist("playlist a", duration, *library);
         randPlaylistB = new Playlist("playlist b", duration, *library);
-        totalLength = randPlaylistA->getLength() + randPlaylistB->getLength();
+        lengthB = randPlaylistB->getLength();
 
         while (!randPlaylistA->isEmpty() && !randPlaylistB->isEmpty()) {
             songA = randPlaylistA->playNext();
@@ -194,7 +194,7 @@ void randomPlaylistTest(Library *library) {
             if (songA == songB) repeatCount++;
         }
         repeatCount = 0;
-        printAssert(repeatCount < totalLength/3, true);
+        printAssert(repeatCount < lengthB/3, true);
         delete randPlaylistA;
         delete randPlaylistB;
     }
