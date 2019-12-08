@@ -30,6 +30,7 @@ Song* Playlist::playNext() {
     if (isEmpty()) throw std::out_of_range("playlist is empty");
     Song *song = songs->dequeue();
     (*song)++;
+    duration -= song->getDuration();
     return song;
 }
 
