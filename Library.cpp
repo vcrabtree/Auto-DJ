@@ -14,7 +14,12 @@ Library::~Library() {
 }
 
 void Library::sortLibrary() {
-    //TODO
+    // Compare libraryList artists
+    // Takes first artist in list, sorts through entire list to find where is would go alphabetically
+    // Takes second artist and sorts through entire list to again find where it belongs alphabetically
+    // Does this with all artists in list
+    // If artist is equivalent to another artist, compare songs by artist and order alphabetically by song
+    // Repeats sort logic with song
 }
 
 void Library::add(Song* song) { //Currently inserts at the end
