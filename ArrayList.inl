@@ -65,7 +65,7 @@ T* ArrayList<T>::remove(std::string title, std::string artist) {
 
 template <class T>
 T* ArrayList<T>::getItemAt(int index) {
-    if (index < 0) {
+    if (index < 0 || index > currItemCount) {
         throw std::out_of_range ("There is no item at this index");
     }
     else if (index < currItemCount) {
