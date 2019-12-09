@@ -18,6 +18,7 @@ class Playlists {
         void clear();
         int getLength();
         int find(std::string title);
+        Playlist* getPlaylistAt(int index);
         std::string playlistString(std::string title);
         std::string allPlaylistsString();
 };
