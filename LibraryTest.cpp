@@ -53,7 +53,31 @@ void addAndGetSongAtTest(Library* testLibrary) {
 }
 
 void getSongTest(Library* testLibrary) {
-    //TODO
+    std::cout << "\ngetSong Test: ";
+    Song* song1 = new Song("What's This?", "Danny Elfman", 3.1);
+    Song* song2 = new Song("Rockin' Around the Christmas Tree", "Brenda Lee", 2.1);
+    Song* song3 = new Song("Hot Chocolate", "Tom Hanks", 2.52);
+    testLibrary->add(song1);
+    testLibrary->add(song2);
+    testLibrary->add(song3);
+    if (testLibrary->getSong("What's This?", "Danny Elfman")->getTitle() == song1->getTitle()) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not return proper song";
+    }
+    if (testLibrary->getSong("Rockin' Around the Christmas Tree", "Brenda Lee")->getTitle() == song2->getTitle()) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not return proper song";
+    }
+    if (testLibrary->getSong("Hot Chocolate", "Tom Hanks")->getTitle() == song3->getTitle()) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not return proper song";
+    }
 }
 
 void removeTest(Library* testLibrary) {
@@ -249,6 +273,31 @@ void findByArtistTest(Library* testLibrary) {
 }
 
 void findBySongTest(Library* testLibrary) {
+    std::cout << "\nfindBySong Test: ";
+    Song* song1 = new Song("What's This?", "Danny Elfman", 3.1);
+    Song* song2 = new Song("Rockin' Around the Christmas Tree", "Brenda Lee", 2.1);
+    Song* song3 = new Song("Hot Chocolate", "Tom Hanks", 2.52);
+    testLibrary->add(song1);
+    testLibrary->add(song2);
+    testLibrary->add(song3);
+    if (testLibrary->findBySong("What's This?", "Danny Elfman") == song1->toString()) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not return proper song";
+    }
+    if (testLibrary->findBySong("Rockin' Around the Christmas Tree", "Brenda Lee") == song2->toString()) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not return proper song";
+    }
+    if (testLibrary->findBySong("Hot Chocolate", "Tom Hanks") == song3->toString()) {
+        std::cout << "\nPassed";
+    }
+    else {
+        std::cout << "\nFailed, did not return proper song";
+    }
     //TODO
 }
 
