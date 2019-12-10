@@ -7,9 +7,13 @@
 
 class AutoDJ {
     private:
-        Library *library;
-        Playlists *playlists;
-        FileManager *fileManager;
+        Library *_library;
+        Playlists *_playlists;
+        FileManager *_fileManager;
+
+        void readLibraryFile();
+
+        void readPlaylistsFile();
 
     public:
         AutoDJ();
@@ -37,6 +41,6 @@ class AutoDJ {
         void playNext(std::string playlistName);
 
         void newRandom(std::string playlistName, float duration);
-}
+};
 
 #endif
