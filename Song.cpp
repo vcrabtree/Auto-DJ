@@ -38,3 +38,7 @@ std::string Song::toString() {
         "\nduration:\t"    +std::to_string(duration)+
         "\nplay count:\t"  +std::to_string(playCount);
 }
+
+std::string Song::toFileString() {
+    return title+"\n"+artist+"\n"+std::to_string(duration)+"\n\n";
+}

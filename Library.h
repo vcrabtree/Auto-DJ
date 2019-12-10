@@ -43,5 +43,7 @@ public:
     std::string findBySong(std::string title, std::string artist);
 
     std::string toString();
+
+    std::string toFileString();
 };
 #endif //AUTO_DJ_LIBRARY_H

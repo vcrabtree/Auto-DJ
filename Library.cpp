@@ -115,3 +115,10 @@ std::string Library::toString() {
     return libraryString;
 }
 
+std::string Library::toFileString() {
+    std::string fileString = "";
+    for (int i = 0; i < libraryList->getLength(); i++)
+        fileString += getSongAt(i)->toFileString();
+    return fileString;
+};
+
