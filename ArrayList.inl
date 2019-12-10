@@ -35,6 +35,7 @@ void ArrayList<T>::doubleCapacity() {
     currCapacity = newCapacity;
 }
 
+
 template <class T>
 void ArrayList<T>::add(T* item) { //Currently inserts at the end
     if (currItemCount < currCapacity) {

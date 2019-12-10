@@ -14,12 +14,28 @@ Library::~Library() {
 }
 
 void Library::sortLibrary() {
-    // Compare libraryList artists
-    // Takes first artist in list, sorts through entire list to find where is would go alphabetically
-    // Takes second artist and sorts through entire list to again find where it belongs alphabetically
-    // Does this with all artists in list
-    // If artist is equivalent to another artist, compare songs by artist and order alphabetically by song
-    // Repeats sort logic with song
+    for (int i = 0; i < libraryList->getLength(); i++) {
+        std::string minValue = libraryList->getItemAt(i)->getArtist();
+        int minIndex = i;
+        for (int a = i; a < libraryList->getLength(); a++) {
+            if (libraryList->getItemAt(a)->getArtist() < minValue) {
+                minValue = libraryList->getItemAt(a)->getArtist();
+                minIndex = a;
+            }
+        }
+        std::string tempTitle = libraryList->getItemAt(minIndex)->getTitle();
+        std::string tempArtist = libraryList->getItemAt(minIndex)->getArtist();
+        float tempDuration = libraryList->getItemAt(minIndex)->getDuration();
+        int tempPlayCount = libraryList->getItemAt(minIndex)->getPlayCount();
+        libraryList->getItemAt(minIndex)->setTitle(libraryList->getItemAt(i)->getTitle());
+        libraryList->getItemAt(minIndex)->setArtist(libraryList->getItemAt(i)->getArtist());
+        libraryList->getItemAt(minIndex)->setDuration(libraryList->getItemAt(i)->getDuration());
+        libraryList->getItemAt(minIndex)->setPlayCount(libraryList->getItemAt(i)->getPlayCount());
+        libraryList->getItemAt(i)->setTitle(tempTitle);
+        libraryList->getItemAt(i)->setArtist(tempArtist);
+        libraryList->getItemAt(i)->setDuration(tempDuration);
+        libraryList->getItemAt(i)->setPlayCount(tempPlayCount);
+    }
 }
 
 void Library::add(Song* song) { //Currently inserts at the end
@@ -67,6 +83,7 @@ std::string Library::findByArtist(std::string artist) {
 }
 
 std::string Library::toString() {
+    sortLibrary();
     std::string libraryString = "";
     for (int i = 0; i < libraryList->getLength(); i++) {
         libraryString += libraryList->getItemAt(i)->toString() + "\n\n";
