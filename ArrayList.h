@@ -37,6 +37,8 @@ public:
     int find(std::string title, std::string artist="");
 
     T* getItemAt(int index);
+
+    T* getItem(std::string title, std::string artist="");
 };
 
 #include "ArrayList.inl"
