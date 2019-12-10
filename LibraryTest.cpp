@@ -244,6 +244,21 @@ void findByArtistTest(Library* testLibrary) {
     }
 }
 
+void sortTest(Library* testLibrary) {
+    std::cout << "\nsortLibrary and toString Test: ";
+    Song *song1 = new Song("Sleigh Ride", "The Ronettes", 3.03);
+    Song *song2 = new Song("All I Want For Christmas Is You", "Mariah Carey", 2.9);
+    Song *song3 = new Song("A Holly Jolly Christmas", "Burl Ives", 2.27);
+    Song *song4 = new Song("Last Christmas", "Wham!", 4.6);
+    Song *song5 = new Song("Someday at Christmas", "Jackson 5", 2.64);
+    testLibrary->add(song1);
+    testLibrary->add(song2);
+    testLibrary->add(song3);
+    testLibrary->add(song4);
+    testLibrary->add(song5);
+    std::cout << testLibrary->toString();
+}
+
 void runAllLibraryTests() {
     Library* testLibrary = new Library(10);
     addAndGetSongAtTest(testLibrary);
@@ -257,6 +272,8 @@ void runAllLibraryTests() {
     findTest(testLibrary);
     testLibrary->clear();
     findByArtistTest(testLibrary);
+    testLibrary->clear();
+    sortTest(testLibrary);
     delete testLibrary;
 }
 

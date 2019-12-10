@@ -14,18 +14,13 @@ private:
      */
     std::string fileName;
 
-    /**
-     * checks the string if its the same as the one to read
-     */
-    std::string stringToCheck;
-
 public:
     /**
-     * displays the string to read
+     * displays the strings from the file
      * @param fileName name of the file
      * @param stringToRead the given string to read
      */
-    void readToFile(std::string fileName, std::string stringToRead);
+    void readFromFile(std::string fileName);
 
     /**
      * writes the string into the file

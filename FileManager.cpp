@@ -5,18 +5,16 @@
 #include <iostream>
 #include "FileManager.h"
 
-void FileManager::readToFile(std::string fileName, std::string stringToRead){
+void FileManager::readFromFile(std::string fileName){
     std::ifstream infile(fileName);
     if (infile) {
         while (infile) {
             std::string stringToCheck;
             getline(infile, stringToCheck);
-            if (stringToCheck == stringToRead){
-                std::cout << stringToCheck << std::endl;
+            std::cout << stringToCheck << std::endl;
             }
         }
-    }
-    else {
+    else{
         std::cout << "File not found" << std::endl;
     }
 }
