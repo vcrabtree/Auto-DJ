@@ -20,17 +20,17 @@ class AutoDJ {
 
         ~AutoDJ();
 
-        void library();
+        std::string library();
 
-        void artist(std::string artist);
+        std::string playlists();
 
-        void song(std::string artist, std::string title);
+        std::string playlist(std::string playlistName);
+
+        std::string artist(std::string artist);
+
+        std::string song(std::string artist, std::string title);
 
         void import(std::string fileName);
-
-        void playlists();
-
-        void playlist(std::string playlistName);
 
         void newPlaylist(std::string name);
 
