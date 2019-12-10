@@ -1,3 +1,4 @@
+#include "Library.h"
 #include "TestLib.h"
 
 void printTestTitle(std::string title) {
@@ -15,8 +16,10 @@ void printTestFooter() {
     std::cout << "----done----\n" << std::endl;
 }
 
-void printExceptionFail(std::string name) {
-    std::cout << "FAIL: '" << name << "' did not throw exception" << std::endl;
+void printExceptionFail(std::string name, bool shouldCatch) {
+    std::string status = "' threw exception'";
+    if (shouldCatch) status = "' did not throw exception'";
+    std::cout << "FAIL: '" << name << status << std::endl;
 }
 
 template <typename T>
@@ -24,6 +27,10 @@ void printAssert(T value, T expected) {
     std::string result = value != expected ? "fail" : "pass";
     std::cout << result << std::endl;
 }
+
+void printPass() { std:: cout << "pass" << std::endl; }
+
+void printFail() { std:: cout << "fail" << std::endl; }
 
 Library* generateLibrary(int size, int minSongMinute, int maxSongMinute) {
     Library *library = new Library(size);
@@ -50,8 +57,24 @@ Playlist* generateEmptyPlaylist(std::string title) {
     return new Playlist(title);
 }
 
+Playlists* generateEmptyPlaylists(int initialCapacity) {
+    return new Playlists(initialCapacity);
+}
+
 void fillPlaylist(Library *library, Playlist *emptyPlaylist) {
     for (int i = 0; i < library->getLength(); i++)
         emptyPlaylist->add( library->getSongAt(i) );
 }
+
+void fillPlaylists(Library *library, Playlists *emptyPlaylists, int size, std::string *titles) {
+    Playlist *playlist;
+    std::string title;
+    for (int i = 1; i <= size; i++) {
+        title = "title "+std::to_string(i);
+        playlist = new Playlist(title, (float)(i*i), *library);
+        emptyPlaylists->add(playlist);
+        if (titles) titles[i-1] = title;
+    }
+}
+
 
