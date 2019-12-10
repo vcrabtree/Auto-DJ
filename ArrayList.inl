@@ -106,7 +106,7 @@ int ArrayList<T>::find(std::string title, std::string artist) {
 }
 
 template <class T>
-int ArrayList<T>::getItem(std::string title, std::string artist) {
+T* ArrayList<T>::getItem(std::string title, std::string artist) {
     for (int i = 0; i < currItemCount; i++) {
         if (matches(arrayList[i], title, artist)) return arrayList[i];
     }
