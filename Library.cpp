@@ -51,6 +51,11 @@ Song* Library::getSongAt(int index) {
     return libraryList->getItemAt(index);
 }
 
+Song* Library::getSong(std::string title, std::string artist) {
+    return libraryList->getItem(title, artist);
+}
+
+
 bool Library::isEmpty() {
     return libraryList->isEmpty();
 }

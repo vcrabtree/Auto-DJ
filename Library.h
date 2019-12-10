@@ -26,6 +26,8 @@ public:
 
     Song* getSongAt(int index);
 
+    Song* getSong(std::string title, std::string artist);
+
     bool isEmpty();
 
     void clear();

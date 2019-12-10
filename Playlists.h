@@ -19,6 +19,7 @@ class Playlists {
         int getLength();
         int find(std::string title);
         Playlist* getPlaylistAt(int index);
+        Playlist* getPlaylist(std::string title);
         std::string playlistString(std::string title);
         std::string allPlaylistsString();
 };
