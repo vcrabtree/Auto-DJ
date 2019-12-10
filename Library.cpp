@@ -82,6 +82,17 @@ std::string Library::findByArtist(std::string artist) {
     return songString;
 }
 
+std::string Library::findBySong(std::string title, std::string artist) {
+    Song *song;
+    std::string songString = "";
+    for (int i = 0; i < libraryList->getLength(); i++) {
+        song = libraryList->getItemAt(i);
+        if (song->getTitle() == title && song->getArtist() == artist) break;
+    }
+    if (song) songString = song->toString();
+    return songString;
+}
+
 std::string Library::toString() {
     sortLibrary();
     std::string libraryString = "";
