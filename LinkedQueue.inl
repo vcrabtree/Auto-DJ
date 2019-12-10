@@ -125,3 +125,21 @@ int LinkedQueue<T>::find(std::string title, std::string artist) {
 
 template <class T>
 int LinkedQueue<T>::getLength() { return length; }
+
+template <class T>
+T* LinkedQueue<T>::getItemAt(int index) {
+    if (isEmpty()) throw std::out_of_range("queue is empty");
+    if (index < 0 || index >= length) throw std::out_of_range ("There is no item at this index");
+
+    LinkedNode<T> *currNode = head;
+    T* item;
+    int i = 0;
+
+    while (currNode && i != index) {
+        item = currNode->getItem();
+        currNode = currNode->getNext();
+        index++;
+    }
+
+    return item;
+}

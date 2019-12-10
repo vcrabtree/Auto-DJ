@@ -28,8 +28,10 @@ class Playlist {
         float getDuration();
         std::string getTitle();
         std::string getArtist();
+        Song* getSongAt(int index);
         int find(std::string title, std::string artist);
         Song* playNext();
         std::string toString();
+        std::string toFileString();
 };
 #endif

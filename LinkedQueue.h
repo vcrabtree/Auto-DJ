@@ -35,6 +35,7 @@ template <class T> class LinkedQueue: public Queue<T> {
 
         int find(std::string title, std::string artist);
 
+        T* getItemAt(int index);
 };
 
 #include "LinkedQueue.inl"

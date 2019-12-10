@@ -26,6 +26,13 @@ int Playlist::find(std::string title, std::string artist) { return songs->find(t
 
 std::string Playlist::toString() { return songs->toString(); }
 
+std::string Playlist::toFileString() { 
+    std::string fileString = title+"\n";
+    for (int i = 0; i < songs->getLength(); i++)
+        fileString += getSongAt(i)->toFileString();
+    return fileString;
+}
+
 Song* Playlist::playNext() {
     if (isEmpty()) throw std::out_of_range("playlist is empty");
     Song *song = songs->dequeue();
@@ -73,6 +80,8 @@ void Playlist::newRandom(float newDuration, Library& library) {
     delete[] selected;
     selected = nullptr;
 }
+
+Song* Playlist::getSongAt(int index) { songs->getItemAt(index); }
 
 bool Playlist::isEmpty() { return songs->isEmpty(); }
 
