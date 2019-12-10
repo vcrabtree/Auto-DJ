@@ -16,11 +16,20 @@ Library::~Library() {
 void Library::sortLibrary() {
     for (int i = 0; i < libraryList->getLength(); i++) {
         std::string minValue = libraryList->getItemAt(i)->getArtist();
+        std::string minSong = libraryList->getItemAt(i)->getTitle();
         int minIndex = i;
         for (int a = i; a < libraryList->getLength(); a++) {
             if (libraryList->getItemAt(a)->getArtist() < minValue) {
                 minValue = libraryList->getItemAt(a)->getArtist();
+                minSong = libraryList->getItemAt(a)->getTitle();
                 minIndex = a;
+            }
+            else if (libraryList->getItemAt(a)->getArtist() == minValue) {
+                if (libraryList->getItemAt(a)->getTitle() < minSong) {
+                    minValue = libraryList->getItemAt(a)->getArtist();
+                    minSong = libraryList->getItemAt(a)->getTitle();
+                    minIndex = a;
+                }
             }
         }
         std::string tempTitle = libraryList->getItemAt(minIndex)->getTitle();
@@ -54,7 +63,6 @@ Song* Library::getSongAt(int index) {
 Song* Library::getSong(std::string title, std::string artist) {
     return libraryList->getItem(title, artist);
 }
-
 
 bool Library::isEmpty() {
     return libraryList->isEmpty();

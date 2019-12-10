@@ -52,7 +52,11 @@ void addAndGetSongAtTest(Library* testLibrary) {
     }
 }
 
-void removeTest(Library* testLibrary) { //TODO
+void getSongTest(Library* testLibrary) {
+    //TODO
+}
+
+void removeTest(Library* testLibrary) {
     std::cout << "\nremove Test: ";
     testLibrary->clear();
     try {
@@ -244,24 +248,37 @@ void findByArtistTest(Library* testLibrary) {
     }
 }
 
+void findBySongTest(Library* testLibrary) {
+    //TODO
+}
+
 void sortTest(Library* testLibrary) {
-    std::cout << "\nsortLibrary and toString Test: ";
-    Song *song1 = new Song("Sleigh Ride", "The Ronettes", 3.03);
-    Song *song2 = new Song("All I Want For Christmas Is You", "Mariah Carey", 2.9);
-    Song *song3 = new Song("A Holly Jolly Christmas", "Burl Ives", 2.27);
-    Song *song4 = new Song("Last Christmas", "Wham!", 4.6);
-    Song *song5 = new Song("Someday at Christmas", "Jackson 5", 2.64);
+    std::cout << "\nsortLibrary and toString Test: \n";
+    Song *song1 = new Song("All I Want For Christmas Is You", "Mariah Carey", 2.9);
+    Song *song2 = new Song("A Holly Jolly Christmas", "Burl Ives", 2.27);
+    Song *song3 = new Song("Last Christmas", "Wham!", 4.6);
+    Song *song4 = new Song("Someday at Christmas", "Jackson 5", 2.64);
+    Song *song5 = new Song("Frosty The Snowman", "Jackson 5", 2.67);
     testLibrary->add(song1);
     testLibrary->add(song2);
     testLibrary->add(song3);
     testLibrary->add(song4);
     testLibrary->add(song5);
-    std::cout << testLibrary->toString();
+    if (testLibrary->toString() ==
+        "artist:\t\tBurl Ives\ntitle:\t\tA Holly Jolly Christmas\nduration:\t2.270000\nplay count:\t0\n\nartist:\t\tJackson 5\ntitle:\t\tFrosty The Snowman\nduration:\t2.670000\nplay count:\t0\n\nartist:\t\tJackson 5\ntitle:\t\tSomeday at Christmas\nduration:\t2.640000\nplay count:\t0\n\nartist:\t\tMariah Carey\ntitle:\t\tAll I Want For Christmas Is You\nduration:\t2.900000\nplay count:\t0\n\nartist:\t\tWham!\ntitle:\t\tLast Christmas\nduration:\t4.600000\nplay count:\t0\n\n") {
+        std::cout << "Passed";
+    }
+    else {
+        std::cout << "Failed, printed " << testLibrary->toString() <<
+                  " instead of artist:\t\tBurl Ives\ntitle:\t\tA Holly Jolly Christmas\nduration:\t2.270000\nplay count:\t0\n\nartist:\t\tJackson 5\ntitle:\t\tFrosty The Snowman\nduration:\t2.670000\nplay count:\t0\n\nartist:\t\tJackson 5\ntitle:\t\tSomeday at Christmas\nduration:\t2.640000\nplay count:\t0\n\nartist:\t\tMariah Carey\ntitle:\t\tAll I Want For Christmas Is You\nduration:\t2.900000\nplay count:\t0\n\nartist:\t\tWham!\ntitle:\t\tLast Christmas\nduration:\t4.600000\nplay count:\t0\n\n";
+    }
 }
 
 void runAllLibraryTests() {
     Library* testLibrary = new Library(10);
     addAndGetSongAtTest(testLibrary);
+    testLibrary->clear();
+    getSongTest(testLibrary);
     testLibrary->clear();
     removeTest(testLibrary);
     testLibrary->clear();
@@ -272,6 +289,8 @@ void runAllLibraryTests() {
     findTest(testLibrary);
     testLibrary->clear();
     findByArtistTest(testLibrary);
+    testLibrary->clear();
+    findBySongTest(testLibrary);
     testLibrary->clear();
     sortTest(testLibrary);
     delete testLibrary;
