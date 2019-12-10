@@ -10,7 +10,7 @@ private:
     /**
      * array with functions of commands
      */
-    int* arrayOfCommands;
+    char* arrayOfCommands;
 
 public:
     /**
@@ -54,6 +54,13 @@ public:
     void import(std::string fileName);
 
     /**
+     * Remove all songs from the given file from the library. Also remove these songs from any playlist in which they occur.
+     * Print message to the user of any songs that were not present (couldn't be removed).
+     * @param fileName the file with the songs to be removed
+     */
+    void discontinue(std::string fileName);
+
+    /**
      * Display the names of all playlists and their durations
      */
     void playlists();
@@ -72,19 +79,19 @@ public:
 
     /**
      * Add the given song to the end of the given playlist
-     * @param name of the song
+     * @param duration of the song
      * @param artist of the song
      * @param title of the song
      */
-    void add(std::string name, std::string artist, std::string title);
+    void add(float duration, std::string artist, std::string title);
 
     /**
      * Remove the given song from the playlist
-     * @param name of the song
+     * @param duration of the song
      * @param artist of the song
      * @param title of the song
      */
-    void remove(std::string name, std::string artist, std::string title);
+    void remove(float duration, std::string artist, std::string title);
 
     /**
      * Print all information about the next song to be played from the given playlist to the screen. Remove that song from the given playlist.
