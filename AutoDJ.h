@@ -15,6 +15,8 @@ class AutoDJ {
 
         void readPlaylistsFile();
 
+        std::string** songsStringToArray(std::string songsString, int &songCount);
+
     public:
         AutoDJ();
 

@@ -17,37 +17,70 @@ AutoDJ::~AutoDJ() {
 }
 
 void AutoDJ::readSongsFile(std::string filename) { 
-    std::string songsString = _fileManager->readFromFile(filename),
-        args[3] = {"", "", ""},
+    std::string songsString = _fileManager->readFromFile(filename);
+    int songCount = 0;
+    std::string **songArgs = songsStringToArray(songsString, songCount),
+                *currArgs,
+                duplicates = "";
+
+    if (filename == "new_songs.txt") {
+        std::cout << "checking for duplicate songs.." << std::endl;
+        for (int i = 0; i < songCount; i++) {
+            currArgs = songArgs[i];
+            if (_library->find(currArgs[0], currArgs[1]) >= 0) {
+               duplicates += currArgs[0]+"\n"+currArgs[1]+"\n\n";
+            }
+        } 
+        if (!duplicates.length()) _fileManager->appendToFile("library.txt", songsString);  
+    } else if (filename == "library.txt") _library = new Library(songCount);
+
+    if (duplicates.length()) {
+        std::cout << "the following duplicates were found: \n" << duplicates << endl;
+    } else {
+        std::cout << "loading " << songCount << " songs..." << std::endl;
+        Song *song;
+        for (int i = 0; i < songCount; i++) {
+            currArgs = songArgs[i];
+            song = new Song(currArgs[0], currArgs[1], std::stof(currArgs[2]));
+            std::cout << song->getTitle() << endl;
+            _library->add(song);
+        }
+        std::cout << "\ndone\n\n";
+    }
+}
+
+std::string** AutoDJ::songsStringToArray(std::string songsString, int &songCount) {
+    std::string **songArgs,
         currBlock = "",
         currChar = "";
-    int songCount = 0, argSep = 0;
+    int argSep = 0, 
+        songArgsIdx = 0;
 
     for (int i = 0; i < songsString.length(); i++) {
         if (songsString[i] == *";") songCount++;
     }
-    if (filename == "new_songs.txt") _fileManager->appendToFile("library.txt", songsString);
-    else if (filename == "library.txt") _library = new Library(songCount);
+    songArgs = new std::string*[songCount];
 
-    std::cout << "loading " << songCount << " songs..." << std::endl;
     for (int i = 0; i < songsString.length(); i++) {
         currChar = songsString[i];
         // build block to ;
         if (currChar != ";" && currChar != "\n") currBlock += currChar;
         else if (currChar == ";") {
+            std::string *args = new std::string[3],
+                currArg = "";
             for (int j = 0; argSep < 3; j++) {
-                if (currBlock[j] != *"~") args[argSep] += currBlock[j];
-                else argSep++;
+                if (currBlock[j] != *"~") currArg += currBlock[j];
+                else {
+                    args[argSep++] = currArg;
+                    currArg = "";
+                }
             }
-            Song *song = new Song(args[0],args[1],std::stof(args[2]));
-            _library->add(song);
-            std::cout << song->getTitle() << std::endl;
+            songArgs[songArgsIdx++] = args;
             currBlock = "";
             argSep = 0;
-            args[0]=args[1]=args[2]="";
         }
     }
-    std::cout << "\ndone\n\n\n";
+    return songArgs;
 }
 
 // TODO:
