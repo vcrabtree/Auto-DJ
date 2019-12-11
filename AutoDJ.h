@@ -11,7 +11,7 @@ class AutoDJ {
         Playlists *_playlists;
         FileManager *_fileManager;
 
-        void readLibraryFile();
+        void readSongsFile(std::string filename);
 
         void readPlaylistsFile();
 
@@ -30,7 +30,7 @@ class AutoDJ {
 
         std::string song(std::string artist, std::string title);
 
-        void import(std::string fileName);
+        void import();
 
         void discontinue(std::string fileName);
 

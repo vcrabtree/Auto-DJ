@@ -1,9 +1,13 @@
 #include "AutoDJ.h"
+#include <fstream>
+using namespace std;
 
 AutoDJ::AutoDJ() {
     _library = nullptr;
     _playlists = nullptr;
     _fileManager = new FileManager();
+
+    readSongsFile("library.txt");
 }
 
 AutoDJ::~AutoDJ() {
@@ -12,14 +16,43 @@ AutoDJ::~AutoDJ() {
     delete _fileManager;
 }
 
-// TODO:
-void AutoDJ::readLibraryFile() { 
-    _fileManager->readFromFile("library.txt"); 
+void AutoDJ::readSongsFile(std::string filename) { 
+    std::string songsString = _fileManager->readFromFile(filename),
+        args[3] = {"", "", ""},
+        currBlock = "",
+        currChar = "";
+    int songCount = 0, argSep = 0;
+
+    for (int i = 0; i < songsString.length(); i++) {
+        if (songsString[i] == *";") songCount++;
+    }
+    if (filename == "new_songs.txt") _fileManager->appendToFile("library.txt", songsString);
+    else if (filename == "library.txt") _library = new Library(songCount);
+
+    std::cout << "loading " << songCount << " songs..." << std::endl;
+    for (int i = 0; i < songsString.length(); i++) {
+        currChar = songsString[i];
+        // build block to ;
+        if (currChar != ";" && currChar != "\n") currBlock += currChar;
+        else if (currChar == ";") {
+            for (int j = 0; argSep < 3; j++) {
+                if (currBlock[j] != *"~") args[argSep] += currBlock[j];
+                else argSep++;
+            }
+            Song *song = new Song(args[0],args[1],std::stof(args[2]));
+            _library->add(song);
+            std::cout << song->getTitle() << std::endl;
+            currBlock = "";
+            argSep = 0;
+            args[0]=args[1]=args[2]="";
+        }
+    }
+    std::cout << "\ndone\n\n\n";
 }
 
 // TODO:
 void AutoDJ::readPlaylistsFile() { 
-    _fileManager->readFromFile("playlists.txt"); 
+    //_fileManager->readFromFile("playlists.txt"); 
 }
 
 std::string AutoDJ::library() { 
@@ -42,15 +75,8 @@ std::string AutoDJ::playlist(std::string title) {
     return _playlists->playlistString(title);
 }
 
-void AutoDJ::import(std::string fileName) {
-    std::ifstream infile(fileName);
-    if (infile) {
-        while (infile) {
-            std::string stringToRead;
-            getline(infile, stringToRead);
-            writeToFile("library.txt", stringToRead);
-        }
-    }
+void AutoDJ::import() {
+    readSongsFile("new_songs.txt");
 }
 
 void AutoDJ::discontinue(std::string fileName) {
@@ -65,13 +91,11 @@ void AutoDJ::discontinue(std::string fileName) {
                 _library->remove(stringTitle, stringArtist);
             }
             catch(std::out_of_range &e){
-                printAssert(*"There is no item at this index", *e.what());
+                //"There is no item at this index";
             }
         }
     }
-    for (int i = 0; i < _library->getLength; i++){
-        writeToFile("library.txt", _library->getSongAt(i));
-    }
+    _fileManager->writeToFile("library.txt", _library->toFileString());
 }
 void AutoDJ::newPlaylist(std::string name) { 
     _playlists->add(new Playlist(name)); 
