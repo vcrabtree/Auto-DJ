@@ -32,6 +32,8 @@ class AutoDJ {
 
         void import(std::string fileName);
 
+        void discontinue(std::string fileName);
+
         void newPlaylist(std::string name);
 
         void add(std::string name, std::string artist, std::string title);

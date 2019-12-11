@@ -43,10 +43,36 @@ std::string AutoDJ::playlist(std::string title) {
 }
 
 void AutoDJ::import(std::string fileName) {
-    if (fileName == "library.txt") readLibraryFile();
-    else if (fileName == "playlists.txt") readPlaylistsFile();
+    std::ifstream infile(fileName);
+    if (infile) {
+        while (infile) {
+            std::string stringToRead;
+            getline(infile, stringToRead);
+            writeToFile("library.txt", stringToRead);
+        }
+    }
 }
 
+void AutoDJ::discontinue(std::string fileName) {
+    std::ifstream infile(fileName);
+    if (infile) {
+        while (infile) {
+            std::string stringTitle;
+            getline(infile, stringTitle);
+            std::string stringArtist;
+            getline(infile, stringArtist);
+            try{
+                _library->remove(stringTitle, stringArtist);
+            }
+            catch(std::out_of_range &e){
+                printAssert(*"There is no item at this index", *e.what());
+            }
+        }
+    }
+    for (int i = 0; i < _library->getLength; i++){
+        writeToFile("library.txt", _library->getSongAt(i));
+    }
+}
 void AutoDJ::newPlaylist(std::string name) { 
     _playlists->add(new Playlist(name)); 
 }
