@@ -27,9 +27,10 @@ int Playlist::find(std::string title, std::string artist) { return songs->find(t
 std::string Playlist::toString() { return songs->toString(); }
 
 std::string Playlist::toFileString() { 
-    std::string fileString = title+"\n";
+    std::string fileString = "*"+title+"*\n";
     for (int i = 0; i < songs->getLength(); i++)
-        fileString += getSongAt(i)->toFileString();
+        fileString += getSongAt(i)->toFileString(true);
+    fileString += "!";
     return fileString;
 }
 
