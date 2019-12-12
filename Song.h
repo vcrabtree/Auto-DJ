@@ -27,7 +27,7 @@ class Song {
         void setPlayCount(int newPlayCount);
         int getPlayCount();
         std::string toString();
-        std::string toFileString();
+        std::string toFileString(bool forPlaylist=false);
 };
 
 #endif
