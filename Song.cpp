@@ -40,5 +40,5 @@ std::string Song::toString() {
 }
 
 std::string Song::toFileString() {
-    return title+"\n"+artist+"\n"+std::to_string(duration)+"\n\n";
+    return title+"~\n"+artist+"~\n"+std::to_string(duration)+"~\n;\n";
 }

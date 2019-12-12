@@ -20,7 +20,7 @@ public:
      * @param fileName name of the file
      * @param stringToRead the given string to read
      */
-    void readFromFile(std::string fileName);
+    std::string readFromFile(std::string fileName);
 
     /**
      * writes the string into the file
@@ -28,6 +28,8 @@ public:
      * @param stringToWrite the given string to write into the file
      */
     void writeToFile(std::string fileName, std::string stringToWrite);
+
+    void appendToFile(std::string fileName, std::string stringToWrite);
 
 };
 
