@@ -74,7 +74,7 @@ void AutoDJ::discontinue(std::string fileName) {
     }
 }
 void AutoDJ::newPlaylist(std::string name) { 
-    _playlists->add(new Playlist(name)); 
+    _playlists->add(new Playlist(name));
 }
 
 void AutoDJ::add(std::string name, std::string artist, std::string title) {

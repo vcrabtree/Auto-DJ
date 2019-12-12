@@ -75,7 +75,7 @@ public:
      * Display all songs left in the given playlist, and the duration (time it will take to play the remaining songs)
      * @param name new name of the newly added playlist
      */
-    void newPlaylist(std::string name);
+    void newPlaylist(std::string playlistName);
 
     /**
      * Add the given song to the end of the given playlist
