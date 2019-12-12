@@ -11,9 +11,15 @@ class AutoDJ {
         Playlists *_playlists;
         FileManager *_fileManager;
 
-        void readSongsFile(std::string filename);
+        void readSongsFile(std::string filename, std::string operation);
 
         void readPlaylistsFile();
+
+        void addNewSongsToLibraryFile(std::string **songArgs, std::string &songsString, int songCount, std::string &duplicates);
+
+        void removeSongsFromLibraryAndRewrite(std::string **songArgs, std::string &songsString, int songCount, std::string &notFound);
+
+        void loadSongsToLibrary(std::string **songArgs, int songCount);
 
         std::string** songsStringToArray(std::string songsString, int &songCount);
 
@@ -32,7 +38,7 @@ class AutoDJ {
 
         std::string song(std::string artist, std::string title);
 
-        void import();
+        void import(std::string filename);
 
         void discontinue(std::string fileName);
 
