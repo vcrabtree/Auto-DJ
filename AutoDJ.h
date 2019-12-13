@@ -56,7 +56,7 @@ class AutoDJ {
 
         void remove(std::string name, std::string artist, std::string title);
 
-        void playNext(std::string playlistName);
+        std::string playNext(std::string playlistName);
 
         void newRandom(std::string playlistName, float duration);
 };

@@ -322,8 +322,23 @@ void AutoDJ::remove(std::string name, std::string title, std::string artist) {
     if (playlistFound) playlistFound->remove(title, artist);
 }
 
-// TODO
-void AutoDJ::playNext(std::string playlistName) {}
+std::string AutoDJ::playNext(std::string title) {
+    Playlist *selectedPlaylist = _playlists->getPlaylist(title);
+    std::string songString;
+    if (selectedPlaylist) {
+        try {
+            songString = "    --now playing--\n"+
+                selectedPlaylist->playNext()->toString();
+            if (selectedPlaylist->isEmpty()) _playlists->remove(title);
+            return songString;
+        } catch (std::out_of_range &e) {
+            songString = "playlist: \""+title+"\", is empty";
+        }
+    } else {
+        songString = "playlist: \""+title+"\", not found";
+    }
+    return songString;
+}
 
 void AutoDJ::newRandom(std::string title, float duration) {
     _playlists->add(new Playlist(title, duration, *_library));
