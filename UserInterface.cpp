@@ -24,6 +24,8 @@ void help(){
 }
 
 int main(){
+    AutoDJ* dj = new AutoDJ();
+
     std::cout << "Welcome to AutoDJ!" << std::endl;
     std::cout << "List of Commands: " << std::endl;
     std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"};
@@ -33,7 +35,6 @@ int main(){
     }
     std::cout << "Please enter the number corresponding to the command you want to use." << std::endl;
     int commandToUse;
-    AutoDJ* dj = new AutoDJ();
     bool inUse = true;
     bool start = true;
     while (inUse == true) {
