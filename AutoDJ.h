@@ -54,7 +54,7 @@ class AutoDJ {
 
         std::string add(std::string name, std::string artist, std::string title);
 
-        void remove(std::string name, std::string artist, std::string title);
+        std::string remove(std::string name, std::string artist, std::string title);
 
         std::string playNext(std::string playlistName);
 

@@ -156,11 +156,12 @@ void AutoDJ::loadPlaylistsToPlaylists(std::string ***playlistsArgs, std::string 
                         playlist->add(song);
                     } else {
                         std::cout << "did not add duplicate song: " 
-                            << currSongTitle << " " << currSongArtist << endl;
+                            "\""<< currSongTitle << "\", " << "\"" 
+                                << currSongArtist << "\"" << endl;
                     }
                 } else {
-                    std::cout << "not found: " << currSongTitle << " " 
-                        << currSongArtist << endl;
+                    std::cout << "song not found: \"" << currSongTitle << "\", " 
+                        << "\"" << currSongArtist << "\"" << endl;
                 }
             }
             _playlists->add(playlist);
@@ -331,9 +332,19 @@ std::string AutoDJ::add(std::string name, std::string title, std::string artist)
     } else return "playlist: \""+name+"\" not found";
 }
 
-void AutoDJ::remove(std::string name, std::string title, std::string artist) {
+std::string AutoDJ::remove(std::string name, std::string title, std::string artist) {
+    Song *song = _library->getSong(title, artist);
     Playlist *playlistFound = _playlists->getPlaylist(name);
-    if (playlistFound) playlistFound->remove(title, artist);
+    if (playlistFound) {
+        std::string songStatus = "song: \""+title+"\", "+"\""+artist+"\"";
+        if (song) {
+            if (playlistFound->find(title, artist) > -1) {
+                playlistFound->remove(title, artist);
+                return songStatus+" removed";
+            } else return songStatus+" not in "+name;
+        } else return songStatus+" not found";
+        
+    } else return "playlist: \""+name+"\" not found";
 }
 
 std::string AutoDJ::playNext(std::string title) {
