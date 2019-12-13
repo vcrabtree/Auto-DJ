@@ -33,6 +33,20 @@ std::string Playlists::allPlaylistsString() {
     return playlistsString;
 };
 
+std::string Playlists::toFileString() { 
+    Playlist *currPlaylist;
+    std::string fileString = "";
+    for (int i = 0; i < getLength(); i++) {
+        currPlaylist = getPlaylistAt(i);
+        fileString += "*"+currPlaylist->getTitle()+"*\n";
+        for (int j = 0; j < currPlaylist->getLength(); j++) {
+            fileString += currPlaylist->getSongAt(j)->toFileString(true);
+        }
+    }
+    fileString += "!";
+    return fileString;
+}
+
 void Playlists::clear() { 
     int originalCapacity = getLength();
     delete playlistList;
