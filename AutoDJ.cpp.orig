@@ -307,13 +307,8 @@ void AutoDJ::discontinue(std::string filename) {
     readSongsFile(filename, "discontinue");
 }
 
-std::string AutoDJ::newPlaylist(std::string name) { 
-    std::string status = "playlist: \"";
-    if (_playlists->find(name) < 0) {
-        _playlists->add(new Playlist(name)); 
-        status += "\""+name+", added\n";
-    } else status = name + " is already a playlist\n";
-    return status;
+void AutoDJ::newPlaylist(std::string name) { 
+    _playlists->add(new Playlist(name));
 }
 
 void AutoDJ::add(std::string name, std::string title, std::string artist) {
@@ -327,6 +322,15 @@ void AutoDJ::remove(std::string name, std::string title, std::string artist) {
     if (playlistFound) playlistFound->remove(title, artist);
 }
 
+<<<<<<< HEAD
+// TODO
+void AutoDJ::playNext(std::string playlistName) {
+
+}
+||||||| merged common ancestors
+// TODO
+void AutoDJ::playNext(std::string playlistName) {}
+=======
 std::string AutoDJ::playNext(std::string title) {
     Playlist *selectedPlaylist = _playlists->getPlaylist(title);
     std::string songString;
@@ -344,6 +348,7 @@ std::string AutoDJ::playNext(std::string title) {
     }
     return songString;
 }
+>>>>>>> autojd-files
 
 void AutoDJ::newRandom(std::string title, float duration) {
     _playlists->add(new Playlist(title, duration, *_library));

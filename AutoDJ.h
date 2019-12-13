@@ -50,7 +50,7 @@ class AutoDJ {
 
         void discontinue(std::string fileName);
 
-        void newPlaylist(std::string name);
+        std::string newPlaylist(std::string name);
 
         void add(std::string name, std::string artist, std::string title);
 
