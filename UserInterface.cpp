@@ -84,7 +84,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                output = dj->song(artist, title);
+                output = dj->song(title, artist);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
@@ -131,7 +131,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                dj->add(playlistName, artist, title);
+                dj->add(playlistName, title, artist);
                 start = false;
                 inUse = true;
                 break;
@@ -142,7 +142,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                dj->remove(playlistName, artist, title);
+                dj->remove(playlistName, title, artist);
                 start = false;
                 inUse = true;
                 break;
