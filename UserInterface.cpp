@@ -92,16 +92,14 @@ void main() {
             case 4:
                 std::cout << "What is the name of the file?" << std::endl;
                 std::cin >> fileName;
-                output = dj->import(fileName);
-                std::cout << output << std::endl;
+                dj->import(fileName);
                 start = false;
                 inUse = true;
                 break;
             case 5:
                 std::cout << "What is the name of the file?" << std::endl;
                 std::cin >> fileName;
-                output = dj->discontinue(fileName);
-                std::cout << output << std::endl;
+                dj->discontinue(fileName);
                 start = false;
                 inUse = true;
                 break;
@@ -133,8 +131,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                output = dj->add(playlistName, artist, title);
-                std::cout << output << std::endl;
+                dj->add(playlistName, artist, title);
                 start = false;
                 inUse = true;
                 break;
@@ -145,8 +142,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                output = dj->remove(playlistName, artist, title);
-                std::cout << output << std::endl;
+                dj->remove(playlistName, artist, title);
                 start = false;
                 inUse = true;
                 break;
@@ -161,15 +157,13 @@ void main() {
             case 12:
                 std::cout << "What is the name of this new random playlist?" << std::endl;
                 std::cin >> playlistName;
-                output = dj->newRandom(playlistName);
-                std::cout << output << std::endl;
+                dj->newRandom(playlistName);
                 start = false;
                 inUse = true;
                 break;
             case 13:
                 std::cout << "Saving..." << std::endl;
-                output = dj->quit();
-                std::cout << output << std::endl;
+                delete dj;
                 std::cout << "Thank you for using AutoDJ!" << std::endl;
                 start = false;
                 inUse = false;
