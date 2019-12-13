@@ -2,8 +2,11 @@
 // Created by dxuma on 11/19/2019.
 //
 
+
 #ifndef AUTO_DJ_USERINTERFACE_H
 #define AUTO_DJ_USERINTERFACE_H
+
+#include <iostream>
 
 class UserInterface{
 private:

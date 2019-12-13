@@ -23,7 +23,7 @@ void help(){
     }
 }
 
-void main() {
+int main(){
     std::cout << "Welcome to AutoDJ!" << std::endl;
     std::cout << "List of Commands: " << std::endl;
     std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"};
@@ -33,7 +33,7 @@ void main() {
     }
     std::cout << "Please enter the number corresponding to the command you want to use." << std::endl;
     int commandToUse;
-
+    AutoDJ* dj = new AutoDJ();
     bool inUse = true;
     bool start = true;
     while (inUse == true) {
@@ -41,6 +41,8 @@ void main() {
         std::string artist;
         std::string fileName;
         std::string playlistName;
+        std::string output;
+        float duration;
         if (start != true) {
             std::cout << "What else would you like to do?" << std::endl;
         }
@@ -61,33 +63,37 @@ void main() {
                 start = false;
                 break;
             case 2:
+                std::cin.ignore();
                 std::cout << "What is the name of the artist?" << std::endl;
-                std::cin >> artist;
+                getline(std::cin, artist);
                 output = dj->artist(artist);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 3:
+                std::cin.ignore();
                 std::cout << "What is the name of the artist?" << std::endl;
-                std::cin >> artist;
+                getline(std::cin, artist);
                 std::cout << "What is the title of the song?" << std::endl;
-                std::cin >> title;
+                getline(std::cin, title);
                 output = dj->song(title, artist);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 4:
+                std::cin.ignore();
                 std::cout << "What is the name of the file?" << std::endl;
-                std::cin >> fileName;
+                getline(std::cin, fileName);
                 dj->import(fileName);
                 start = false;
                 inUse = true;
                 break;
             case 5:
+                std::cin.ignore();
                 std::cout << "What is the name of the file?" << std::endl;
-                std::cin >> fileName;
+                getline(std::cin, fileName);
                 dj->discontinue(fileName);
                 start = false;
                 inUse = true;
@@ -98,57 +104,65 @@ void main() {
                 inUse = true;
                 break;
             case 7:
+                std::cin.ignore();
                 std::cout << "What is the playlists name?" << std::endl;
-                std::cin >> playlistName;
+                getline(std::cin, playlistName);
                 output = dj->playlist(playlistName);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 8:
+                std::cin.ignore();
                 std::cout << "What is the name of this new playlist?" << std::endl;
-                std::cin >> playlistName;
+                getline(std::cin, playlistName);
                 output = dj->newPlaylist(playlistName);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 9:
+                std::cin.ignore();
                 std::cout << "What name of the playlist that you would like to add the song to?" << std::endl;
-                std::cin >> playlistName;
+                getline(std::cin, playlistName);
                 std::cout << "What is the artist of the song?" << std::endl;
-                std::cin >> artist;
+                getline(std::cin, artist);
                 std::cout << "What is the title of the song?" << std::endl;
-                std::cin >> title;
+                getline(std::cin, title);
                 output = dj->add(playlistName, title, artist);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 10:
+                std::cin.ignore();
                 std::cout << "What is the playlist that you would like to remove a song from?" << std::endl;
-                std::cin >> playlistName;
+                getline(std::cin, playlistName);
                 std::cout << "What is the artist of the song?" << std::endl;
-                std::cin >> artist;
+                getline(std::cin, artist);
                 std::cout << "What is the title of the song?" << std::endl;
-                std::cin >> title;
+                getline(std::cin, title);
                 output = dj->remove(playlistName, title, artist);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 11:
+                std::cin.ignore();
                 std::cout << "What is the name of the playlist?" << std::endl;
-                std::cin >> playlistName;
+                getline(std::cin, playlistName);
                 output = dj->playNext(playlistName);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 12:
+                std::cin.ignore();
                 std::cout << "What is the name of this new random playlist?" << std::endl;
-                std::cin >> playlistName;
-                dj->newRandom(playlistName);
+                getline(std::cin, playlistName);
+                std::cout << "What is the duration of this playlist?" << std::endl;
+                std::cin >> duration;
+                dj->newRandom(playlistName, duration);
                 start = false;
                 inUse = true;
                 break;
