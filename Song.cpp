@@ -42,6 +42,6 @@ std::string Song::toString() {
 std::string Song::toFileString(bool forPlaylist) {
     std::string fileString = title+"~\n"+artist+"~\n";
     if (!forPlaylist) fileString += std::to_string(duration)+"~\n";
-    fileString += "\n";
+    fileString += ";\n";
     return fileString;
 }
