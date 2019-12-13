@@ -52,7 +52,7 @@ class AutoDJ {
 
         std::string newPlaylist(std::string name);
 
-        void add(std::string name, std::string artist, std::string title);
+        std::string add(std::string name, std::string artist, std::string title);
 
         void remove(std::string name, std::string artist, std::string title);
 

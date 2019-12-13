@@ -316,10 +316,19 @@ std::string AutoDJ::newPlaylist(std::string name) {
     return status;
 }
 
-void AutoDJ::add(std::string name, std::string title, std::string artist) {
+std::string AutoDJ::add(std::string name, std::string title, std::string artist) {
     Song *song = _library->getSong(title, artist);
     Playlist *playlistFound = _playlists->getPlaylist(name);
-    if (song && playlistFound) playlistFound->add(song);
+    if (playlistFound) {
+        std::string songStatus = "song: \""+title+"\", "+"\""+artist+"\"";
+        if (song) {
+            if (playlistFound->find(title, artist) < 0) {
+                playlistFound->add(song);
+                return songStatus+" added";
+            } else return songStatus+" already exists in "+name;
+        } else return songStatus+" not found";
+        
+    } else return "playlist: \""+name+"\" not found";
 }
 
 void AutoDJ::remove(std::string name, std::string title, std::string artist) {
