@@ -12,8 +12,14 @@ AutoDJ::AutoDJ() {
 }
 
 AutoDJ::~AutoDJ() {
-    delete _library;
+    cout << "...saving updated library to ./library.txt"<< endl;
+    _fileManager->writeToFile("library.txt", _library->toFileString());
+    std::cout << "done" << std::endl;
+    std::cout << "...saving updated playlists to ./library.txt"<< std::endl;
+    _fileManager->writeToFile("playlists.txt", _playlists->toFileString());
+    std::cout << "done" << std::endl;
     delete _playlists;
+    delete _library;
     delete _fileManager;
 }
 
@@ -305,13 +311,13 @@ void AutoDJ::newPlaylist(std::string name) {
     _playlists->add(new Playlist(name)); 
 }
 
-void AutoDJ::add(std::string name, std::string artist, std::string title) {
+void AutoDJ::add(std::string name, std::string title, std::string artist) {
     Song *song = _library->getSong(title, artist);
     Playlist *playlistFound = _playlists->getPlaylist(name);
     if (song && playlistFound) playlistFound->add(song);
 }
 
-void AutoDJ::remove(std::string name, std::string artist, std::string title) {
+void AutoDJ::remove(std::string name, std::string title, std::string artist) {
     Playlist *playlistFound = _playlists->getPlaylist(name);
     if (playlistFound) playlistFound->remove(title, artist);
 }
