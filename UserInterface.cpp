@@ -45,7 +45,6 @@ void main() {
         std::string output;
         if (start != true) {
             std::cout << "What else would you like to do?" << std::endl;
-            std::cin >> commandToUse;
         }
         while(!(std::cin >> commandToUse)){
             std::cin.clear();
