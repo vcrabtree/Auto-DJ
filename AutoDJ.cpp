@@ -8,12 +8,37 @@ AutoDJ::AutoDJ() {
     _fileManager = new FileManager();
 
     readSongsFile("library.txt", "initialize");
+    readPlaylistsFile("playlists.txt");
 }
 
 AutoDJ::~AutoDJ() {
-    delete _library;
+    cout << "...saving updated library to ./library.txt"<< endl;
+    _fileManager->writeToFile("library.txt", _library->toFileString());
+    std::cout << "done" << std::endl;
+    std::cout << "...saving updated playlists to ./library.txt"<< std::endl;
+    _fileManager->writeToFile("playlists.txt", _playlists->toFileString());
+    std::cout << "done" << std::endl;
     delete _playlists;
+    delete _library;
     delete _fileManager;
+}
+
+void AutoDJ::readPlaylistsFile(std::string filename) {
+    std::string playlistsString = _fileManager->readFromFile(filename), *playlistTitles;
+    int *songCountPerPlaylist, playlistCount = 0;
+    std::string ***playlistsArgs = playlistsStringToArray(playlistsString, playlistCount, 
+                                                            songCountPerPlaylist, playlistTitles);
+
+    _playlists = new Playlists(playlistCount);
+    loadPlaylistsToPlaylists(playlistsArgs, playlistTitles, playlistCount, songCountPerPlaylist);
+
+
+    delete[] playlistTitles;
+    delete[] playlistsArgs;
+    delete[] songCountPerPlaylist;
+    playlistTitles = nullptr;
+    playlistsArgs = nullptr;
+    songCountPerPlaylist = nullptr;
 }
 
 void AutoDJ::readSongsFile(std::string filename, std::string operation) { 
@@ -36,6 +61,8 @@ void AutoDJ::readSongsFile(std::string filename, std::string operation) {
         _library = new Library(songCount);
         loadSongsToLibrary(songArgs, songCount);
     }
+    delete songArgs;
+    songArgs = nullptr;
 }
 
 void AutoDJ::loadSongsToLibrary(std::string **songArgs, int songCount) {
@@ -91,6 +118,132 @@ void AutoDJ::removeSongsFromLibraryAndRewrite(std::string **songArgs, std::strin
     _fileManager->writeToFile("library.txt", _library->toFileString());
 }
 
+void AutoDJ::loadPlaylistsToPlaylists(std::string ***playlistsArgs, std::string *playlistTitles,
+                                        int playlistCount, int *songCountPerPlaylist) {
+    std::string **currPlaylist, 
+                currPlaylistTitle,
+                currSongTitle,
+                currSongArtist;
+
+    Playlist *playlist;
+    Song *song;
+
+    bool currDuplicate = false;
+
+    std::cout << "loading " << playlistCount << " playlist(s)..." << std::endl;
+    //[playlist][song][title/artist]
+    for (int p = 0; p < playlistCount; p++) {
+        currPlaylist = playlistsArgs[p];
+        currPlaylistTitle = playlistTitles[p];
+
+        if (_playlists->find(currPlaylistTitle) < 0) {
+            playlist = new Playlist(currPlaylistTitle);
+        } else {
+            std::cout << "did not add duplicate: ";
+            currDuplicate = true;
+        }
+        std::cout << currPlaylistTitle << std::endl;
+
+        if (currDuplicate) {
+            currDuplicate = false;
+        } else {
+            for (int s = 0; s < songCountPerPlaylist[p]; s++) {
+                currSongTitle = currPlaylist[s][0];
+                currSongArtist = currPlaylist[s][1];
+                song = _library->getSong(currSongTitle, currSongArtist);
+                if (song) {
+                    if (playlist->find(currSongTitle, currSongArtist) < 0) {
+                        playlist->add(song);
+                    } else {
+                        std::cout << "did not add duplicate song: " 
+                            << currSongTitle << " " << currSongArtist << endl;
+                    }
+                } else {
+                    std::cout << "not found: " << currSongTitle << " " 
+                        << currSongArtist << endl;
+                }
+            }
+            _playlists->add(playlist);
+        }
+
+    }
+    std::cout << "\ndone\n\n";
+}
+
+std::string*** AutoDJ::playlistsStringToArray(std::string playlistsString, int &playlistCount, 
+                                                int *&songCountPerPlaylist, std::string *&playlistTitles) {
+    std::string ***playlistArgs,
+        currBlock = "",
+        currChar = "",
+        currArg = "";
+    int argSep = 0, 
+        songArgsIdx = 0,
+        songCountPerIdx = 0,
+        playlistTitlesIdx = 0,
+        playlistArgsIdx = 0,
+        songCount = 0;
+
+    //allocate for playlist data
+    for (int i = 0; i < playlistsString.length()-1; i++) {
+        if (playlistsString[i] == *"*" && playlistsString[i+1] != *"\n") playlistCount++;
+    }
+    playlistArgs = new std::string**[playlistCount];
+    playlistTitles = new std::string[playlistCount];
+    songCountPerPlaylist = new int[playlistCount];
+
+    for (int i = 0; i < playlistsString.length()-1; i++) {
+        currChar = playlistsString[i];
+        if (currChar == "*") {
+            int j = i+1;
+            currChar = playlistsString[j++];
+
+            // get current playlist title
+            while (currChar != "*" && currChar != "\n") {
+                currBlock += currChar;
+                currChar = playlistsString[j++];
+            }
+            std::string currTitle = currBlock;
+            playlistTitles[playlistTitlesIdx++] = currTitle;
+
+            // look ahead to get song count in current playlist, then allocate 
+            int k = j+1;
+            currChar = playlistsString[k++];
+            while (currChar != "*" && currChar != "!") {
+                if (currChar == ";" && currChar != "\n") songCount++;
+                currChar = playlistsString[k++];
+            }
+            songCountPerPlaylist[songCountPerIdx] = songCount;
+            //cout << *songCountPerPlaylist[songCountPerIdx] << " song(s)" <<endl;
+            songCountPerIdx++;
+            std::string **songArgs = new std::string*[songCount];
+            int songArgsIdx = 0;
+            songCount = 0;
+
+            // grab artists & titles in current playlist until next
+            k = j+1;
+            currChar = playlistsString[k++];
+            std::string *args = new std::string[2];
+            while (currChar != "*" && currChar != "!") {
+                if (currChar != "~" && currChar != ";" && currChar != "\n") currArg += currChar;
+                else if (currChar == "~"){
+                    args[argSep++] = currArg;
+                    currArg = "";
+                    if (argSep == 2) {
+                        songArgs[songArgsIdx++] = args;
+                        args = new std::string[2];
+                        argSep = 0;
+                    }
+                }
+                currChar = playlistsString[k++];
+            }
+            playlistArgs[playlistArgsIdx++] = songArgs;
+            i = j-1;
+        }
+        currBlock = "";
+        currChar = "";
+    }
+    return playlistArgs;
+}
 
 std::string** AutoDJ::songsStringToArray(std::string songsString, int &songCount) {
     std::string **songArgs,
@@ -126,11 +279,6 @@ std::string** AutoDJ::songsStringToArray(std::string songsString, int &songCount
     return songArgs;
 }
 
-// TODO:
-void AutoDJ::readPlaylistsFile() { 
-    //_fileManager->readFromFile("playlists.txt"); 
-}
-
 std::string AutoDJ::library() { 
     return _library->toString(); 
 }
@@ -163,13 +311,13 @@ void AutoDJ::newPlaylist(std::string name) {
     _playlists->add(new Playlist(name));
 }
 
-void AutoDJ::add(std::string name, std::string artist, std::string title) {
+void AutoDJ::add(std::string name, std::string title, std::string artist) {
     Song *song = _library->getSong(title, artist);
     Playlist *playlistFound = _playlists->getPlaylist(name);
     if (song && playlistFound) playlistFound->add(song);
 }
 
-void AutoDJ::remove(std::string name, std::string artist, std::string title) {
+void AutoDJ::remove(std::string name, std::string title, std::string artist) {
     Playlist *playlistFound = _playlists->getPlaylist(name);
     if (playlistFound) playlistFound->remove(title, artist);
 }

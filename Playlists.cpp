@@ -18,7 +18,7 @@ Playlist* Playlists::getPlaylist(std::string title) { return playlistList->getIt
 
 std::string Playlists::playlistString(std::string title) { 
     int index = playlistList->find(title);
-    return playlistList->getItemAt(index)->toString(); 
+    return "    **"+title+"**\n"+playlistList->getItemAt(index)->toString(); 
 }
 
 std::string Playlists::allPlaylistsString() {
@@ -32,6 +32,20 @@ std::string Playlists::allPlaylistsString() {
     playlist = nullptr;
     return playlistsString;
 };
+
+std::string Playlists::toFileString() { 
+    Playlist *currPlaylist;
+    std::string fileString = "";
+    for (int i = 0; i < getLength(); i++) {
+        currPlaylist = getPlaylistAt(i);
+        fileString += "*"+currPlaylist->getTitle()+"*\n";
+        for (int j = 0; j < currPlaylist->getLength(); j++) {
+            fileString += currPlaylist->getSongAt(j)->toFileString(true);
+        }
+    }
+    fileString += "!";
+    return fileString;
+}
 
 void Playlists::clear() { 
     int originalCapacity = getLength();
