@@ -9,20 +9,12 @@
 #include "AutoDJ.h"
 #include <limits>
 
-UserInterface::UserInterface(){
-    this->arrayOfCommands = new ["help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"];
-
-}
-
-UserInterface::~UserInterface(){
-    delete[] arrayOfCommands;
-}
-
 void help(){
+    std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"};
     std::string summaryArray[14] = {"displays the summary of the given commands", "displays all songs in the library", "displays all the songs of the given artist", "displays all information of the given song", "add all songs from the given file to the library",
-                                                           "remove all songs from the given file from the library", "display the names of all playlists and their durations", "display all songs left in the given playlist, and the duration",
-                                                           "make a new empty playlist with the given name", "add the given song to the end of the given playlist", "remove the given song from the playlist", "print all information about the next song to be played from the given playlist to the screen",
-                                                           "make a new playlist with the given name, and populate it with a random group of songs that do not repeat", "save the library and all playlists and terminate execution"};
+                                            "remove all songs from the given file from the library", "display the names of all playlists and their durations", "display all songs left in the given playlist, and the duration",
+                                            "make a new empty playlist with the given name", "add the given song to the end of the given playlist", "remove the given song from the playlist", "print all information about the next song to be played from the given playlist to the screen",
+                                            "make a new playlist with the given name, and populate it with a random group of songs that do not repeat", "save the library and all playlists and terminate execution"};
     for(int i = 0; i < 14; i++){
         std::cout << i << ": ";
         std::cout << arrayOfCommands[i];
@@ -34,6 +26,7 @@ void help(){
 void main() {
     std::cout << "Welcome to AutoDJ!" << std::endl;
     std::cout << "List of Commands: " << std::endl;
+    std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"};
     for (int i = 0; i < 10; i++) {
         std::cout << i << ": ";
         std::cout << arrayOfCommands[i];
@@ -41,7 +34,6 @@ void main() {
     std::cout << "Please enter the number corresponding to the command you want to use." << std::endl
     AutoDJ *dj = new AutoDJ;
     int commandToUse;
-    std::cin << commandToUse;
 
     bool inUse = true;
     bool start == true;
@@ -53,7 +45,6 @@ void main() {
         std::string output;
         if (start != true) {
             std::cout << "What else would you like to do?" << std::endl;
-            std::cin >> commandToUse;
         }
         while(!(std::cin >> commandToUse)){
             std::cin.clear();
@@ -84,7 +75,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                output = dj->song(artist, title);
+                output = dj->song(title, artist);
                 std::cout << output << std::endl;
                 start = false;
                 inUse = true;
@@ -92,16 +83,14 @@ void main() {
             case 4:
                 std::cout << "What is the name of the file?" << std::endl;
                 std::cin >> fileName;
-                output = dj->import(fileName);
-                std::cout << output << std::endl;
+                dj->import(fileName);
                 start = false;
                 inUse = true;
                 break;
             case 5:
                 std::cout << "What is the name of the file?" << std::endl;
                 std::cin >> fileName;
-                output = dj->discontinue(fileName);
-                std::cout << output << std::endl;
+                dj->discontinue(fileName);
                 start = false;
                 inUse = true;
                 break;
@@ -133,8 +122,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                output = dj->add(playlistName, artist, title);
-                std::cout << output << std::endl;
+                dj->add(playlistName, title, artist);
                 start = false;
                 inUse = true;
                 break;
@@ -145,8 +133,7 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                output = dj->remove(playlistName, artist, title);
-                std::cout << output << std::endl;
+                dj->remove(playlistName, title, artist);
                 start = false;
                 inUse = true;
                 break;
@@ -161,15 +148,13 @@ void main() {
             case 12:
                 std::cout << "What is the name of this new random playlist?" << std::endl;
                 std::cin >> playlistName;
-                output = dj->newRandom(playlistName);
-                std::cout << output << std::endl;
+                dj->newRandom(playlistName);
                 start = false;
                 inUse = true;
                 break;
             case 13:
                 std::cout << "Saving..." << std::endl;
-                output = dj->quit();
-                std::cout << output << std::endl;
+                delete dj;
                 std::cout << "Thank you for using AutoDJ!" << std::endl;
                 start = false;
                 inUse = false;
