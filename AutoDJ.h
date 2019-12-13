@@ -21,6 +21,9 @@ class AutoDJ {
 
         void loadSongsToLibrary(std::string **songArgs, int songCount);
 
+        void loadPlaylistsToPlaylists(std::string ***playlistsArgs, std::string *playlistTitles,
+                                                int playlistCount, int *songCountPerPlaylist);
+
         std::string** songsStringToArray(std::string songsString, int &songCount);
 
         std::string*** playlistsStringToArray(std::string playlistsString, int &playlistCount, 

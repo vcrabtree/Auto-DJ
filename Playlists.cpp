@@ -18,7 +18,7 @@ Playlist* Playlists::getPlaylist(std::string title) { return playlistList->getIt
 
 std::string Playlists::playlistString(std::string title) { 
     int index = playlistList->find(title);
-    return playlistList->getItemAt(index)->toString(); 
+    return "    **"+title+"**\n"+playlistList->getItemAt(index)->toString(); 
 }
 
 std::string Playlists::allPlaylistsString() {

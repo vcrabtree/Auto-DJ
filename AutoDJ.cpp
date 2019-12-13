@@ -4,7 +4,7 @@ using namespace std;
 
 AutoDJ::AutoDJ() {
     _library = nullptr;
-    _playlists = new Playlists(20);
+    _playlists = nullptr;
     _fileManager = new FileManager();
 
     readSongsFile("library.txt", "initialize");
@@ -22,6 +22,11 @@ void AutoDJ::readPlaylistsFile(std::string filename) {
     int *songCountPerPlaylist, playlistCount = 0;
     std::string ***playlistsArgs = playlistsStringToArray(playlistsString, playlistCount, 
                                                             songCountPerPlaylist, playlistTitles);
+
+    _playlists = new Playlists(playlistCount);
+    loadPlaylistsToPlaylists(playlistsArgs, playlistTitles, playlistCount, songCountPerPlaylist);
+
+
     delete[] playlistTitles;
     delete[] playlistsArgs;
     delete[] songCountPerPlaylist;
@@ -105,6 +110,58 @@ void AutoDJ::removeSongsFromLibraryAndRewrite(std::string **songArgs, std::strin
     std::cout << "\ndone\n\n";
 
     _fileManager->writeToFile("library.txt", _library->toFileString());
+}
+
+void AutoDJ::loadPlaylistsToPlaylists(std::string ***playlistsArgs, std::string *playlistTitles,
+                                        int playlistCount, int *songCountPerPlaylist) {
+    std::string **currPlaylist, 
+                currPlaylistTitle,
+                currSongTitle,
+                currSongArtist;
+
+    Playlist *playlist;
+    Song *song;
+
+    bool currDuplicate = false;
+
+    std::cout << "loading " << playlistCount << " playlist(s)..." << std::endl;
+    //[playlist][song][title/artist]
+    for (int p = 0; p < playlistCount; p++) {
+        currPlaylist = playlistsArgs[p];
+        currPlaylistTitle = playlistTitles[p];
+
+        if (_playlists->find(currPlaylistTitle) < 0) {
+            playlist = new Playlist(currPlaylistTitle);
+        } else {
+            std::cout << "did not add duplicate: ";
+            currDuplicate = true;
+        }
+        std::cout << currPlaylistTitle << std::endl;
+
+        if (currDuplicate) {
+            currDuplicate = false;
+        } else {
+            for (int s = 0; s < songCountPerPlaylist[p]; s++) {
+                currSongTitle = currPlaylist[s][0];
+                currSongArtist = currPlaylist[s][1];
+                song = _library->getSong(currSongTitle, currSongArtist);
+                if (song) {
+                    if (playlist->find(currSongTitle, currSongArtist) < 0) {
+                        playlist->add(song);
+                    } else {
+                        std::cout << "did not add duplicate song: " 
+                            << currSongTitle << " " << currSongArtist << endl;
+                    }
+                } else {
+                    std::cout << "not found: " << currSongTitle << " " 
+                        << currSongArtist << endl;
+                }
+            }
+            _playlists->add(playlist);
+        }
+
+    }
+    std::cout << "\ndone\n\n";
 }
 
 std::string*** AutoDJ::playlistsStringToArray(std::string playlistsString, int &playlistCount, 
