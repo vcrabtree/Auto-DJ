@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include "AutoDJ.h"
+#include <limits>
 
 UserInterface::UserInterface(){
     this->arrayOfCommands = new ["help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"];
@@ -30,100 +31,6 @@ void help(){
     }
 }
 
-void UserInterface::library() {
-    int length = libraryList->getLength;
-    for(int i = 0; i < length; i++){
-        std::string songString = (libraryList->getSongAt(i))->toString;
-        readFromFile("library.txt", songString);
-    }
-}
-
-void UserInterface::artist(std::string artist) {
-    std::string listOfSongs = libraryList->findByArtist(artist);
-    std::cout << listOfSongs << std::endl;
-}
-
-void UserInterface::song(std::string artist, std::string title) {
-    int songIndex = libraryList->find(title, artist);
-    std::string songString = (libraryList.getSongAt(songIndex)).toString;
-    std::cout << songString << std::endl;
-}
-
-void UserInterface::import(std::string fileName) {
-    std::ifstream infile(fileName);
-    if (infile) {
-        while (infile) {
-            std::string stringToRead;
-            getline(infile, stringToRead);
-            writeToFile("library.txt", stringToRead);
-        }
-    }
-}
-
-void UserInterface::discontinue(std::string fileName) {
-    std::ifstream infile(fileName);
-    if (infile) {
-        while (infile) {
-            std::string stringTitle;
-            getline(infile, stringTitle);
-            std::string stringArtist;
-            getline(infile, stringArtist);
-            try{
-                _library->remove(stringTitle, stringArtist);
-            }
-            catch(std::out_of_range &e){
-                printAssert(*"There is no item at this index", *e.what());
-            }
-        }
-    }
-    for (int i = 0; i < _library->getLength; i++){
-        writeToFile("library.txt", _library->getSongAt(i));
-    }
-}
-
-void UserInterface::playlists() {
-    int length = playlistList->getLength();
-    for(int i = 0; i < length; i++){
-        readFromFile("playlists.txt");
-    }
-}
-
-void UserInterface::playlist(std::string playlistName){
-    //as each song is being played in a given playlist subtract that song duration form the total play duration
-    //loop through the playlist past the current song playing to display all the remaining songs using readFromFile
-}
-
-void UserInterface::newPlaylist(std::string playlistName) {
-    Playlist playlist = new Playlist(name);
-}
-
-void UserInterface::add(float duration, std::string artist, std::string title) {
-    Song newSong = new Song(title, artist, duration);
-    libraryList->add(newSong);
-}
-
-void UserInterface::remove(float duration, std::string artist, std::string title) {
-    libraryList->remove(tile, artist);
-}
-
-void UserInterface::playNext(std::string playlistName) {
-    //get the next index of the song that needs to be played and print out the information of the song
-    //call remove on that song
-    //increment the play count of that song in library
-    //If playlist isEmpty delete the playlist
-}
-
-void UserInterface::newRandom(std::string playlistName, float duration) {
-    Playlist randomPlaylist = new Playlist(playlistName, duration);
-    //call the newRandom function in playlist
-}
-
-void UserInterface::quit() {
-
-    //delete the file for songs to add and songs to remove
-    //keep the library and playlist file
-}
-
 void main() {
     std::cout << "Welcome to AutoDJ!" << std::endl;
     std::cout << "List of Commands: " << std::endl;
@@ -135,6 +42,7 @@ void main() {
     AutoDJ *dj = new AutoDJ;
     int commandToUse;
     std::cin << commandToUse;
+
     bool inUse = true;
     bool start == true;
     while (inUse == true) {
@@ -142,9 +50,15 @@ void main() {
         std::string artist;
         std::string fileName;
         std::string playlistName;
+        std::string output;
         if (start != true) {
             std::cout << "What else would you like to do?" << std::endl;
             std::cin >> commandToUse;
+        }
+        while(!(std::cin >> commandToUse)){
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input, try again." << std::endl;
         }
         switch (commandToUse) {
             case 0:
@@ -153,13 +67,15 @@ void main() {
                 inUse = true;
                 break;
             case 1:
-                std::cout << dj->library() << std::endl;
+                output = dj->library();
+                std::cout << output << std::endl;
                 start = false;
                 break;
             case 2:
                 std::cout << "What is the name of the artist?" << std::endl;
                 std::cin >> artist;
-                std::cout << dj->artist(artist) << std::endl;
+                output = dj->artist(artist);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
@@ -168,39 +84,45 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                std::cout << dj->song(artist, title);
+                output = dj->song(artist, title);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 4:
                 std::cout << "What is the name of the file?" << std::endl;
                 std::cin >> fileName;
-                dj->import(fileName);
+                output = dj->import(fileName);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 5:
                 std::cout << "What is the name of the file?" << std::endl;
                 std::cin >> fileName;
-                dj->discontinue(fileName);
+                output = dj->discontinue(fileName);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 6:
-                playlists();
+                output = dj->playlists();
+                std::cout << output << std::endl;
                 inUse = true;
                 break;
             case 7:
                 std::cout << "What is the playlists name?" << std::endl;
                 std::cin >> playlistName;
-                std::cout << dj->playlist(playlistName); << std::endl;
+                output = dj->playlist(playlistName);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 8:
                 std::cout << "What is the name of this new playlist?" << std::endl;
                 std::cin >> playlistName;
-                dj->newPlaylist(playlistName);
+                output = dj->newPlaylist(playlistName);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
@@ -211,7 +133,8 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                dj->add(playlistName, artist, title);
+                output = dj->add(playlistName, artist, title);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
@@ -222,27 +145,31 @@ void main() {
                 std::cin >> artist;
                 std::cout << "What is the title of the song?" << std::endl;
                 std::cin >> title;
-                dj->remove(playlistName, artist, title);
+                output = dj->remove(playlistName, artist, title);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 11:
                 std::cout << "What is the name of the playlist?" << std::endl;
                 std::cin >> playlistName;
-                dj->playNext(playlistName);
+                output = dj->playNext(playlistName);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 12:
                 std::cout << "What is the name of this new random playlist?" << std::endl;
                 std::cin >> playlistName;
-                dj->newRandom(playlistName);
+                output = dj->newRandom(playlistName);
+                std::cout << output << std::endl;
                 start = false;
                 inUse = true;
                 break;
             case 13:
                 std::cout << "Saving..." << std::endl;
-                dj->quit();
+                output = dj->quit();
+                std::cout << output << std::endl;
                 std::cout << "Thank you for using AutoDJ!" << std::endl;
                 start = false;
                 inUse = false;

@@ -76,7 +76,7 @@ void AutoDJ::removeSongsFromLibraryAndRewrite(std::string **songArgs, std::strin
     } 
     if (notFound.length()) return;
 
-    std::cout << "removoving " << songCount << " songs..." << std::endl;
+    std::cout << "removing " << songCount << " songs..." << std::endl;
     Song *song;
     for (int i = 0; i < songCount; i++) {
         currArgs = songArgs[i];
@@ -175,7 +175,9 @@ void AutoDJ::remove(std::string name, std::string artist, std::string title) {
 }
 
 // TODO
-void AutoDJ::playNext(std::string playlistName) {}
+void AutoDJ::playNext(std::string playlistName) {
+
+}
 
 void AutoDJ::newRandom(std::string title, float duration) {
     _playlists->add(new Playlist(title, duration, *_library));
