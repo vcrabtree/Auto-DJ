@@ -133,12 +133,12 @@ T* LinkedQueue<T>::getItemAt(int index) {
 
     LinkedNode<T> *currNode = head;
     T* item;
-    int i = 0;
+    int i = -1;
 
     while (currNode && i != index) {
         item = currNode->getItem();
         currNode = currNode->getNext();
-        index++;
+        i++;
     }
 
     return item;

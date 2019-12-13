@@ -32,6 +32,5 @@ class Playlist {
         int find(std::string title, std::string artist);
         Song* playNext();
         std::string toString();
-        std::string toFileString();
 };
 #endif
