@@ -12,14 +12,14 @@
 void help(){
     std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"};
     std::string summaryArray[14] = {"displays the summary of the given commands", "displays all songs in the library", "displays all the songs of the given artist", "displays all information of the given song", "add all songs from the given file to the library",
-                                            "remove all songs from the given file from the library", "display the names of all playlists and their durations", "display all songs left in the given playlist, and the duration",
-                                            "make a new empty playlist with the given name", "add the given song to the end of the given playlist", "remove the given song from the playlist", "print all information about the next song to be played from the given playlist to the screen",
-                                            "make a new playlist with the given name, and populate it with a random group of songs that do not repeat", "save the library and all playlists and terminate execution"};
+                                    "remove all songs from the given file from the library", "display the names of all playlists and their durations", "display all songs left in the given playlist, and the duration",
+                                    "make a new empty playlist with the given name", "add the given song to the end of the given playlist", "remove the given song from the playlist", "print all information about the next song to be played from the given playlist to the screen",
+                                    "make a new playlist with the given name, and populate it with a random group of songs that do not repeat", "save the library and all playlists and terminate execution"};
     for(int i = 0; i < 14; i++){
         std::cout << i << ": ";
         std::cout << arrayOfCommands[i];
         std::cout << " - ";
-        std::cout << summaryArray[i] std::endl;
+        std::cout << summaryArray[i] << std::endl;
     }
 }
 
@@ -27,22 +27,20 @@ void main() {
     std::cout << "Welcome to AutoDJ!" << std::endl;
     std::cout << "List of Commands: " << std::endl;
     std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"};
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 14; i++) {
         std::cout << i << ": ";
-        std::cout << arrayOfCommands[i];
+        std::cout << arrayOfCommands[i] << std::endl;
     }
-    std::cout << "Please enter the number corresponding to the command you want to use." << std::endl
-    AutoDJ *dj = new AutoDJ;
+    std::cout << "Please enter the number corresponding to the command you want to use." << std::endl;
     int commandToUse;
 
     bool inUse = true;
-    bool start == true;
+    bool start = true;
     while (inUse == true) {
         std::string title;
         std::string artist;
         std::string fileName;
         std::string playlistName;
-        std::string output;
         if (start != true) {
             std::cout << "What else would you like to do?" << std::endl;
         }
