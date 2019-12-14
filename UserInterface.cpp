@@ -23,17 +23,23 @@ void help(){
     }
 }
 
-int main(){
-    AutoDJ* dj = new AutoDJ();
-
-    std::cout << "Welcome to AutoDJ!" << std::endl;
-    std::cout << "List of Commands: " << std::endl;
-    std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"};
+void displayMenu() {
+    std::string arrayOfCommands[14] = {"help", "library", "artist", "song", "import", "discontinue", "playlists", "playlist", "newPlaylist", "add", "remove", "playNext", "newRandom", "quit"},
+        prompt = "\nPlease enter the number corresponding to the command you want to use.";
+    for (int i = 0; i < prompt.length(); i++) std::cout << "-";
+    std::cout << std::endl;
     for (int i = 0; i < 14; i++) {
         std::cout << i << ": ";
         std::cout << arrayOfCommands[i] << std::endl;
     }
-    std::cout << "Please enter the number corresponding to the command you want to use." << std::endl;
+    for (int i = 0; i < prompt.length(); i++) std::cout << "-";
+    std::cout << prompt << std::endl;
+}
+
+int main(){
+    AutoDJ* dj = new AutoDJ();
+    std::cout << "Welcome to AutoDJ!" << std::endl;
+    std::cout << "List of Commands: " << std::endl;
     int commandToUse;
     bool inUse = true;
     bool start = true;
@@ -44,13 +50,13 @@ int main(){
         std::string playlistName;
         std::string output;
         float duration;
-        if (start != true) {
-            std::cout << "What else would you like to do?" << std::endl;
-        }
+
+        displayMenu();
         while(!(std::cin >> commandToUse)){
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid input, try again." << std::endl;
+            std::cout << "**Invalid input, try again.**" << std::endl << std::endl;
+            displayMenu();
         }
         switch (commandToUse) {
             case 0:
@@ -180,6 +186,7 @@ int main(){
                 inUse = true;
                 break;
         }
+        std::cout << "\n\n";
     }
     return 0;
 }
