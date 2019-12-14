@@ -96,12 +96,8 @@ std::string Library::findByArtist(std::string artist) {
 }
 
 std::string Library::findBySong(std::string title, std::string artist) {
-    Song *song;
+    Song *song = libraryList->getItem(title, artist);
     std::string songString = "";
-    for (int i = 0; i < libraryList->getLength(); i++) {
-        song = libraryList->getItemAt(i);
-        if (song->getTitle() == title && song->getArtist() == artist) break;
-    }
     if (song) songString = song->toString();
     return songString;
 }
