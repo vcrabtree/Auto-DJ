@@ -15,7 +15,7 @@ AutoDJ::~AutoDJ() {
     cout << "...saving updated library to ./library.txt"<< endl;
     _fileManager->writeToFile("library.txt", _library->toFileString());
     std::cout << "done" << std::endl;
-    std::cout << "...saving updated playlists to ./library.txt"<< std::endl;
+    std::cout << "...saving updated playlists to ./playlists.txt"<< std::endl;
     _fileManager->writeToFile("playlists.txt", _playlists->toFileString());
     std::cout << "done" << std::endl;
     delete _playlists;
@@ -95,6 +95,7 @@ void AutoDJ::addNewSongsToLibraryFile(std::string **songArgs, std::string &songs
 void AutoDJ::removeSongsFromLibraryAndRewrite(std::string **songArgs, std::string &songsString, int songCount, std::string &notFound) {
     std::cout << "checking that songs exist..." << std::endl;
     std::string *currArgs;
+    Playlist *currPlaylist;
     for (int i = 0; i < songCount; i++) {
         currArgs = songArgs[i];
         if (_library->find(currArgs[0], currArgs[1]) < 0) {
@@ -108,11 +109,22 @@ void AutoDJ::removeSongsFromLibraryAndRewrite(std::string **songArgs, std::strin
     for (int i = 0; i < songCount; i++) {
         currArgs = songArgs[i];
         song = _library->remove(currArgs[0], currArgs[1]);
+
+        // remove if in any playlists
+        for (int j = 0; j < _playlists->getLength(); j++) {
+            currPlaylist = _playlists->getPlaylistAt(j);
+            for (int k = 0; k < currPlaylist->getLength(); k++) {
+                if (currPlaylist->find(currArgs[0], currArgs[1]) > -1) {
+                    currPlaylist->remove(currArgs[0], currArgs[1]);
+                }
+            }
+        }
         std::cout << song->getTitle() << endl;
         delete song;
     }
     song = nullptr;
     currArgs = nullptr;
+    currPlaylist = nullptr;
     std::cout << "\ndone\n\n";
 
     _fileManager->writeToFile("library.txt", _library->toFileString());
@@ -289,7 +301,9 @@ std::string AutoDJ::artist(std::string artist) {
 }
 
 std::string AutoDJ::song(std::string title, std::string artist) {
-    return _library->findBySong(title, artist);
+    std::string songString =  _library->findBySong(title, artist);
+    if (songString.length()) return songString;
+    else return title+", "+artist+" does not exist";
 }
 
 std::string AutoDJ::playlists() { 
@@ -312,8 +326,8 @@ std::string AutoDJ::newPlaylist(std::string name) {
     std::string status = "playlist: \"";
     if (_playlists->find(name) < 0) {
         _playlists->add(new Playlist(name)); 
-        status += "\""+name+", added\n";
-    } else status = name + " is already a playlist\n";
+        status += name+"\""+", added\n";
+    } else status = name + "\" is already a playlist\n";
     return status;
 }
 
