@@ -1,3 +1,1 @@
 # Auto-DJ
-Vera
-Danny
